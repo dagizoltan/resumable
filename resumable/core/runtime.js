@@ -215,29 +215,33 @@ function registerComponent(definition) {
           });
           
           // Update todo list (now using pre-computed filtered todos)
-          this._updateTodoList(elements.todoList, filteredTodos, todos);
+          this._updateTodoList();
         });
         
         console.log('Bindings initialized');
     }
     
-    _updateTodoList(todoList, filteredTodos, allTodos) {
-      if (!todoList || !filteredTodos) return;
+    _updateTodoList() {
+      // ✅ Use pre-computed filtered todos from state
+      const filtered = this._state.filteredTodos.value;
+      const todoList = this.shadowRoot.querySelector('.todo-list');
       
-      console.log('Updating todo list, showing:', filteredTodos.length);
+      if (!todoList) return;
       
-      // Get existing LI elements by ID
+      // Map existing items for tracking
       const existingMap = new Map();
       todoList.querySelectorAll('li').forEach(li => {
         existingMap.set(parseInt(li.dataset.id), li);
       });
       
-      // Track which IDs we've seen in the filtered list
-      const seenIds = new Set();
+      console.log('Updating todo list with', filtered.length, 'items');
       
       // Update or create items
-      filteredTodos.forEach(todo => {
-        seenIds.add(todo.id);
+      const fragment = document.createDocumentFragment();
+      const processedIds = new Set();
+
+      filtered.forEach(todo => {
+        processedIds.add(todo.id);
         let li = existingMap.get(todo.id);
         
         if (!li) {
@@ -252,35 +256,27 @@ function registerComponent(definition) {
               <button class="destroy" data-on="click:destroyTodo"></button>
             </div>
           `;
-          todoList.appendChild(li);
-          console.log('Created item:', todo.id);
+          fragment.appendChild(li);
         } else {
           // Update existing item
-          const wasCompleted = li.classList.contains('completed');
-          const isNowCompleted = todo.completed;
-          
-          if (wasCompleted !== isNowCompleted) {
-            if (isNowCompleted) {
-              li.classList.add('completed');
-            } else {
-              li.classList.remove('completed');
-            }
-            
-            const checkbox = li.querySelector('.toggle');
-            if (checkbox) {
-              checkbox.checked = isNowCompleted;
-            }
-            console.log('Updated item:', todo.id, 'completed:', isNowCompleted);
-          }
+          li.className = todo.completed ? 'completed' : '';
+          const checkbox = li.querySelector('input.toggle');
+          if (checkbox) checkbox.checked = todo.completed;
+          const label = li.querySelector('label');
+          if (label) label.textContent = todo.text;
         }
       });
       
-      // Remove items that are no longer in the filtered list
-      for (const [id, li] of existingMap.entries()) {
-        if (!seenIds.has(id)) {
+      // Remove items no longer in filtered list
+      existingMap.forEach((li, id) => {
+        if (!processedIds.has(id)) {
           li.remove();
-          console.log('Removed item:', id);
         }
+      });
+
+      // Add new items
+      if (fragment.childNodes.length > 0) {
+        todoList.appendChild(fragment);
       }
     }
     
