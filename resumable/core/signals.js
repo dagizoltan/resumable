@@ -61,14 +61,13 @@ const clientEffect = (fn) => {
 const clientComputed = (fn) => {
   const c = clientSignal(undefined);
   clientEffect(() => {
-    clientUntrack(() => {
-      c.value = fn();
-    });
+    c.value = fn();
   });
   return {
     get value() {
       return c.value;
-    }
+    },
+    _isComputed: true,
   };
 };
 

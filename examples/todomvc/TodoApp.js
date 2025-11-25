@@ -119,7 +119,7 @@ export const TodoApp = component({
                     class="toggle"
                     type="checkbox"
                     ${todo.completed ? 'checked' : ''}
-                    data-on="click:toggleTodo"
+                    data-on="change:toggleTodo"
                   />
                   <label>${todo.text}</label>
                   <button class="destroy" data-on="click:destroyTodo"></button>
