@@ -10,18 +10,23 @@ export const TodoApp = component({
 
   props: {
     initialTodos: { type: Array, default: [] },
+    enableVirtualList: { type: Boolean, default: false }, // Phase 2: Virtual list support
+    itemHeight: { type: Number, default: 45 }, // Phase 2: Item height for virtual scroll
   },
 
   state: (props) => {
-    // ✅ PHASE 1: Create state with memoized computed signals
+    // ✅ PHASE 1 + 2: Create state with memoized computed signals
     const stateObj = {
       todos: signal(props.initialTodos || []),
       newTodo: signal(''),
       filter: signal('all'),
+      // ✅ PHASE 2: Virtual list state
+      scrollTop: signal(0),
+      enableVirtualList: signal(props.enableVirtualList || false),
+      itemHeight: props.itemHeight || 45,
     };
     
     // Create computed signals ONCE - memoized forever
-    // These auto-update when dependencies (todos/filter) change
     stateObj.filteredTodos = computed(() => {
       const todos = stateObj.todos.value;
       const filterVal = stateObj.filter.value;
@@ -46,6 +51,40 @@ export const TodoApp = component({
     
     stateObj.allCompleted = computed(() => {
       return stateObj.itemsLeft.value === 0 && stateObj.todos.value.length > 0;
+    });
+
+    // ✅ PHASE 2: Virtual list computed properties
+    stateObj.visibleTodos = computed(() => {
+      const filtered = stateObj.filteredTodos.value;
+      const useVirtual = stateObj.enableVirtualList.value;
+      
+      if (!useVirtual || filtered.length < 50) {
+        // Show all items if virtual list disabled or small list
+        return filtered;
+      }
+      
+      // Calculate visible range
+      const itemHeight = stateObj.itemHeight;
+      const containerHeight = 600; // Match CSS
+      const scrollTop = stateObj.scrollTop.value;
+      const overscan = 20;
+      
+      const visibleCount = Math.ceil(containerHeight / itemHeight);
+      const startIdx = Math.max(0, Math.floor(scrollTop / itemHeight) - overscan);
+      const endIdx = Math.min(filtered.length, startIdx + visibleCount + overscan * 2);
+      
+      return filtered.slice(startIdx, endIdx).map((item, idx) => ({
+        ...item,
+        _virtualIdx: startIdx + idx, // Track original index
+        _offset: (startIdx + idx) * itemHeight,
+      }));
+    });
+
+    stateObj.virtualScrollHeight = computed(() => {
+      const filtered = stateObj.filteredTodos.value;
+      const useVirtual = stateObj.enableVirtualList.value;
+      if (!useVirtual || filtered.length < 50) return 'auto';
+      return `${filtered.length * stateObj.itemHeight}px`;
     });
     
     return stateObj;
@@ -85,16 +124,24 @@ export const TodoApp = component({
       },
       clearCompleted() {
         state.todos.value = state.todos.value.filter(todo => !todo.completed);
+      },
+      toggleAll(e) {
+        const shouldComplete = !state.allCompleted.value;
+        state.todos.value = state.todos.value.map(todo =>
+          ({ ...todo, completed: shouldComplete })
+        );
       }
     };
   },
 
   view: ({ state }) => {
-    // ✅ PHASE 1: Use cached computed values instead of recreating them
-    const filteredTodos = state.filteredTodos.value;
+    // ✅ PHASE 1+2: Use cached computed values
+    const filteredTodos = state.filteredTodos.value; // Full filtered list
+    const visibleTodos = state.visibleTodos.value; // Windowed if virtual enabled
     const itemsLeft = state.itemsLeft.value;
     const showFooter = state.showFooter.value;
     const allCompleted = state.allCompleted.value;
+    const useVirtual = state.enableVirtualList.value && filteredTodos.length >= 50;
 
     return html`
       <header class="header">
@@ -108,25 +155,50 @@ export const TodoApp = component({
         />
       </header>
       <section class="main" style="display: ${showFooter ? 'block' : 'none'};">
-        <input id="toggle-all" class="toggle-all" type="checkbox" ${allCompleted ? 'checked' : ''}>
+        <input id="toggle-all" class="toggle-all" type="checkbox" ${allCompleted ? 'checked' : ''} data-on="change:toggleAll">
         <label for="toggle-all">Mark all as complete</label>
-        <ul class="todo-list">
-          ${filteredTodos.map(
-            todo => html`
-              <li class="${todo.completed ? 'completed' : ''}" data-id="${todo.id}">
-                <div class="view">
-                  <input
-                    class="toggle"
-                    type="checkbox"
-                    ${todo.completed ? 'checked' : ''}
-                    data-on="click:toggleTodo"
-                  />
-                  <label>${todo.text}</label>
-                  <button class="destroy" data-on="click:destroyTodo"></button>
+        <ul class="todo-list" style="${useVirtual ? 'max-height: 600px; overflow-y: scroll; position: relative;' : ''}">
+          ${useVirtual
+            ? html`
+                <div class="virtual-spacer" style="height: ${state.virtualScrollHeight.value}; position: relative;">
+                  ${visibleTodos.map(
+                    todo => html`
+                      <li class="${todo.completed ? 'completed' : ''}" data-id="${todo.id}" 
+                          style="transform: translateY(${todo._offset}px); position: absolute; width: 100%;">
+                        <div class="view">
+                          <input
+                            class="toggle"
+                            type="checkbox"
+                            ${todo.completed ? 'checked' : ''}
+                            data-on="change:toggleTodo"
+                          />
+                          <label>${todo.text}</label>
+                          <button class="destroy" data-on="click:destroyTodo"></button>
+                        </div>
+                      </li>
+                    `
+                  )}
                 </div>
-              </li>
-            `
-          )}
+              `
+            : html`
+                  ${filteredTodos.map(
+                    todo => html`
+                      <li class="${todo.completed ? 'completed' : ''}" data-id="${todo.id}">
+                        <div class="view">
+                          <input
+                            class="toggle"
+                            type="checkbox"
+                            ${todo.completed ? 'checked' : ''}
+                            data-on="change:toggleTodo"
+                          />
+                          <label>${todo.text}</label>
+                          <button class="destroy" data-on="click:destroyTodo"></button>
+                      </div>
+                    </li>
+                  `
+                )}
+              `
+          }
         </ul>
       </section>
       <footer class="footer" style="display: ${showFooter ? 'block' : 'none'};">
@@ -311,6 +383,19 @@ export const TodoApp = component({
     
     .toggle-all {
       display: none;
+    }
+    
+    /* ✅ PHASE 2: Virtual list styles */
+    .virtual-spacer {
+      position: relative;
+      width: 100%;
+    }
+    
+    .todo-list li[style*="transform"] {
+      height: 45px;
+      border-bottom: 1px solid #f5f5f5;
+      left: 0;
+      padding: 0.75rem 1rem;
     }
   `,
 });

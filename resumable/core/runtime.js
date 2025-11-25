@@ -168,15 +168,23 @@ function registerComponent(definition) {
           filterButtons: this.shadowRoot.querySelectorAll('.filters a')
         };
         
+        // ✅ PHASE 2: Setup scroll listener for virtual list
+        if (elements.todoList && this._state.enableVirtualList?.value) {
+          elements.todoList.addEventListener('scroll', (e) => {
+            batch(() => {
+              this._state.scrollTop.value = e.target.scrollTop;
+            });
+          }, { passive: true });
+        }
+        
         // ✅ PHASE 1: Combined effect - replaces all individual effects
-        // Only updates what actually changed
         effect(() => {
           // Access state to track dependencies
           const newTodoVal = this._state.newTodo.value;
           const todos = this._state.todos.value;
           const filter = this._state.filter.value;
           
-          // Use pre-computed cached values (Phase 1 optimization)
+          // Use pre-computed cached values
           const filteredTodos = this._state.filteredTodos?.value || todos;
           const hasItems = todos.length > 0;
           
@@ -214,74 +222,11 @@ function registerComponent(definition) {
             }
           });
           
-          // Update todo list (now using pre-computed filtered todos)
-          this._updateTodoList(elements.todoList, filteredTodos, todos);
+          // Note: DOM updates are now handled by template rendering via state changes
+          // No need for manual DOM manipulation
         });
         
         console.log('Bindings initialized');
-    }
-    
-    _updateTodoList(todoList, filteredTodos, allTodos) {
-      if (!todoList || !filteredTodos) return;
-      
-      console.log('Updating todo list, showing:', filteredTodos.length);
-      
-      // Get existing LI elements by ID
-      const existingMap = new Map();
-      todoList.querySelectorAll('li').forEach(li => {
-        existingMap.set(parseInt(li.dataset.id), li);
-      });
-      
-      // Track which IDs we've seen in the filtered list
-      const seenIds = new Set();
-      
-      // Update or create items
-      filteredTodos.forEach(todo => {
-        seenIds.add(todo.id);
-        let li = existingMap.get(todo.id);
-        
-        if (!li) {
-          // Create new item
-          li = document.createElement('li');
-          li.dataset.id = todo.id;
-          li.className = todo.completed ? 'completed' : '';
-          li.innerHTML = `
-            <div class="view">
-              <input class="toggle" type="checkbox" ${todo.completed ? 'checked' : ''} data-on="click:toggleTodo" />
-              <label>${todo.text}</label>
-              <button class="destroy" data-on="click:destroyTodo"></button>
-            </div>
-          `;
-          todoList.appendChild(li);
-          console.log('Created item:', todo.id);
-        } else {
-          // Update existing item
-          const wasCompleted = li.classList.contains('completed');
-          const isNowCompleted = todo.completed;
-          
-          if (wasCompleted !== isNowCompleted) {
-            if (isNowCompleted) {
-              li.classList.add('completed');
-            } else {
-              li.classList.remove('completed');
-            }
-            
-            const checkbox = li.querySelector('.toggle');
-            if (checkbox) {
-              checkbox.checked = isNowCompleted;
-            }
-            console.log('Updated item:', todo.id, 'completed:', isNowCompleted);
-          }
-        }
-      });
-      
-      // Remove items that are no longer in the filtered list
-      for (const [id, li] of existingMap.entries()) {
-        if (!seenIds.has(id)) {
-          li.remove();
-          console.log('Removed item:', id);
-        }
-      }
     }
     
     _attachEventHandlers() {
