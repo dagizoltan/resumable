@@ -101,12 +101,30 @@
 
         <article class="card">
             <h2>Color Palette</h2>
-            <div>
-                <div style="background: var(--primary); color: white;">
-                    <div>Primary</div>
-                    <div id="val-pri">oklch(...)</div>
-                </div>
-                <!-- More color swatches -->
+            <div class="grid grid-5">
+                <div class="color-swatch" style="background: var(--primary);"><span>Primary</span></div>
+                <div class="color-swatch" style="background: var(--secondary);"><span>Secondary</span></div>
+                <div class="color-swatch" style="background: var(--accent);"><span>Accent</span></div>
+            </div>
+            <h3>Semantic Colors</h3>
+            <div class="grid grid-5">
+                <div class="color-swatch" style="background: var(--info);"><span>Info</span></div>
+                <div class="color-swatch" style="background: var(--success);"><span>Success</span></div>
+                <div class="color-swatch" style="background: var(--warning);"><span>Warning</span></div>
+                <div class="color-swatch" style="background: var(--error);"><span>Error</span></div>
+            </div>
+            <h3>Neutral Colors</h3>
+            <div class="grid grid-10">
+                <div class="color-swatch" style="background: var(--neutral-50);"><span style="color: var(--text);">50</span></div>
+                <div class="color-swatch" style="background: var(--neutral-100);"><span style="color: var(--text);">100</span></div>
+                <div class="color-swatch" style="background: var(--neutral-200);"><span style="color: var(--text);">200</span></div>
+                <div class="color-swatch" style="background: var(--neutral-300);"><span style="color: var(--text);">300</span></div>
+                <div class="color-swatch" style="background: var(--neutral-400);"><span style="color: var(--text);">400</span></div>
+                <div class="color-swatch" style="background: var(--neutral-500);"><span>500</span></div>
+                <div class="color-swatch" style="background: var(--neutral-600);"><span>600</span></div>
+                <div class="color-swatch" style="background: var(--neutral-700);"><span>700</span></div>
+                <div class="color-swatch" style="background: var(--neutral-800);"><span>800</span></div>
+                <div class="color-swatch" style="background: var(--neutral-900);"><span>900</span></div>
             </div>
         </article>
 
@@ -134,6 +152,18 @@
                         <div>Success</div>
                     </header>
                     <div>Your changes were saved</div>
+                </div>
+                <div class="alert warning">
+                    <header>
+                        <div>Warning</div>
+                    </header>
+                    <div>Your session is about to expire</div>
+                </div>
+                <div class="alert error">
+                    <header>
+                        <div>Error</div>
+                    </header>
+                    <div>Failed to save your changes</div>
                 </div>
             </div>
         </article>
@@ -352,69 +382,6 @@
         </div>
     </footer>
 
-    <script>
-        // Accordion functionality
-        const accordionItems = document.querySelectorAll('.accordion__item');
-        accordionItems.forEach(item => {
-            const header = item.querySelector('.accordion__header');
-            header.addEventListener('click', () => {
-                item.classList.toggle('accordion__item--active');
-            });
-        });
-
-        // Dropdown functionality
-        const dropdowns = document.querySelectorAll('.dropdown');
-        dropdowns.forEach(dropdown => {
-            const toggle = dropdown.querySelector('.dropdown__toggle');
-            toggle.addEventListener('click', () => {
-                dropdown.classList.toggle('dropdown--active');
-            });
-        });
-
-        // Modal functionality
-        const openModalButtons = document.querySelectorAll('[data-modal-open]');
-        const closeModalButtons = document.querySelectorAll('[data-modal-close]');
-
-        openModalButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const modal = document.querySelector('#' + button.dataset.modalOpen);
-                openModal(modal);
-            });
-        });
-
-        closeModalButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const modal = button.closest('.modal');
-                closeModal(modal);
-            });
-        });
-
-        function openModal(modal) {
-            if (modal == null) return;
-            modal.classList.add('modal--active');
-        }
-
-        function closeModal(modal) {
-            if (modal == null) return;
-            modal.classList.remove('modal--active');
-        }
-
-        // Tabs functionality
-        const tabs = document.querySelectorAll('.tab');
-        const tabPanes = document.querySelectorAll('.tab-pane');
-
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const target = document.querySelector('#' + tab.dataset.tab);
-
-                tabs.forEach(t => t.classList.remove('tab--active'));
-                tab.classList.add('tab--active');
-
-                tabPanes.forEach(pane => pane.classList.remove('tab-pane--active'));
-                target.classList.add('tab-pane--active');
-            });
-        });
-        // Theme toggle, color controls, etc.
-    </script>
+    <script src="sx/global.js"></script>
 </body>
 </html>
