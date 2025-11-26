@@ -1,0 +1,44 @@
+/* OKLCH Design System - Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--s-xs) var(--s-md);
+  border-radius: calc(var(--u) * 4);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+}
+
+.badge--primary {
+  background: var(--primary);
+  color: white;
+}
+
+.badge--secondary {
+  background: var(--secondary);
+  color: white;
+}
+
+.badge--accent {
+  background: var(--accent);
+  color: white;
+}
+
+.badge--info {
+  background: var(--info);
+  color: white;
+}
+
+.badge--success {
+  background: var(--success);
+  color: white;
+}
+
+.badge--warning {
+  background: var(--warning);
+  color: oklch(20% 0 0);
+}
+
+.badge--error {
+  background: var(--error);
+  color: white;
+}

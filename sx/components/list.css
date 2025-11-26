@@ -1,0 +1,40 @@
+/* OKLCH Design System - Lists */
+.list {
+  padding-left: var(--s-lg);
+  margin-bottom: var(--s-md);
+}
+
+.list li {
+  margin-bottom: var(--s-sm);
+}
+
+.list--unstyled {
+  list-style: none;
+  padding: 0;
+}
+
+.list--modern {
+  list-style: none;
+  padding: 0;
+}
+
+.list--modern li {
+  padding: var(--s-md) var(--s-lg);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: var(--s-md);
+}
+
+.list--modern li:last-child {
+  border-bottom: none;
+}
+
+.list--modern li::before {
+  content: '';
+  width: var(--s-sm);
+  height: var(--s-sm);
+  background: var(--primary);
+  border-radius: 50%;
+  flex-shrink: 0;
+}

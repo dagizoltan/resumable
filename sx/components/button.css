@@ -1,0 +1,47 @@
+/* OKLCH Design System - Buttons */
+button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-sm);
+  padding: var(--s-md) var(--s-lg);
+  border: none;
+  border-radius: calc(var(--u) * 2);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-family: inherit;
+  background: var(--primary);
+  color: white;
+}
+
+button.secondary {
+  background: var(--secondary);
+  color: white;
+}
+
+button.accent {
+  background: var(--accent);
+  color: white;
+}
+
+button.outline {
+  background: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+
+button.ghost {
+  background: transparent;
+  color: var(--text);
+}
+
+button.small {
+  padding: var(--s-sm) var(--s-md);
+  font-size: var(--fs-xs);
+}
+
+button.large {
+  padding: var(--s-lg) var(--s-xl);
+  font-size: var(--fs-md);
+}

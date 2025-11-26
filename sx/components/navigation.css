@@ -1,0 +1,32 @@
+/* OKLCH Design System - Navigation */
+body > header nav {
+  max-width: 90rem;
+  margin: 0 auto;
+  padding: 0 var(--s-xl);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+body > header nav > div:first-child {
+  font-size: var(--fs-2xl);
+  font-weight: 700;
+  color: var(--primary);
+}
+
+body > header nav > div:last-child {
+  display: flex;
+  gap: var(--s-lg);
+  align-items: center;
+}
+
+body > header nav a {
+  color: var(--text);
+  font-weight: 500;
+  padding: var(--s-sm) var(--s-md);
+  border-radius: var(--s-xs);
+}
+
+body > header nav a.active {
+  color: var(--primary);
+}
