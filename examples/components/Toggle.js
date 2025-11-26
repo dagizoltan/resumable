@@ -33,7 +33,7 @@ export const Toggle = component({
             type="checkbox"
             class="toggle-input"
             ${state.enabled.value ? 'checked' : ''}
-            data-on="change:toggle"
+            @change=${() => actions.toggle()}
           />
           <span class="toggle-slider"></span>
           <span class="toggle-text">${state.enabled.value ? 'ON' : 'OFF'}</span>

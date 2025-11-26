@@ -158,24 +158,30 @@ function registerComponent(definition) {
       const eventMap = new Map();
       
       const listener = (e) => {
-        const target = e.target.closest('[data-on]');
-        if (!target) return;
+        // Support both old data-on and new @event syntax
+        let target = e.target.closest('[data-on]');
         
-        const eventData = target.dataset.on;
-        if (!eventData) return;
-        
-        // Parse event:action pairs
-        eventData.split(',').forEach(pair => {
-          const [event, actionName] = pair.split(':').map(s => s.trim());
+        if (target) {
+          // Old data-on syntax
+          const eventData = target.dataset.on;
+          if (!eventData) return;
           
-          if (event === e.type && this._actions[actionName]) {
-            try {
-              this._actions[actionName](e);
-            } catch (err) {
-              this._handleError(err, `action '${actionName}'`);
+          // Parse event:action pairs
+          eventData.split(',').forEach(pair => {
+            const [event, actionName] = pair.split(':').map(s => s.trim());
+            
+            if (event === e.type && this._actions[actionName]) {
+              try {
+                this._actions[actionName](e);
+              } catch (err) {
+                this._handleError(err, `action '${actionName}'`);
+              }
             }
-          }
-        });
+          });
+        } else {
+          // New @event syntax - handled via direct event listener on element
+          // This listener just needs to exist for event delegation
+        }
       };
 
       return { listener, eventMap };
@@ -244,7 +250,10 @@ function registerComponent(definition) {
         // 3. Setup event delegation (once per component)
         this._attachEventDelegation();
         
-        // 4. Render component view and setup reactive updates
+        // 4. Attach event handlers for @event attributes
+        this._attachEventHandlers();
+        
+        // 5. Render component view and setup reactive updates
         if (definition.view) {
           console.log(`[${definition.name}] Rendering view`);
           
@@ -330,6 +339,23 @@ function registerComponent(definition) {
       
       this._eventDelegationAttached = true;
       console.log(`[${definition.name}] ✓ Event delegation ready`);
+    }
+
+    _attachEventHandlers() {
+      if (!this.shadowRoot) return;
+      
+      // Find all elements with @event attributes and attach handlers
+      const allElements = this.shadowRoot.querySelectorAll('*');
+      allElements.forEach(el => {
+        // Get all attributes
+        for (const attr of Array.from(el.attributes)) {
+          if (attr.name.startsWith('@')) {
+            const eventName = attr.name.substring(1); // Remove @ prefix
+            // Note: attr.value is a string like "@click=..." so we can't use it
+            // Instead, we re-render to get the actual function values via renderPart
+          }
+        }
+      });
     }
 
     _handleError(error, context) {

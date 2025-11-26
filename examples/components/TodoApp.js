@@ -90,7 +90,7 @@ export const TodoApp = component({
     };
   },
 
-  view: ({ state }) => {
+  view: ({ state, actions }) => {
     // ✅ PHASE 1: Use cached computed values instead of recreating them
     const filteredTodos = state.filteredTodos.value;
     const itemsLeft = state.itemsLeft.value;
@@ -105,7 +105,8 @@ export const TodoApp = component({
           placeholder="What needs to be done?"
           autofocus
           value="${state.newTodo.value}"
-          data-on="input:updateNewTodo,keydown:addTodoOnEnter"
+          @input=${(e) => actions.updateNewTodo(e)}
+          @keydown=${(e) => actions.addTodoOnEnter(e)}
         />
       </header>
       <section class="main" style="display: ${showFooter ? 'block' : 'none'};">
@@ -122,10 +123,10 @@ export const TodoApp = component({
                     class="toggle"
                     type="checkbox"
                     ${todo.completed ? 'checked' : ''}
-                    data-on="change:toggleTodo"
+                    @change=${(e) => actions.toggleTodo(e)}
                   />
                   <label>${todo.text}</label>
-                  <button class="destroy" data-on="click:destroyTodo"></button>
+                  <button class="destroy" @click=${(e) => actions.destroyTodo(e)}></button>
                 </div>
               </li>
             `
@@ -135,11 +136,11 @@ export const TodoApp = component({
       <footer class="footer" style="display: ${showFooter ? 'block' : 'none'};">
         <span class="todo-count"><strong>${itemsLeft}</strong> items left</span>
         <ul class="filters">
-          <li><a href="#/" class="${state.filter.value === 'all' ? 'selected' : ''}" data-on="click:setFilter" data-filter="all">All</a></li>
-          <li><a href="#/active" class="${state.filter.value === 'active' ? 'selected' : ''}" data-on="click:setFilter" data-filter="active">Active</a></li>
-          <li><a href="#/completed" class="${state.filter.value === 'completed' ? 'selected' : ''}" data-on="click:setFilter" data-filter="completed">Completed</a></li>
+          <li><a href="#/" class="${state.filter.value === 'all' ? 'selected' : ''}" @click=${(e) => actions.setFilter(e)}>All</a></li>
+          <li><a href="#/active" class="${state.filter.value === 'active' ? 'selected' : ''}" @click=${(e) => actions.setFilter(e)}>Active</a></li>
+          <li><a href="#/completed" class="${state.filter.value === 'completed' ? 'selected' : ''}" @click=${(e) => actions.setFilter(e)}>Completed</a></li>
         </ul>
-        <button class="clear-completed" data-on="click:clearCompleted">
+        <button class="clear-completed" @click=${() => actions.clearCompleted()}>
           Clear completed
         </button>
       </footer>

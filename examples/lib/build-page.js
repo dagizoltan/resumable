@@ -19,15 +19,11 @@ export function buildPage(path) {
 
   // Build component registry for bootstrap
   const registryEntries = Object.entries(config.registry)
-    .map(([name, comp]) => `'${name}': ${comp.name}`)
+    .map(([name, _comp]) => `'${name}': () => componentFactory('${name}')`)
     .join(',\n      ');
 
-  const importStatements = Object.entries(config.registry)
-    .map(([_, comp]) => `import { ${comp.name} } from '/examples/components/${comp.name}.js';`)
-    .join('\n  ');
-
   const bootstrap = `<script type="module">
-  ${importStatements}
+  import { componentFactory } from '/examples/components/componentFactory.js';
   import { initResumableApp } from '/resumable/core/runtime.js';
   initResumableApp({
     ${registryEntries}

@@ -22,6 +22,15 @@ export function html(strings, ...values) {
     toString() {
       return strings.reduce((acc, str, i) => {
         let val = values[i];
+        
+        // For functions (event handlers), don't add them to the SSR output
+        if (typeof val === 'function') {
+          // Return just the current string without adding the function value
+          // This leaves `@click=` in SSR output but without a value, which is harmless
+          // The next string iteration will continue normally
+          return acc + str;
+        }
+        
         if (val === undefined) return acc + str;
         
         // Handle arrays of template results (from .map())
@@ -118,7 +127,18 @@ class Part {
   }
 
   updateEvent(value) {
-    // Events are handled by runtime, not here
+    if (typeof value !== 'function') return;
+    const { name } = this.binding;
+    const eventName = name.substring(1); // Remove @ prefix
+    
+    // Remove old listener if exists
+    if (this.previousListener) {
+      this.node.removeEventListener(eventName, this.previousListener);
+    }
+    
+    // Add new listener
+    this.node.addEventListener(eventName, value);
+    this.previousListener = value;
   }
 }
 
@@ -181,15 +201,25 @@ class TemplatePart {
       } else if (node.nodeType === Node.ELEMENT_NODE) {
         if (node.hasAttributes()) {
           for (const attr of Array.from(node.attributes)) {
-            const binding = this.findAttributeBinding(attr);
-            if (binding) {
-              const part = new Part(
-                attr.name === 'checked' || attr.name === 'disabled' ? 'property' : 'attribute',
-                node,
-                binding
-              );
-              this.parts.push(part);
-              partIndex++;
+            // Check if this is an event binding (@event)
+            if (attr.name.startsWith('@')) {
+              const binding = this.findAttributeBinding(attr);
+              if (binding) {
+                const part = new Part('event', node, binding);
+                this.parts.push(part);
+                partIndex++;
+              }
+            } else {
+              const binding = this.findAttributeBinding(attr);
+              if (binding) {
+                const part = new Part(
+                  attr.name === 'checked' || attr.name === 'disabled' ? 'property' : 'attribute',
+                  node,
+                  binding
+                );
+                this.parts.push(part);
+                partIndex++;
+              }
             }
           }
         }
@@ -233,8 +263,10 @@ export function processTemplate(result) {
       if (node.hasAttributes()) {
         for (const attr of Array.from(node.attributes)) {
           if (attr.value.includes(placeholder)) {
+            // Check if this is an event binding (@event)
+            const bindingType = attr.name.startsWith('@') ? 'event' : 'attribute';
             bindings.push({
-              type: 'attribute',
+              type: bindingType,
               node,
               name: attr.name,
               index

@@ -36,9 +36,9 @@ export const Counter = component({
         <p>Count: <strong>${state.count.value}</strong></p>
       </div>
       <div class="counter-controls">
-        <button data-on="click:decrement" class="btn btn-primary">-</button>
-        <button data-on="click:increment" class="btn btn-primary">+</button>
-        <button data-on="click:reset" class="btn btn-secondary">Reset</button>
+        <button @click=${() => actions.decrement()} class="btn btn-primary">-</button>
+        <button @click=${() => actions.increment()} class="btn btn-primary">+</button>
+        <button @click=${() => actions.reset()} class="btn btn-secondary">Reset</button>
       </div>
     </div>
   `,
