@@ -1,5 +1,8 @@
 // resumable/ssr/render.js
 
+// Generate unique instance IDs for components
+let instanceIdCounter = 0;
+
 /**
  * Renders a component instance to a clean HTML string.
  * The server's responsibility is to generate the initial HTML and state.
@@ -14,6 +17,9 @@ export function renderToString(componentInstance) {
   }
 
   const { name, view, style, actions, _serializedState } = componentInstance;
+  
+  // Generate a unique instance ID for this component instance
+  const instanceId = `${name}-${++instanceIdCounter}`;
 
   // 1. Get the template result from the view function.
   const templateResult = view({ state: componentInstance.state, actions });
@@ -25,13 +31,13 @@ export function renderToString(componentInstance) {
   // 3. Store the SSR content as a script tag
   const ssrContent = `${style ? `<style>${style.toString()}</style>` : ''}${html}`;
 
-  // 4. Construct the final HTML.
+  // 4. Construct the final HTML with unique instance ID
   const finalHtml = `
-    <${name} data-component-name="${name}"></${name}>
-    <script type="application/json" data-component-state="${name}">
+    <${name} data-component-name="${name}" data-instance-id="${instanceId}"></${name}>
+    <script type="application/json" data-component-state="${instanceId}">
       ${serializedState}
     </script>
-    <script type="application/json" data-component-ssr="${name}">
+    <script type="application/json" data-component-ssr="${instanceId}">
       ${JSON.stringify({ content: ssrContent })}
     </script>
   `;

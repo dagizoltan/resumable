@@ -1,4 +1,4 @@
-// examples/todomvc/TodoApp.js
+// examples/components/TodoApp.js
 import { component } from '../../resumable/core/component.js';
 import { signal, computed } from '../../resumable/core/signals.js';
 import { html, css } from '../../resumable/core/template.js';
@@ -81,6 +81,7 @@ export const TodoApp = component({
       },
       setFilter(e) {
         e.preventDefault();
+        e.stopPropagation();
         state.filter.value = e.target.dataset.filter;
       },
       clearCompleted() {

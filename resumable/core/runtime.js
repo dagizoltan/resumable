@@ -1,68 +1,56 @@
 // resumable/core/runtime.js
-import { signal, computed, effect, untrack, batch } from './signals.js';
-import { processTemplate } from './template.js';
-import { VirtualList, setupVirtualListScrolling } from './virtual-list.js';
+// Universal UI library runtime - works with any component definition
+import { signal, computed, batch, effect } from './signals.js';
 
+/**
+ * Initialize and bootstrap all Resumable components on the page
+ * @param {Object} componentFactories - Map of component name to factory function
+ */
 export function initResumableApp(componentFactories = {}) {
-  console.log('initResumableApp called with factories:', Object.keys(componentFactories));
+  console.log('initResumableApp: Registering', Object.keys(componentFactories).length, 'component(s)');
   
   // Register all components first
   for (const [name, factory] of Object.entries(componentFactories)) {
     try {
-      console.log(`Registering component: ${name}`);
+      console.log(`Registering component factory: ${name}`);
       const instance = factory();
       const definition = instance._definition;
-      console.log(`Definition for ${name}:`, definition.name);
+      
       if (!customElements.get(definition.name)) {
         registerComponent(definition);
-        console.log(`Component ${name} registered`);
+        console.log(`✓ Component '${definition.name}' registered`);
       }
     } catch (e) {
-      console.error(`Failed to initialize component ${name}:`, e);
+      console.error(`Failed to register component ${name}:`, e);
     }
   }
 
-  // Then find and initialize all component instances
+  // Find and initialize all component instances
   const elements = document.querySelectorAll('[data-component-name]');
-  console.log(`Found ${elements.length} component elements`);
+  console.log(`Found ${elements.length} component instance(s)`);
   
-  elements.forEach(rootEl => {
-    if (!rootEl._mounted) {
-      console.log(`Mounting component: ${rootEl.dataset.componentName}`);
-      // Upgrade the element to apply the custom element class
-      customElements.upgrade(rootEl);
+  elements.forEach((rootEl, index) => {
+    if (!rootEl._resumable_initialized) {
+      console.log(`[${index + 1}/${elements.length}] Hydrating component: ${rootEl.dataset.componentName}`);
       
-      // If connectedCallback wasn't automatically called, call it manually
-      if (rootEl.connectedCallback && !rootEl._initialized) {
-        console.log(`Calling connectedCallback for ${rootEl.dataset.componentName}`);
-        rootEl.connectedCallback();
+      try {
+        // Upgrade the custom element
+        customElements.upgrade(rootEl);
+        
+        // Call connectedCallback if not already called
+        if (rootEl.connectedCallback && !rootEl._initialized) {
+          rootEl.connectedCallback();
+        }
+        
+        rootEl._resumable_initialized = true;
+        console.log(`✓ Component '${rootEl.dataset.componentName}' hydrated`);
+      } catch (e) {
+        console.error(`Failed to hydrate component ${rootEl.dataset.componentName}:`, e);
       }
-      
-      rootEl._mounted = true;
     }
   });
-}
-
-
-
-function getNodePath(node, root) {
-    const path = [];
-    let current = node;
-    while(current && current !== root) {
-        path.push(Array.from(current.parentNode.childNodes).indexOf(current));
-        current = current.parentNode;
-    }
-    return path.reverse();
-}
-
-
-function findNodeByPath(root, path) {
-    let node = root;
-    for(const index of path) {
-        if(!node || !node.childNodes[index]) return null;
-        node = node.childNodes[index];
-    }
-    return node;
+  
+  console.log('✓ App initialization complete');
 }
 
 
@@ -72,56 +60,94 @@ function registerComponent(definition) {
       super();
       this._state = {};
       this._actions = {};
+      this._effects = [];
     }
 
     connectedCallback() {
-      console.log('connectedCallback called');
-      // Only initialize once
+      console.log(`[${definition.name}] connectedCallback`);
       if (this._initialized) return;
       this._initialized = true;
       
+      // Get instance ID from data attribute
+      const instanceId = this.dataset.instanceId || this.dataset.componentName;
+      
       // Create shadow root if it doesn't exist (for SSR-rendered content)
       if (!this.shadowRoot) {
-        console.log('Creating shadow root');
+        console.log(`[${definition.name}] Creating shadow root`);
         this.attachShadow({ mode: 'open' });
         
         // Get the SSR content
-        const ssrScript = document.querySelector(`script[data-component-ssr="${this.dataset.componentName}"]`);
+        const ssrScript = document.querySelector(`script[data-component-ssr="${instanceId}"]`);
         if (ssrScript) {
           try {
             const ssrData = JSON.parse(ssrScript.textContent);
+            if (!ssrData?.content) {
+              throw new Error('Invalid SSR data: missing content property');
+            }
             this.shadowRoot.innerHTML = ssrData.content;
-            console.log('SSR content inserted into shadow root');
+            console.log(`[${definition.name}] SSR content loaded`);
           } catch (e) {
-            console.error('Error parsing SSR data:', e);
+            console.error(`[${definition.name}] Error parsing SSR data:`, e);
+            this.shadowRoot.innerHTML = '<div style="color: red; padding: 1rem;">Error loading component</div>';
           }
         }
       }
       
-      // Initialize after a small delay to ensure shadow root is ready
+      // Initialize after shadow root is ready
       setTimeout(() => this._init(), 0);
     }
 
+    disconnectedCallback() {
+      console.log(`[${definition.name}] disconnectedCallback`);
+      this._cleanup();
+    }
+
+    _cleanup() {
+      // Clean up all effects
+      if (this._effects) {
+        this._effects.forEach(effect => {
+          if (effect._cleanup) effect._cleanup();
+        });
+        this._effects = [];
+      }
+    }
+
     _init() {
-      console.log(`_init called for ${this.dataset.componentName}`);
-      // 1. Resume State
-      const stateScript = document.querySelector(`script[data-component-state="${this.dataset.componentName}"]`);
+      console.log(`[${definition.name}] Initializing state and actions`);
+      
+      // Get instance ID from data attribute (used for SSR data lookup with multiple instances)
+      const instanceId = this.dataset.instanceId || this.dataset.componentName;
+      
+      // 1. Resume State from SSR
+      const stateScript = document.querySelector(`script[data-component-state="${instanceId}"]`);
       const initialState = stateScript ? JSON.parse(stateScript.textContent) : {};
-      console.log(`Initial state:`, initialState);
       
       const stateDef = definition.state ? definition.state({}) : {};
       const stateProxy = {};
+      
+      // Create signals for all non-computed state
       Object.keys(stateDef).forEach(key => {
         if (!stateDef[key]._isComputed) {
-            // Use the deserialized value from initialState if available, otherwise use default
-            const initialValue = initialState[key] !== undefined ? initialState[key] : stateDef[key].value;
-            this._state[key] = signal(initialValue);
-            Object.defineProperty(stateProxy, key, { get: () => this._state[key].value });
+          const initialValue = initialState[key] !== undefined ? initialState[key] : stateDef[key].value;
+          this._state[key] = signal(initialValue);
+          // Return signal directly so reactive dependency tracking works
+          Object.defineProperty(stateProxy, key, { 
+            get: () => this._state[key]
+          });
         }
       });
+      
+      // Create computed signals
       Object.keys(stateDef).forEach(key => {
         if (stateDef[key]._isComputed) {
-            this._state[key] = computed(() => stateDef[key]._fn ? stateDef[key]._fn(stateProxy) : undefined);
+          this._state[key] = computed(() => {
+            try {
+              return stateDef[key]._fn ? stateDef[key]._fn(stateProxy) : undefined;
+            } catch (e) {
+              console.error(`[${definition.name}] Error in computed '${key}':`, e);
+              return undefined;
+            }
+          });
         }
       });
       
@@ -130,212 +156,138 @@ function registerComponent(definition) {
         const originalActions = definition.actions(this);
         this._actions = {};
         
-        // Wrap each action to batch state changes and prevent sync re-renders
+        // Wrap actions to batch state changes
         for (const actionName in originalActions) {
           const action = originalActions[actionName];
           this._actions[actionName] = (e) => {
-            batch(() => {
-              action.call(originalActions, e);
-            });
+            try {
+              batch(() => {
+                action.call(originalActions, e);
+              });
+            } catch (err) {
+              console.error(`[${definition.name}] Error in action '${actionName}':`, err);
+            }
           };
         }
       }
       
-      // 3. Bind DOM
-      this._bindDOM();
-      this._attachEventHandlers();
-    }
-
-    _bindDOM() {
-        if (!this.shadowRoot) {
-          setTimeout(() => this._bindDOM(), 10);
-          return;
-        }
-
-        console.log('Setting up fine-grained reactivity');
+      // 3. Render component view and setup reactive updates
+      if (definition.view) {
+        console.log(`[${definition.name}] Rendering view`);
         
-        // Track that we've already initialized bindings to avoid duplicates
-        if (this._bindingsInitialized) return;
-        this._bindingsInitialized = true;
-        
-        // Cache DOM elements
-        const elements = {
-          newTodoInput: this.shadowRoot.querySelector('.new-todo'),
-          mainSection: this.shadowRoot.querySelector('.main'),
-          footerSection: this.shadowRoot.querySelector('.footer'),
-          itemsCount: this.shadowRoot.querySelector('.todo-count strong'),
-          todoList: this.shadowRoot.querySelector('.todo-list'),
-          filterButtons: this.shadowRoot.querySelectorAll('.filters a')
-        };
-        
-        // ✅ PHASE 1: Combined effect - replaces all individual effects
-        // Only updates what actually changed
-        effect(() => {
-          // Access state to track dependencies
-          const newTodoVal = this._state.newTodo.value;
-          const todos = this._state.todos.value;
-          const filter = this._state.filter.value;
-          
-          // Use pre-computed cached values (Phase 1 optimization)
-          const filteredTodos = this._state.filteredTodos?.value || todos;
-          const hasItems = todos.length > 0;
-          
-          // Update input field if needed
-          if (elements.newTodoInput && elements.newTodoInput.value !== newTodoVal) {
-            console.log('Updating input value to:', newTodoVal);
-            elements.newTodoInput.value = newTodoVal;
-          }
-          
-          // Update visibility of main and footer
-          if (elements.mainSection) {
-            elements.mainSection.style.display = hasItems ? 'block' : 'none';
-          }
-          if (elements.footerSection) {
-            elements.footerSection.style.display = hasItems ? 'block' : 'none';
-          }
-          
-          // Update item count
-          if (elements.itemsCount) {
-            const itemsLeft = this._state.itemsLeft?.value || todos.filter(t => !t.completed).length;
-            const text = String(itemsLeft);
-            if (elements.itemsCount.textContent !== text) {
-              elements.itemsCount.textContent = text;
+        // Create a reactive effect that re-renders whenever any state signal changes
+        // We need to explicitly access signals inside the effect to create dependencies
+        const renderEffect = effect(() => {
+          // Force dependency tracking by accessing all state signals
+          // This makes the effect re-run when any signal changes
+          for (const key in this._state) {
+            if (this._state[key] && typeof this._state[key].value !== 'undefined') {
+              // Just access the signal's value to track the dependency
+              void this._state[key].value;
             }
           }
-          
-          // Update filter buttons
-          elements.filterButtons.forEach(btn => {
-            const btnFilter = btn.dataset.filter;
-            const isSelected = btnFilter === filter;
-            if (isSelected && !btn.classList.contains('selected')) {
-              btn.classList.add('selected');
-            } else if (!isSelected && btn.classList.contains('selected')) {
-              btn.classList.remove('selected');
-            }
-          });
-          
-          // Update todo list (now using pre-computed filtered todos)
-          this._updateTodoList(elements.todoList, filteredTodos, todos);
+          // Now render with the tracked dependencies
+          this._renderView(stateProxy);
         });
         
-        console.log('Bindings initialized');
+        // Store effect for cleanup
+        this._effects.push(renderEffect);
+      }
+      
+      // 4. Setup event handlers
+      this._attachEventHandlers();
+      
+      console.log(`[${definition.name}] ✓ Initialization complete`);
     }
-    
-    _updateTodoList(todoList, filteredTodos, allTodos) {
-      if (!todoList || !filteredTodos) return;
+
+    _renderView(stateProxy) {
+      // Call the view function with state and actions and update shadow root
+      if (!definition.view) return;
       
-      console.log('Updating todo list, showing:', filteredTodos.length);
-      
-      // Get existing LI elements by ID
-      const existingMap = new Map();
-      todoList.querySelectorAll('li').forEach(li => {
-        existingMap.set(parseInt(li.dataset.id), li);
-      });
-      
-      // Track which IDs we've seen in the filtered list
-      const seenIds = new Set();
-      
-      // Update or create items
-      filteredTodos.forEach(todo => {
-        seenIds.add(todo.id);
-        let li = existingMap.get(todo.id);
-        
-        if (!li) {
-          // Create new item
-          li = document.createElement('li');
-          li.dataset.id = todo.id;
-          li.className = todo.completed ? 'completed' : '';
-          li.innerHTML = `
-            <div class="view">
-              <input class="toggle" type="checkbox" ${todo.completed ? 'checked' : ''} data-on="click:toggleTodo" />
-              <label>${todo.text}</label>
-              <button class="destroy" data-on="click:destroyTodo"></button>
-            </div>
-          `;
-          todoList.appendChild(li);
-          console.log('Created item:', todo.id);
-        } else {
-          // Update existing item
-          const wasCompleted = li.classList.contains('completed');
-          const isNowCompleted = todo.completed;
-          
-          if (wasCompleted !== isNowCompleted) {
-            if (isNowCompleted) {
-              li.classList.add('completed');
-            } else {
-              li.classList.remove('completed');
+      try {
+        // Create a state object that unwraps signals to their values for the view
+        const stateForView = new Proxy(stateProxy, {
+          get(target, prop) {
+            const value = target[prop];
+            // If it's a signal, return its value for template interpolation
+            if (value && typeof value === 'object' && 'value' in value) {
+              return value.value;
             }
-            
-            const checkbox = li.querySelector('.toggle');
-            if (checkbox) {
-              checkbox.checked = isNowCompleted;
-            }
-            console.log('Updated item:', todo.id, 'completed:', isNowCompleted);
+            return value;
           }
+        });
+        
+        // Get the rendered HTML from the view function
+        const result = definition.view({ state: stateForView, actions: this._actions });
+        const html = result.toString ? result.toString() : String(result);
+        
+        // Update the shadow root with the new HTML (preserves event listeners)
+        if (this.shadowRoot) {
+          // Only replace the main content, not the style tag
+          const styleMatch = this.shadowRoot.innerHTML.match(/<style[^>]*>[\s\S]*?<\/style>/);
+          const styleContent = styleMatch ? styleMatch[0] : '';
+          
+          // Extract just the view content without style
+          const viewContent = html.replace(/<style[^>]*>[\s\S]*?<\/style>/g, '');
+          
+          this.shadowRoot.innerHTML = styleContent + viewContent;
         }
-      });
-      
-      // Remove items that are no longer in the filtered list
-      for (const [id, li] of existingMap.entries()) {
-        if (!seenIds.has(id)) {
-          li.remove();
-          console.log('Removed item:', id);
-        }
+      } catch (e) {
+        console.error(`[${definition.name}] Error rendering view:`, e);
       }
     }
-    
+
     _attachEventHandlers() {
-      console.log('_attachEventHandlers called');
+      console.log(`[${definition.name}] Attaching event handlers`);
+      
       if (!this.shadowRoot) {
-        console.log('No shadow root, retrying');
-        // Retry if shadow root is not yet available
         setTimeout(() => this._attachEventHandlers(), 10);
         return;
       }
       
-      // Only attach once per component instance
-      if (this._eventsAttached) {
-        console.log('Events already attached');
-        return;
+      // Remove old listeners if re-attaching
+      if (this._eventListeners) {
+        this._eventListeners.forEach(({ target, type, listener }) => {
+          target.removeEventListener(type, listener);
+        });
+        this._eventListeners = [];
       }
-      this._eventsAttached = true;
       
-      console.log('Attaching event handlers');
-      const eventTypes = ['click', 'input', 'keydown', 'change'];
+      // Listen for all common events
+      const eventTypes = ['click', 'input', 'keydown', 'change', 'submit', 'focus', 'blur'];
       eventTypes.forEach(type => {
-          this.shadowRoot.addEventListener(type, (e) => {
-            const target = e.target.closest('[data-on]');
-            if (!target) return;
+        const listener = (e) => {
+          const target = e.target.closest('[data-on]');
+          if (!target) return;
+          
+          const eventData = target.dataset.on;
+          if (!eventData) return;
+          
+          // Parse event:action pairs
+          eventData.split(',').forEach(pair => {
+            const [event, actionName] = pair.split(':').map(s => s.trim());
             
-            const eventData = target.dataset.on;
-            if (!eventData) {
-              console.warn('No data-on attribute found');
-              return;
+            if (event === e.type && this._actions[actionName]) {
+              try {
+                this._actions[actionName](e);
+              } catch (err) {
+                console.error(`[${definition.name}] Error calling ${actionName}:`, err);
+              }
             }
-            
-            console.log(`Event: ${type} on element with data-on="${eventData}"`);
-            
-            eventData.split(',').forEach(pair => {
-                const [event, actionName] = pair.split(':').map(s => s.trim());
-                console.log(`  Checking: event="${event}" vs type="${type}", action="${actionName}"`);
-                if (event === e.type && this._actions[actionName]) {
-                    console.log(`  ✓ Calling action: ${actionName}`);
-                    try {
-                      this._actions[actionName](e);
-                    } catch (err) {
-                      console.error(`Error in action ${actionName}:`, err);
-                    }
-                } else if (event !== e.type) {
-                    console.log(`  ✗ Event mismatch: "${event}" !== "${e.type}"`);
-                } else if (!this._actions[actionName]) {
-                    console.log(`  ✗ Action not found: ${actionName}`);
-                }
-            });
           });
+        };
+        
+        this.shadowRoot.addEventListener(type, listener, { passive: ['input', 'scroll'].includes(type) });
+        
+        // Store for cleanup
+        if (!this._eventListeners) this._eventListeners = [];
+        this._eventListeners.push({ target: this.shadowRoot, type, listener });
       });
-      console.log('Event handlers attached for types:', eventTypes.join(', '));
+      
+      console.log(`[${definition.name}] ✓ Event handlers ready`);
     }
   }
 
+  // Register the custom element
   customElements.define(definition.name, ResumableComponent);
 }

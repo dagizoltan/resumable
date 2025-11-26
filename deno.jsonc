@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "start": "deno run --allow-net --allow-read --allow-env examples/todomvc/server.js"
+    "start": "deno run --allow-net --allow-read --allow-env examples/server.js"
   },
   "imports": {
     "@hono/hono": "jsr:@hono/hono@^4.10.6",
