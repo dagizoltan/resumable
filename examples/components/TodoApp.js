@@ -1,7 +1,7 @@
 // examples/components/TodoApp.js
 import { component } from '../../resumable/core/component.js';
 import { signal, computed } from '../../resumable/core/signals.js';
-import { html, css } from '../../resumable/core/template.js';
+import { html, css, keyed } from '../../resumable/core/template.js';
 
 let nextTodoId = 4;
 
@@ -112,7 +112,9 @@ export const TodoApp = component({
         <input id="toggle-all" class="toggle-all" type="checkbox" ${allCompleted ? 'checked' : ''}>
         <label for="toggle-all">Mark all as complete</label>
         <ul class="todo-list">
-          ${filteredTodos.map(
+          ${keyed(
+            filteredTodos,
+            todo => todo.id,
             todo => html`
               <li class="${todo.completed ? 'completed' : ''}" data-id="${todo.id}">
                 <div class="view">

@@ -1,6 +1,39 @@
 // resumable/core/runtime.js
 // Universal UI library runtime - works with any component definition
 import { signal, computed, batch, effect } from './signals.js';
+import { renderPart } from './template.js';
+
+/**
+ * Error boundary for catching and handling component errors
+ * Prevents cascading failures from breaking the entire application
+ */
+class ErrorBoundary {
+  constructor(component, errorHandler) {
+    this.component = component;
+    this.errorHandler = errorHandler;
+    this.error = null;
+  }
+
+  catch(error, context) {
+    this.error = error;
+    if (this.errorHandler) {
+      this.errorHandler(error, context);
+    } else {
+      console.error(`Error in ${context}:`, error);
+    }
+    return false;
+  }
+
+  reset() {
+    this.error = null;
+  }
+}
+
+export function errorBoundary(component, errorHandler) {
+  const boundary = new ErrorBoundary(component, errorHandler);
+  component._errorBoundary = boundary;
+  return boundary;
+}
 
 /**
  * Initialize and bootstrap all Resumable components on the page
@@ -53,7 +86,6 @@ export function initResumableApp(componentFactories = {}) {
   console.log('✓ App initialization complete');
 }
 
-
 function registerComponent(definition) {
   class ResumableComponent extends HTMLElement {
     constructor() {
@@ -61,6 +93,8 @@ function registerComponent(definition) {
       this._state = {};
       this._actions = {};
       this._effects = [];
+      this._updateCallback = null;
+      this._eventDelegator = this._createEventDelegator();
     }
 
     connectedCallback() {
@@ -110,98 +144,133 @@ function registerComponent(definition) {
         });
         this._effects = [];
       }
+      
+      // Remove event delegator
+      if (this._eventDelegator && this.shadowRoot) {
+        const eventTypes = ['click', 'input', 'keydown', 'change', 'submit', 'focus', 'blur'];
+        eventTypes.forEach(type => {
+          this.shadowRoot.removeEventListener(type, this._eventDelegator.listener);
+        });
+      }
+    }
+
+    _createEventDelegator() {
+      const eventMap = new Map();
+      
+      const listener = (e) => {
+        const target = e.target.closest('[data-on]');
+        if (!target) return;
+        
+        const eventData = target.dataset.on;
+        if (!eventData) return;
+        
+        // Parse event:action pairs
+        eventData.split(',').forEach(pair => {
+          const [event, actionName] = pair.split(':').map(s => s.trim());
+          
+          if (event === e.type && this._actions[actionName]) {
+            try {
+              this._actions[actionName](e);
+            } catch (err) {
+              this._handleError(err, `action '${actionName}'`);
+            }
+          }
+        });
+      };
+
+      return { listener, eventMap };
     }
 
     _init() {
-      console.log(`[${definition.name}] Initializing state and actions`);
-      
-      // Get instance ID from data attribute (used for SSR data lookup with multiple instances)
-      const instanceId = this.dataset.instanceId || this.dataset.componentName;
-      
-      // 1. Resume State from SSR
-      const stateScript = document.querySelector(`script[data-component-state="${instanceId}"]`);
-      const initialState = stateScript ? JSON.parse(stateScript.textContent) : {};
-      
-      const stateDef = definition.state ? definition.state({}) : {};
-      const stateProxy = {};
-      
-      // Create signals for all non-computed state
-      Object.keys(stateDef).forEach(key => {
-        if (!stateDef[key]._isComputed) {
-          const initialValue = initialState[key] !== undefined ? initialState[key] : stateDef[key].value;
-          this._state[key] = signal(initialValue);
-          // Return signal directly so reactive dependency tracking works
-          Object.defineProperty(stateProxy, key, { 
-            get: () => this._state[key]
-          });
-        }
-      });
-      
-      // Create computed signals
-      Object.keys(stateDef).forEach(key => {
-        if (stateDef[key]._isComputed) {
-          this._state[key] = computed(() => {
-            try {
-              return stateDef[key]._fn ? stateDef[key]._fn(stateProxy) : undefined;
-            } catch (e) {
-              console.error(`[${definition.name}] Error in computed '${key}':`, e);
-              return undefined;
-            }
-          });
-        }
-      });
-      
-      // 2. Instantiate Actions
-      if (definition.actions) {
-        const originalActions = definition.actions(this);
-        this._actions = {};
+      try {
+        console.log(`[${definition.name}] Initializing state and actions`);
         
-        // Wrap actions to batch state changes
-        for (const actionName in originalActions) {
-          const action = originalActions[actionName];
-          this._actions[actionName] = (e) => {
-            try {
-              batch(() => {
-                action.call(originalActions, e);
-              });
-            } catch (err) {
-              console.error(`[${definition.name}] Error in action '${actionName}':`, err);
-            }
-          };
-        }
-      }
-      
-      // 3. Render component view and setup reactive updates
-      if (definition.view) {
-        console.log(`[${definition.name}] Rendering view`);
+        // Get instance ID from data attribute (used for SSR data lookup with multiple instances)
+        const instanceId = this.dataset.instanceId || this.dataset.componentName;
         
-        // Create a reactive effect that re-renders whenever any state signal changes
-        // We need to explicitly access signals inside the effect to create dependencies
-        const renderEffect = effect(() => {
-          // Force dependency tracking by accessing all state signals
-          // This makes the effect re-run when any signal changes
-          for (const key in this._state) {
-            if (this._state[key] && typeof this._state[key].value !== 'undefined') {
-              // Just access the signal's value to track the dependency
-              void this._state[key].value;
-            }
+        // 1. Resume State from SSR
+        const stateScript = document.querySelector(`script[data-component-state="${instanceId}"]`);
+        const initialState = stateScript ? JSON.parse(stateScript.textContent) : {};
+        
+        const stateDef = definition.state ? definition.state({}) : {};
+        const stateProxy = {};
+        
+        // Create signals for all non-computed state
+        Object.keys(stateDef).forEach(key => {
+          if (!stateDef[key]._isComputed) {
+            const initialValue = initialState[key] !== undefined ? initialState[key] : stateDef[key].value;
+            this._state[key] = signal(initialValue);
+            // Return signal directly so reactive dependency tracking works
+            Object.defineProperty(stateProxy, key, { 
+              get: () => this._state[key]
+            });
           }
-          // Now render with the tracked dependencies
-          this._renderView(stateProxy);
         });
         
-        // Store effect for cleanup
-        this._effects.push(renderEffect);
+        // Create computed signals
+        Object.keys(stateDef).forEach(key => {
+          if (stateDef[key]._isComputed) {
+            this._state[key] = computed(() => {
+              try {
+                return stateDef[key]._fn ? stateDef[key]._fn(stateProxy) : undefined;
+              } catch (e) {
+                this._handleError(e, `computed '${key}'`);
+                return undefined;
+              }
+            });
+          }
+        });
+        
+        // 2. Instantiate Actions
+        if (definition.actions) {
+          const originalActions = definition.actions(this);
+          this._actions = {};
+          
+          // Wrap actions to batch state changes
+          for (const actionName in originalActions) {
+            const action = originalActions[actionName];
+            this._actions[actionName] = (e) => {
+              try {
+                batch(() => {
+                  action.call(originalActions, e);
+                });
+              } catch (err) {
+                this._handleError(err, `action '${actionName}'`);
+              }
+            };
+          }
+        }
+        
+        // 3. Setup event delegation (once per component)
+        this._attachEventDelegation();
+        
+        // 4. Render component view and setup reactive updates
+        if (definition.view) {
+          console.log(`[${definition.name}] Rendering view`);
+          
+          // Create a reactive effect that re-renders whenever any state signal changes
+          const renderEffect = effect(() => {
+            // Force dependency tracking by accessing all state signals
+            for (const key in this._state) {
+              if (this._state[key] && typeof this._state[key].value !== 'undefined') {
+                void this._state[key].value;
+              }
+            }
+            // Now render with the tracked dependencies
+            this._renderView(stateProxy);
+          });
+          
+          // Store effect for cleanup
+          this._effects.push(renderEffect);
+        }
+        
+        console.log(`[${definition.name}] ✓ Initialization complete`);
+      } catch (e) {
+        this._handleError(e, 'initialization');
       }
-      
-      // 4. Setup event handlers
-      this._attachEventHandlers();
-      
-      console.log(`[${definition.name}] ✓ Initialization complete`);
     }
 
     _renderView(stateProxy) {
-      // Call the view function with state and actions and update shadow root
       if (!definition.view) return;
       
       try {
@@ -217,74 +286,58 @@ function registerComponent(definition) {
           }
         });
         
-        // Get the rendered HTML from the view function
+        // Get the rendered template from the view function
         const result = definition.view({ state: stateForView, actions: this._actions });
-        const html = result.toString ? result.toString() : String(result);
         
-        // Update the shadow root with the new HTML (preserves event listeners)
-        if (this.shadowRoot) {
-          // Only replace the main content, not the style tag
-          const styleMatch = this.shadowRoot.innerHTML.match(/<style[^>]*>[\s\S]*?<\/style>/);
-          const styleContent = styleMatch ? styleMatch[0] : '';
+        if (!this.shadowRoot) return;
+        
+        // Get or create the main content container (separate from styles)
+        let contentContainer = this.shadowRoot.querySelector('[data-content-root]');
+        if (!contentContainer) {
+          contentContainer = document.createElement('div');
+          contentContainer.setAttribute('data-content-root', '');
           
-          // Extract just the view content without style
-          const viewContent = html.replace(/<style[^>]*>[\s\S]*?<\/style>/g, '');
-          
-          this.shadowRoot.innerHTML = styleContent + viewContent;
+          // Preserve existing style tags
+          const styleTags = Array.from(this.shadowRoot.querySelectorAll('style'));
+          if (styleTags.length > 0) {
+            styleTags[styleTags.length - 1].after(contentContainer);
+          } else {
+            this.shadowRoot.appendChild(contentContainer);
+          }
         }
+        
+        // Clear the content container (but not styles)
+        contentContainer.innerHTML = '';
+        
+        // Use fine-grained rendering
+        this._updateCallback = renderPart(result, contentContainer);
       } catch (e) {
-        console.error(`[${definition.name}] Error rendering view:`, e);
+        this._handleError(e, 'rendering');
       }
     }
 
-    _attachEventHandlers() {
-      console.log(`[${definition.name}] Attaching event handlers`);
+    _attachEventDelegation() {
+      if (!this.shadowRoot || this._eventDelegationAttached) return;
       
-      if (!this.shadowRoot) {
-        setTimeout(() => this._attachEventHandlers(), 10);
-        return;
-      }
+      console.log(`[${definition.name}] Attaching event delegation`);
       
-      // Remove old listeners if re-attaching
-      if (this._eventListeners) {
-        this._eventListeners.forEach(({ target, type, listener }) => {
-          target.removeEventListener(type, listener);
-        });
-        this._eventListeners = [];
-      }
-      
-      // Listen for all common events
       const eventTypes = ['click', 'input', 'keydown', 'change', 'submit', 'focus', 'blur'];
       eventTypes.forEach(type => {
-        const listener = (e) => {
-          const target = e.target.closest('[data-on]');
-          if (!target) return;
-          
-          const eventData = target.dataset.on;
-          if (!eventData) return;
-          
-          // Parse event:action pairs
-          eventData.split(',').forEach(pair => {
-            const [event, actionName] = pair.split(':').map(s => s.trim());
-            
-            if (event === e.type && this._actions[actionName]) {
-              try {
-                this._actions[actionName](e);
-              } catch (err) {
-                console.error(`[${definition.name}] Error calling ${actionName}:`, err);
-              }
-            }
-          });
-        };
-        
-        this.shadowRoot.addEventListener(type, listener, { passive: ['input', 'scroll'].includes(type) });
-        
-        // Store for cleanup
-        if (!this._eventListeners) this._eventListeners = [];
-        this._eventListeners.push({ target: this.shadowRoot, type, listener });
+        this.shadowRoot.addEventListener(type, this._eventDelegator.listener, { 
+          passive: ['input', 'scroll'].includes(type) 
+        });
       });
       
-      console.log(`[${definition.name}] ✓ Event handlers ready`);
+      this._eventDelegationAttached = true;
+      console.log(`[${definition.name}] ✓ Event delegation ready`);
+    }
+
+    _handleError(error, context) {
+      if (this._errorBoundary) {
+        this._errorBoundary.catch(error, `${definition.name}.${context}`);
+      } else {
+        console.error(`[${definition.name}] Error in ${context}:`, error);
+      }
     }
   }
 
