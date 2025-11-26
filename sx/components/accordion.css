@@ -1,0 +1,49 @@
+/* OKLCH Design System - Accordion */
+.accordion {
+  border: 1px solid var(--border);
+  border-radius: calc(var(--u) * 2);
+  overflow: hidden;
+}
+
+.accordion__item {
+  border-bottom: 1px solid var(--border);
+}
+
+.accordion__item:last-child {
+  border-bottom: none;
+}
+
+.accordion__header {
+  width: 100%;
+  padding: var(--s-md);
+  background: var(--surface);
+  border: none;
+  text-align: left;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--fs-md);
+}
+
+.accordion__header::after {
+  content: "▸";
+  transition: transform 0.2s;
+}
+
+.accordion__item--active .accordion__header::after {
+  transform: rotate(90deg);
+}
+
+.accordion__content {
+  padding: 0 var(--s-md);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s, padding 0.3s;
+}
+
+.accordion__item--active .accordion__content {
+  padding: var(--s-md);
+  max-height: 20rem;
+}

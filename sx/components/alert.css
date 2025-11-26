@@ -1,0 +1,46 @@
+/* OKLCH Design System - Alerts */
+.alert {
+  padding: var(--s-md);
+  border-radius: calc(var(--u) * 2);
+  border-left: 4px solid;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.alert header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--s-sm);
+}
+
+.alert header > div {
+  font-weight: 600;
+  font-size: var(--fs-md);
+}
+
+.alert > div {
+  color: var(--text-alt);
+  line-height: 1.5;
+  font-size: var(--fs-sm);
+}
+
+.alert.info {
+  border-left-color: var(--info);
+  background: oklch(from var(--info) calc(l + 0.3) calc(c * 0.3) h);
+}
+
+.alert.success {
+  border-left-color: var(--success);
+  background: oklch(from var(--success) calc(l + 0.3) calc(c * 0.3) h);
+}
+
+.alert.warning {
+  border-left-color: var(--warning);
+  background: oklch(from var(--warning) calc(l + 0.25) calc(c * 0.3) h);
+}
+
+.alert.error {
+  border-left-color: var(--error);
+  background: oklch(from var(--error) calc(l + 0.3) calc(c * 0.3) h);
+}

@@ -1,0 +1,54 @@
+/* OKLCH Design System - Grid */
+.container {
+  max-width: 90rem;
+  margin: 0 auto;
+  padding: var(--s-xl);
+}
+
+/* Grid Systems */
+.grid {
+  display: grid;
+  gap: var(--s-lg);
+}
+
+.grid-2 {
+  grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+}
+
+.grid-compact {
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+}
+
+.grid-dense {
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+}
+
+/* Stack & Cluster Layout Primitives */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-md);
+}
+
+.stack-tight {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-sm);
+}
+
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-sm);
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: var(--s-md);
+  }
+
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}

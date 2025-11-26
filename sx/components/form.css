@@ -1,0 +1,27 @@
+/* OKLCH Design System - Forms */
+.form-group {
+  margin-bottom: var(--s-md);
+}
+
+.form-label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: var(--s-sm);
+  color: var(--text);
+  font-size: var(--fs-sm);
+}
+
+.form-input {
+  width: 100%;
+  padding: var(--s-md);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--u) * 2);
+  font-size: var(--fs-md);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
