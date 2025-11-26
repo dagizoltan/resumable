@@ -1,22 +1,24 @@
 /* OKLCH Design System - Accordion */
 .accordion {
-  border: 1px solid var(--border);
-  border-radius: calc(var(--u) * 2);
+  border-radius: calc(var(--u) * 3);
   overflow: hidden;
+  box-shadow: var(--shadow-1);
+  border: 1px solid oklch(from var(--border) l c h / 0.2);
 }
 
 .accordion__item {
-  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  backdrop-filter: blur(10px);
 }
 
-.accordion__item:last-child {
-  border-bottom: none;
+.accordion__item + .accordion__item {
+  border-top: 1px solid oklch(from var(--border) l c h / 0.2);
 }
 
 .accordion__header {
   width: 100%;
   padding: var(--s-md);
-  background: var(--surface);
+  background: transparent;
   border: none;
   text-align: left;
   font-weight: 600;
@@ -25,6 +27,7 @@
   justify-content: space-between;
   align-items: center;
   font-size: var(--fs-md);
+  color: var(--text);
 }
 
 .accordion__header::after {

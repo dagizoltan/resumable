@@ -18,9 +18,18 @@
   padding: 0;
 }
 
+.list--modern {
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+  border-radius: calc(var(--u) * 3);
+  overflow: hidden;
+  box-shadow: var(--shadow-1);
+  border: 1px solid oklch(from var(--border) l c h / 0.2);
+}
+
 .list--modern li {
   padding: var(--s-md) var(--s-lg);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid oklch(from var(--border) l c h / 0.2);
   display: flex;
   align-items: center;
   gap: var(--s-md);

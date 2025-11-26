@@ -1,11 +1,11 @@
 /* OKLCH Design System - Cards */
 .card {
-  background: oklch(from var(--surface) l c h / 0.5);
-  backdrop-filter: blur(10px);
+  background: var(--surface);
+  backdrop-filter: blur(20px);
   border: 1px solid oklch(from var(--border) l c h / 0.2);
-  border-radius: calc(var(--u) * 2);
+  border-radius: calc(var(--u) * 3);
   padding: var(--s-lg);
-  box-shadow: 0 4px 6px oklch(0% 0 0 / 0.1);
+  box-shadow: var(--shadow-2);
 }
 
 .card.compact {
@@ -14,4 +14,14 @@
 
 .card.spacious {
   padding: var(--s-xl);
+}
+
+.color-swatch {
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--s-sm);
+    color: white;
+    font-weight: bold;
 }
