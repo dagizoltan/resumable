@@ -1,0 +1,42 @@
+/* OKLCH Design System - Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: oklch(0% 0 0 / 0.5);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s-xl);
+}
+
+.modal--active {
+  display: flex;
+}
+
+.modal__content {
+  background: var(--surface);
+  border-radius: calc(var(--u) * 2);
+  padding: var(--s-xl);
+  max-width: 40rem;
+  width: 100%;
+  border: 1px solid var(--border);
+}
+
+.modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--s-lg);
+}
+
+.modal__close {
+  background: none;
+  border: none;
+  font-size: var(--fs-3xl);
+  cursor: pointer;
+  color: var(--text-alt);
+}

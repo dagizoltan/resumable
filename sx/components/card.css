@@ -1,0 +1,17 @@
+/* OKLCH Design System - Cards */
+.card {
+  background: oklch(from var(--surface) l c h / 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid oklch(from var(--border) l c h / 0.2);
+  border-radius: calc(var(--u) * 2);
+  padding: var(--s-lg);
+  box-shadow: 0 4px 6px oklch(0% 0 0 / 0.1);
+}
+
+.card.compact {
+  padding: var(--s-md);
+}
+
+.card.spacious {
+  padding: var(--s-xl);
+}

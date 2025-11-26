@@ -1,0 +1,27 @@
+/* OKLCH Design System - Tooltip */
+[data-tooltip] {
+  position: relative;
+}
+
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: var(--s-sm);
+  background: var(--neutral-800);
+  color: var(--neutral-50);
+  padding: var(--s-sm) var(--s-md);
+  border-radius: var(--s-xs);
+  font-size: var(--fs-sm);
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+}
+
+[data-tooltip]:hover::after {
+  opacity: 1;
+  visibility: visible;
+}

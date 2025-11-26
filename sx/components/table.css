@@ -1,0 +1,21 @@
+/* OKLCH Design System - Table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: var(--s-md);
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.table th {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.table tbody tr:hover {
+  background: var(--bg-alt);
+}

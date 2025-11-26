@@ -1,0 +1,83 @@
+/* OKLCH Design System - Typography */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  font-size: var(--fs-md);
+  line-height: var(--r);
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.3s, color 0.3s;
+}
+
+h1, .h1 {
+  font-size: var(--fs-6xl);
+  font-weight: 700;
+  margin-bottom: var(--s-md);
+}
+
+h2, .h2 {
+  font-size: var(--fs-5xl);
+  font-weight: 700;
+  margin-bottom: var(--s-md);
+}
+
+h3, .h3 {
+  font-size: var(--fs-4xl);
+  font-weight: 700;
+  margin-bottom: var(--s-md);
+}
+
+h4, .h4 {
+  font-size: var(--fs-3xl);
+  font-weight: 700;
+  margin-bottom: var(--s-md);
+}
+
+h5, .h5 {
+  font-size: var(--fs-2xl);
+  font-weight: 700;
+  margin-bottom: var(--s-md);
+}
+
+h6, .h6 {
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  margin-bottom: var(--s-md);
+}
+
+p, .p {
+  color: var(--text-muted);
+  font-size: var(--fs-lg);
+  margin-bottom: var(--s-md);
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+main > header h1 {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body > header {
+  background: oklch(from var(--surface) l c h / 0.5);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid oklch(from var(--border) l c h / 0.2);
+  padding: var(--s-md) var(--s-xl);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}

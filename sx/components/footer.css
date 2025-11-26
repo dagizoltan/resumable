@@ -1,0 +1,16 @@
+/* OKLCH Design System - Footer */
+.site-footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  margin-top: var(--s-2xl);
+  padding: var(--s-xl) 0;
+}
+
+.site-footer-content {
+  max-width: 90rem;
+  margin: 0 auto;
+  padding: 0 var(--s-xl);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--s-xl);
+}
