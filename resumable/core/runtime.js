@@ -42,31 +42,22 @@ export function errorBoundary(component, errorHandler) {
 export function initResumableApp(componentFactories = {}) {
   console.log('initResumableApp: Registering', Object.keys(componentFactories).length, 'component(s)');
   
-  const registeredDefinitions = {};
-  
   // Register all components first
-  for (const [name, factory] of Object.entries(componentFactories)) {
+  for (const [name, getFactory] of Object.entries(componentFactories)) {
     try {
       console.log(`Registering component factory: ${name}`);
-      // Call the factory to get the component definition (factory function)
-      const componentDef = factory();
+      // Call the wrapper to get the component factory function
+      const componentFactory = getFactory();
       
-      // If it's a factory function, call it with no props to get the definition data
-      let definition;
-      if (typeof componentDef === 'function') {
-        // It's a factory function, call it to get an instance
-        const instance = componentDef({});
-        definition = { name: instance.name, ...componentDef };
-        registeredDefinitions[name] = componentDef;
-      } else {
-        // It's already a definition object
-        definition = componentDef;
-        registeredDefinitions[name] = componentDef;
+      // componentFactory should be a function that creates component instances
+      if (typeof componentFactory !== 'function') {
+        throw new Error(`Expected factory function for ${name}, got ${typeof componentFactory}`);
       }
       
-      if (!customElements.get(definition.name || name)) {
-        registerComponent(definition.name || name, componentDef);
-        console.log(`✓ Component '${definition.name || name}' registered`);
+      // Register the component with the element name
+      if (!customElements.get(name)) {
+        registerComponent(name, componentFactory);
+        console.log(`✓ Component '${name}' registered`);
       }
     } catch (e) {
       console.error(`Failed to register component ${name}:`, e);
