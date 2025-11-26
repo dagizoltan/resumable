@@ -42,16 +42,31 @@ export function errorBoundary(component, errorHandler) {
 export function initResumableApp(componentFactories = {}) {
   console.log('initResumableApp: Registering', Object.keys(componentFactories).length, 'component(s)');
   
+  const registeredDefinitions = {};
+  
   // Register all components first
   for (const [name, factory] of Object.entries(componentFactories)) {
     try {
       console.log(`Registering component factory: ${name}`);
-      const instance = factory();
-      const definition = instance._definition;
+      // Call the factory to get the component definition (factory function)
+      const componentDef = factory();
       
-      if (!customElements.get(definition.name)) {
-        registerComponent(definition);
-        console.log(`✓ Component '${definition.name}' registered`);
+      // If it's a factory function, call it with no props to get the definition data
+      let definition;
+      if (typeof componentDef === 'function') {
+        // It's a factory function, call it to get an instance
+        const instance = componentDef({});
+        definition = { name: instance.name, ...componentDef };
+        registeredDefinitions[name] = componentDef;
+      } else {
+        // It's already a definition object
+        definition = componentDef;
+        registeredDefinitions[name] = componentDef;
+      }
+      
+      if (!customElements.get(definition.name || name)) {
+        registerComponent(definition.name || name, componentDef);
+        console.log(`✓ Component '${definition.name || name}' registered`);
       }
     } catch (e) {
       console.error(`Failed to register component ${name}:`, e);
@@ -86,7 +101,7 @@ export function initResumableApp(componentFactories = {}) {
   console.log('✓ App initialization complete');
 }
 
-function registerComponent(definition) {
+function registerComponent(componentName, componentFactory) {
   class ResumableComponent extends HTMLElement {
     constructor() {
       super();
@@ -95,10 +110,12 @@ function registerComponent(definition) {
       this._effects = [];
       this._updateCallback = null;
       this._eventDelegator = this._createEventDelegator();
+      // Store the factory for later use
+      this._componentFactory = componentFactory;
     }
 
     connectedCallback() {
-      console.log(`[${definition.name}] connectedCallback`);
+      console.log(`[${componentName}] connectedCallback`);
       if (this._initialized) return;
       this._initialized = true;
       
@@ -107,7 +124,7 @@ function registerComponent(definition) {
       
       // Create shadow root if it doesn't exist (for SSR-rendered content)
       if (!this.shadowRoot) {
-        console.log(`[${definition.name}] Creating shadow root`);
+        console.log(`[${componentName}] Creating shadow root`);
         this.attachShadow({ mode: 'open' });
         
         // Get the SSR content
@@ -119,9 +136,9 @@ function registerComponent(definition) {
               throw new Error('Invalid SSR data: missing content property');
             }
             this.shadowRoot.innerHTML = ssrData.content;
-            console.log(`[${definition.name}] SSR content loaded`);
+            console.log(`[${componentName}] SSR content loaded`);
           } catch (e) {
-            console.error(`[${definition.name}] Error parsing SSR data:`, e);
+            console.error(`[${componentName}] Error parsing SSR data:`, e);
             this.shadowRoot.innerHTML = '<div style="color: red; padding: 1rem;">Error loading component</div>';
           }
         }
@@ -132,7 +149,7 @@ function registerComponent(definition) {
     }
 
     disconnectedCallback() {
-      console.log(`[${definition.name}] disconnectedCallback`);
+      console.log(`[${componentName}] disconnectedCallback`);
       this._cleanup();
     }
 
@@ -189,16 +206,22 @@ function registerComponent(definition) {
 
     _init() {
       try {
-        console.log(`[${definition.name}] Initializing state and actions`);
+        console.log(`[${componentName}] Initializing state and actions`);
         
         // Get instance ID from data attribute (used for SSR data lookup with multiple instances)
         const instanceId = this.dataset.instanceId || this.dataset.componentName;
+        
+        // Get initial props from data attributes or use empty object
+        const initialProps = {};
+        
+        // Create a component instance to get state, actions, and view
+        const componentInstance = this._componentFactory(initialProps);
         
         // 1. Resume State from SSR
         const stateScript = document.querySelector(`script[data-component-state="${instanceId}"]`);
         const initialState = stateScript ? JSON.parse(stateScript.textContent) : {};
         
-        const stateDef = definition.state ? definition.state({}) : {};
+        const stateDef = componentInstance.state ? componentInstance.state : {};
         const stateProxy = {};
         
         // Create signals for all non-computed state
@@ -228,8 +251,8 @@ function registerComponent(definition) {
         });
         
         // 2. Instantiate Actions
-        if (definition.actions) {
-          const originalActions = definition.actions(this);
+        if (componentInstance.actions) {
+          const originalActions = componentInstance.actions(this);
           this._actions = {};
           
           // Wrap actions to batch state changes
@@ -254,8 +277,12 @@ function registerComponent(definition) {
         this._attachEventHandlers();
         
         // 5. Render component view and setup reactive updates
-        if (definition.view) {
-          console.log(`[${definition.name}] Rendering view`);
+        if (componentInstance.view) {
+          console.log(`[${componentName}] Rendering view`);
+          
+          // Store componentInstance in closure for the effect
+          const ci = componentInstance;
+          const sp = stateProxy;
           
           // Create a reactive effect that re-renders whenever any state signal changes
           const renderEffect = effect(() => {
@@ -266,21 +293,21 @@ function registerComponent(definition) {
               }
             }
             // Now render with the tracked dependencies
-            this._renderView(stateProxy);
+            this._renderView(sp, ci);
           });
           
           // Store effect for cleanup
           this._effects.push(renderEffect);
         }
         
-        console.log(`[${definition.name}] ✓ Initialization complete`);
+        console.log(`[${componentName}] ✓ Initialization complete`);
       } catch (e) {
         this._handleError(e, 'initialization');
       }
     }
 
-    _renderView(stateProxy) {
-      if (!definition.view) return;
+    _renderView(stateProxy, componentInstance) {
+      if (!componentInstance.view) return;
       
       try {
         // Create a state object that unwraps signals to their values for the view
@@ -296,7 +323,7 @@ function registerComponent(definition) {
         });
         
         // Get the rendered template from the view function
-        const result = definition.view({ state: stateForView, actions: this._actions });
+        const result = componentInstance.view({ state: stateForView, actions: this._actions });
         
         if (!this.shadowRoot) return;
         
@@ -360,13 +387,25 @@ function registerComponent(definition) {
 
     _handleError(error, context) {
       if (this._errorBoundary) {
-        this._errorBoundary.catch(error, `${definition.name}.${context}`);
+        this._errorBoundary.catch(error, `${componentName}.${context}`);
       } else {
-        console.error(`[${definition.name}] Error in ${context}:`, error);
+        console.error(`[${componentName}] Error in ${context}:`, error);
       }
     }
   }
 
   // Register the custom element
-  customElements.define(definition.name, ResumableComponent);
+  customElements.define(componentName, ResumableComponent);
+  
+  // Add default styling for custom elements
+  if (!document.querySelector('style[data-resumable-defaults]')) {
+    const style = document.createElement('style');
+    style.setAttribute('data-resumable-defaults', '');
+    style.textContent = `
+      [data-component-name] {
+        display: block;
+      }
+    `;
+    document.head.appendChild(style);
+  }
 }
