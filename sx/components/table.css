@@ -1,21 +1,82 @@
 /* OKLCH Design System - Table */
 .table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid oklch(from var(--border) l c h / 0.2);
+  border-radius: calc(var(--u) * 3);
+  overflow: hidden;
+  box-shadow: var(--shadow-1);
 }
 
 .table th,
 .table td {
   padding: var(--s-md);
   text-align: left;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid oklch(from var(--border) l c h / 0.2);
 }
 
 .table th {
+  background: var(--surface-alt);
+  backdrop-filter: blur(10px);
   font-weight: 600;
   color: var(--text);
 }
 
+.table tbody tr {
+  background: var(--surface);
+}
+
 .table tbody tr:hover {
-  background: var(--bg-alt);
+  background: var(--surface-alt);
+}
+
+/* Dense Table */
+.table--dense th,
+.table--dense td {
+    padding: var(--s-sm);
+}
+
+.table .button--sm {
+    padding: var(--s-xs) var(--s-sm);
+    font-size: 0.875em;
+}
+
+/* Expandable Table */
+.table-row--expandable {
+    cursor: pointer;
+}
+
+.expand-btn {
+    background: transparent;
+    border: none;
+    width: 24px;
+    height: 24px;
+    position: relative;
+    cursor: pointer;
+}
+
+.expand-btn::before,
+.expand-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 12px;
+    height: 2px;
+    background-color: var(--text);
+    transition: transform 0.3s ease;
+    transform-origin: center;
+}
+
+.expand-btn::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.table-row--expandable.expanded .expand-btn::after {
+    transform: translate(-50%, -50%) rotate(180deg);
+}
+
+.table-row--expanded-content {
+    display: none;
 }

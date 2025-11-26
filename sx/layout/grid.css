@@ -5,6 +5,16 @@
   padding: var(--s-xl);
 }
 
+/* Add vertical rhythm to main content blocks */
+.container > * + * {
+  margin-top: var(--s-xl);
+}
+
+/* Add spacing between alerts */
+.alert + .alert {
+    margin-top: var(--s-md);
+}
+
 /* Grid Systems */
 .grid {
   display: grid;

@@ -7,15 +7,23 @@
     <link rel="stylesheet" href="sx/root.css">
 </head>
 <body data-theme="light" data-harmony="complementary">
-    <header>
-        <nav>
-            <div>DesignSystem</div>
-            <div>
-                <a href="#" class="active">Components</a>
-                <a href="#">Documentation</a>
-                <button id="themeToggle">Toggle Theme</button>
-            </div>
-        </nav>
+    <header class="site-header">
+        <div class="container">
+            <nav class="main-nav">
+                <a href="#" class="logo">DesignSystem</a>
+                <div class="nav-links">
+                    <a href="#" class="active">Components</a>
+                    <a href="#">Documentation</a>
+                    <a href="#">About</a>
+                </div>
+                <button id="themeToggle" class="theme-toggle">Toggle Theme</button>
+                <button class="hamburger-menu" id="hamburgerMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
     </header>
 
     <main class="container">
@@ -23,66 +31,6 @@
             <h1>OKLCH Design System</h1>
             <p>Semantic component system with OKLCH color space</p>
         </header>
-
-        <section class="grid grid-2">
-            <article class="card">
-                <h2>Brand Color A</h2>
-                <div>
-                    <h3>Primary Brand</h3>
-                    <div>
-                        <div>
-                            <span>Lightness</span>
-                            <span id="la-val">60%</span>
-                        </div>
-                        <input type="range" min="0" max="100" value="60" id="la" class="form-input">
-                    </div>
-                    <div>
-                        <div>
-                            <span>Chroma</span>
-                            <span id="ca-val">0.15</span>
-                        </div>
-                        <input type="range" min="0" max="0.3" step="0.01" value="0.15" id="ca" class="form-input">
-                    </div>
-                    <div>
-                        <div>
-                            <span>Hue</span>
-                            <span id="ha-val">250°</span>
-                        </div>
-                        <input type="range" min="0" max="360" value="250" id="ha" class="form-input">
-                    </div>
-                    <div id="prev-a"></div>
-                </div>
-            </article>
-
-            <article class="card">
-                <h2>Brand Color B</h2>
-                <div>
-                    <h3>Accent Brand</h3>
-                    <div>
-                        <div>
-                            <span>Lightness</span>
-                            <span id="lb-val">70%</span>
-                        </div>
-                        <input type="range" min="0" max="100" value="70" id="lb" class="form-input">
-                    </div>
-                    <div>
-                        <div>
-                            <span>Chroma</span>
-                            <span id="cb-val">0.12</span>
-                        </div>
-                        <input type="range" min="0" max="0.3" step="0.01" value="0.12" id="cb" class="form-input">
-                    </div>
-                    <div>
-                        <div>
-                            <span>Hue</span>
-                            <span id="hb-val">30°</span>
-                        </div>
-                        <input type="range" min="0" max="360" value="30" id="hb" class="form-input">
-                    </div>
-                    <div id="prev-b"></div>
-                </div>
-            </article>
-        </section>
 
         <article class="card">
             <h2>Color Harmony</h2>
@@ -101,12 +49,30 @@
 
         <article class="card">
             <h2>Color Palette</h2>
-            <div>
-                <div style="background: var(--primary); color: white;">
-                    <div>Primary</div>
-                    <div id="val-pri">oklch(...)</div>
-                </div>
-                <!-- More color swatches -->
+            <div class="palette-grid">
+                <div class="palette-swatch" style="background: var(--primary);"><span class="palette-swatch__name">Primary</span></div>
+                <div class="palette-swatch" style="background: var(--secondary);"><span class="palette-swatch__name">Secondary</span></div>
+                <div class="palette-swatch" style="background: var(--accent);"><span class="palette-swatch__name">Accent</span></div>
+            </div>
+            <h3>Semantic Colors</h3>
+            <div class="palette-grid">
+                <div class="palette-swatch" style="background: var(--info);"><span class="palette-swatch__name">Info</span></div>
+                <div class="palette-swatch" style="background: var(--success);"><span class="palette-swatch__name">Success</span></div>
+                <div class="palette-swatch" style="background: var(--warning);"><span class="palette-swatch__name">Warning</span></div>
+                <div class="palette-swatch" style="background: var(--error);"><span class="palette-swatch__name">Error</span></div>
+            </div>
+            <h3>Neutral Colors</h3>
+            <div class="palette-grid">
+                <div class="palette-swatch palette-swatch--dark-text" style="background: var(--neutral-50);"><span class="palette-swatch__name">50</span></div>
+                <div class="palette-swatch palette-swatch--dark-text" style="background: var(--neutral-100);"><span class="palette-swatch__name">100</span></div>
+                <div class="palette-swatch palette-swatch--dark-text" style="background: var(--neutral-200);"><span class="palette-swatch__name">200</span></div>
+                <div class="palette-swatch palette-swatch--dark-text" style="background: var(--neutral-300);"><span class="palette-swatch__name">300</span></div>
+                <div class="palette-swatch palette-swatch--dark-text" style="background: var(--neutral-400);"><span class="palette-swatch__name">400</span></div>
+                <div class="palette-swatch" style="background: var(--neutral-500);"><span class="palette-swatch__name">500</span></div>
+                <div class="palette-swatch" style="background: var(--neutral-600);"><span class="palette-swatch__name">600</span></div>
+                <div class="palette-swatch" style="background: var(--neutral-700);"><span class="palette-swatch__name">700</span></div>
+                <div class="palette-swatch" style="background: var(--neutral-800);"><span class="palette-swatch__name">800</span></div>
+                <div class="palette-swatch" style="background: var(--neutral-900);"><span class="palette-swatch__name">900</span></div>
             </div>
         </article>
 
@@ -134,6 +100,18 @@
                         <div>Success</div>
                     </header>
                     <div>Your changes were saved</div>
+                </div>
+                <div class="alert warning">
+                    <header>
+                        <div>Warning</div>
+                    </header>
+                    <div>Your session is about to expire</div>
+                </div>
+                <div class="alert error">
+                    <header>
+                        <div>Error</div>
+                    </header>
+                    <div>Failed to save your changes</div>
                 </div>
             </div>
         </article>
@@ -210,33 +188,91 @@
 
         <article class="card">
             <h2>Data Table</h2>
-            <table class="table">
+            <table class="table table--dense">
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>Title</th>
-                        <th>Email</th>
+                        <th>Status</th>
                         <th>Role</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>John Doe</td>
                         <td>CEO</td>
-                        <td>john.doe@example.com</td>
+                        <td><span class="badge badge--success">Active</span></td>
                         <td>Admin</td>
+                        <td><button class="button--sm">Edit</button></td>
                     </tr>
                     <tr>
                         <td>Jane Smith</td>
                         <td>CTO</td>
-                        <td>jane.smith@example.com</td>
+                        <td><span class="badge badge--success">Active</span></td>
                         <td>Owner</td>
+                        <td><button class="button--sm">Edit</button></td>
                     </tr>
                     <tr>
                         <td>Peter Jones</td>
                         <td>Developer</td>
-                        <td>peter.jones@example.com</td>
+                        <td><span class="badge badge--warning">Inactive</span></td>
                         <td>Member</td>
+                        <td><button class="button--sm">Edit</button></td>
+                    </tr>
+                     <tr>
+                        <td>Alice Johnson</td>
+                        <td>Designer</td>
+                        <td><span class="badge badge--success">Active</span></td>
+                        <td>Member</td>
+                        <td><button class="button--sm">Edit</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </article>
+
+        <article class="card">
+            <h2>Expandable Table</h2>
+            <table class="table" data-expandable>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Project Name</th>
+                        <th>Team</th>
+                        <th>Last Update</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="table-row--expandable">
+                        <td><button class="expand-btn"></button></td>
+                        <td>Project Phoenix</td>
+                        <td>Avengers</td>
+                        <td>2025-11-26</td>
+                        <td><span class="badge badge--info">In Progress</span></td>
+                    </tr>
+                    <tr class="table-row--expanded-content">
+                        <td colspan="5">
+                            <div>
+                                <strong>Project Details:</strong>
+                                <p>This is a detailed description of Project Phoenix, which is currently in progress. More details can go here.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="table-row--expandable">
+                        <td><button class="expand-btn"></button></td>
+                        <td>Project Titan</td>
+                        <td>Justice League</td>
+                        <td>2025-11-25</td>
+                        <td><span class="badge badge--success">Completed</span></td>
+                    </tr>
+                    <tr class="table-row--expanded-content">
+                        <td colspan="5">
+                            <div>
+                                <strong>Project Details:</strong>
+                                <p>This is a detailed description of Project Titan, which has been completed. More details can go here.</p>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -261,6 +297,10 @@
                 <div class="form-group">
                     <label class="form-label" for="password">Password</label>
                     <input type="password" id="password" class="form-input" placeholder="Enter your password">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="date">Appointment Date</label>
+                    <input type="date" id="date" class="form-input">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Options</label>
@@ -324,97 +364,50 @@
     </div>
 
     <footer class="site-footer">
-        <div class="site-footer-content">
-            <div>
-                <h3>Column 1</h3>
-                <ul>
-                    <li><a href="#">Link 1</a></li>
-                    <li><a href="#">Link 2</a></li>
-                    <li><a href="#">Link 3</a></li>
-                </ul>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>DesignSystem</h3>
+                    <p>A complete design system for modern web applications.</p>
+                </div>
+                <div class="footer-links">
+                    <div>
+                        <h4>Products</h4>
+                        <ul>
+                            <li><a href="#">Features</a></li>
+                            <li><a href="#">Pricing</a></li>
+                            <li><a href="#">Integrations</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="#">Docs</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Community</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Company</h4>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Careers</a></li>
+                            <li><a href="#">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div>
-                <h3>Column 2</h3>
-                <ul>
-                    <li><a href="#">Link 4</a></li>
-                    <li><a href="#">Link 5</a></li>
-                    <li><a href="#">Link 6</a></li>
-                </ul>
-            </div>
-            <div>
-                <h3>Column 3</h3>
-                <ul>
-                    <li><a href="#">Link 7</a></li>
-                    <li><a href="#">Link 8</a></li>
-                    <li><a href="#">Link 9</a></li>
-                </ul>
+            <div class="footer-bottom">
+                <p>&copy; 2025 DesignSystem. All rights reserved.</p>
+                <div class="footer-social">
+                    <a href="#">X</a>
+                    <a href="#">LinkedIn</a>
+                    <a href="#">GitHub</a>
+                </div>
             </div>
         </div>
     </footer>
 
-    <script>
-        // Accordion functionality
-        const accordionItems = document.querySelectorAll('.accordion__item');
-        accordionItems.forEach(item => {
-            const header = item.querySelector('.accordion__header');
-            header.addEventListener('click', () => {
-                item.classList.toggle('accordion__item--active');
-            });
-        });
-
-        // Dropdown functionality
-        const dropdowns = document.querySelectorAll('.dropdown');
-        dropdowns.forEach(dropdown => {
-            const toggle = dropdown.querySelector('.dropdown__toggle');
-            toggle.addEventListener('click', () => {
-                dropdown.classList.toggle('dropdown--active');
-            });
-        });
-
-        // Modal functionality
-        const openModalButtons = document.querySelectorAll('[data-modal-open]');
-        const closeModalButtons = document.querySelectorAll('[data-modal-close]');
-
-        openModalButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const modal = document.querySelector('#' + button.dataset.modalOpen);
-                openModal(modal);
-            });
-        });
-
-        closeModalButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const modal = button.closest('.modal');
-                closeModal(modal);
-            });
-        });
-
-        function openModal(modal) {
-            if (modal == null) return;
-            modal.classList.add('modal--active');
-        }
-
-        function closeModal(modal) {
-            if (modal == null) return;
-            modal.classList.remove('modal--active');
-        }
-
-        // Tabs functionality
-        const tabs = document.querySelectorAll('.tab');
-        const tabPanes = document.querySelectorAll('.tab-pane');
-
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const target = document.querySelector('#' + tab.dataset.tab);
-
-                tabs.forEach(t => t.classList.remove('tab--active'));
-                tab.classList.add('tab--active');
-
-                tabPanes.forEach(pane => pane.classList.remove('tab-pane--active'));
-                target.classList.add('tab-pane--active');
-            });
-        });
-        // Theme toggle, color controls, etc.
-    </script>
+    <script src="sx/global.js"></script>
 </body>
 </html>
