@@ -3,7 +3,9 @@
 @import url('typography/typo.css');
 @import url('layout/grid.css');
 @import url('components/button.css');
+@import url('components/button-group.css');
 @import url('components/card.css');
+@import url('components/carousel.css');
 @import url('components/alert.css');
 @import url('components/navigation.css');
 @import url('components/form.css');
@@ -16,3 +18,4 @@
 @import url('components/tabs.css');
 @import url('components/table.css');
 @import url('components/tooltip.css');
+@import url('components/palette.css');

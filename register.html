@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - OKLCH Design System</title>
+    <link rel="stylesheet" href="sx/root.css">
+    <style>
+        body {
+            display: grid;
+            place-items: center;
+            min-height: 100vh;
+            background: var(--bg);
+        }
+        .register-card {
+            width: 100%;
+            max-width: 25rem;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <main>
+        <article class="card register-card">
+            <div class="card-body">
+                <h2 style="text-align: center;">Create Account</h2>
+                <p style="text-align: center; color: var(--text-muted);">Get started with a new account</p>
+                <form class="stack" style="margin-top: var(--s-xl);">
+                    <div class="form-group">
+                        <label class="form-label" for="name">Full Name</label>
+                        <input type="text" id="name" class="form-input" placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email</label>
+                        <input type="email" id="email" class="form-input" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="password">Password</label>
+                        <input type="password" id="password" class="form-input" placeholder="Create a password">
+                    </div>
+                     <div class="form-group">
+                        <label class="form-label" for="confirm-password">Confirm Password</label>
+                        <input type="password" id="confirm-password" class="form-input" placeholder="Confirm your password">
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" id="terms" class="form-check-input">
+                        <label for="terms" class="form-check-label">I agree to the <a href="#">Terms of Service</a></label>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">Create Account</button>
+                </form>
+            </div>
+            <div class="card-footer" style="text-align: center;">
+                <p>Already have an account? <a href="login.html">Sign In</a></p>
+            </div>
+        </article>
+    </main>
+    <script src="sx/global.js"></script>
+</body>
+</html>

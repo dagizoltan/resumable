@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - OKLCH Design System</title>
+    <link rel="stylesheet" href="sx/root.css">
+    <style>
+        body {
+            display: grid;
+            place-items: center;
+            min-height: 100vh;
+            background: var(--bg);
+        }
+        .login-card {
+            width: 100%;
+            max-width: 25rem;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <main>
+        <article class="card login-card">
+            <div class="card-body">
+                <h2 style="text-align: center;">Welcome Back</h2>
+                <p style="text-align: center; color: var(--text-muted);">Sign in to continue</p>
+                <form class="stack" style="margin-top: var(--s-xl);">
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email</label>
+                        <input type="email" id="email" class="form-input" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="password">Password</label>
+                        <input type="password" id="password" class="form-input" placeholder="Enter your password">
+                    </div>
+                    <div class="cluster" style="justify-content: space-between;">
+                        <div class="form-check">
+                            <input type="checkbox" id="remember" class="form-check-input">
+                            <label for="remember" class="form-check-label">Remember me</label>
+                        </div>
+                        <a href="reset-password.html" style="font-size: var(--fs-sm);">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">Login</button>
+                </form>
+            </div>
+            <div class="card-footer" style="text-align: center;">
+                <p>Don't have an account? <a href="register.html">Sign up</a></p>
+            </div>
+        </article>
+    </main>
+    <script src="sx/global.js"></script>
+</body>
+</html>

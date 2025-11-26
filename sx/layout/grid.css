@@ -5,6 +5,16 @@
   padding: var(--s-xl);
 }
 
+/* Add vertical rhythm to main content blocks */
+.container > * + * {
+  margin-top: var(--s-2xl);
+}
+
+/* Add spacing between alerts */
+.alert + .alert {
+    margin-top: var(--s-md);
+}
+
 /* Grid Systems */
 .grid {
   display: grid;
@@ -21,6 +31,18 @@
 
 .grid-dense {
   grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(clamp(20rem, 100%/2, 25rem), 1fr));
+    gap: var(--s-lg);
+}
+
+@media (min-width: 1200px) {
+    .card-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 /* Stack & Cluster Layout Primitives */
@@ -46,6 +68,10 @@
 @media (max-width: 768px) {
   .container {
     padding: var(--s-md);
+  }
+
+  .container > * + * {
+    margin-top: var(--s-xl);
   }
 
   .grid-2 {
