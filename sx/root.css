@@ -1,0 +1,100 @@
+/* OKLCH Design System - Design Tokens */
+:root {
+  /* Base Units */
+  --u: 0.25rem;
+  --r: 1.618;
+  
+  /* Spacing */
+  --s-xs: calc(var(--u) * 1);
+  --s-sm: calc(var(--u) * 2);
+  --s-md: calc(var(--u) * 4);
+  --s-lg: calc(var(--u) * 6);
+  --s-xl: calc(var(--u) * 8);
+  --s-2xl: calc(var(--u) * 12);
+  --s-3xl: calc(var(--u) * 16);
+  
+  /* Font Sizes */
+  --fs-xs: calc(var(--u) * 3);
+  --fs-sm: calc(var(--u) * 3.5);
+  --fs-md: calc(var(--u) * 4);
+  --fs-lg: calc(var(--u) * 4.5);
+  --fs-xl: calc(var(--u) * 5);
+  --fs-2xl: calc(var(--u) * 6);
+  --fs-3xl: calc(var(--u) * 7);
+  --fs-4xl: calc(var(--u) * 8);
+  --fs-5xl: calc(var(--u) * 9);
+  --fs-6xl: calc(var(--u) * 10);
+  
+  /* Brand Colors */
+  --brand-a: oklch(60% 0.15 250);
+  --brand-b: oklch(70% 0.12 30);
+  
+  /* Primary Palette */
+  --primary: var(--brand-a);
+  --primary-light: oklch(from var(--brand-a) calc(l + 0.2) calc(c * 0.8) h);
+  --primary-dark: oklch(from var(--brand-a) calc(l - 0.2) calc(c * 1.2) h);
+  
+  /* Secondary Palette */
+  --secondary: oklch(from var(--brand-a) calc(l + 0.1) calc(c + 0.05) calc(h + 180));
+  --accent: var(--brand-b);
+  
+  /* Semantic Colors */
+  --info: oklch(65% 0.15 220);
+  --success: oklch(62% 0.18 140);
+  --warning: oklch(75% 0.2 75);
+  --error: oklch(58% 0.22 25);
+  
+  /* Neutral Colors */
+  --neutral-50: oklch(98% 0.005 250);
+  --neutral-100: oklch(95% 0.01 250);
+  --neutral-200: oklch(90% 0.015 250);
+  --neutral-300: oklch(85% 0.02 250);
+  --neutral-400: oklch(70% 0.025 250);
+  --neutral-500: oklch(55% 0.03 250);
+  --neutral-600: oklch(40% 0.035 250);
+  --neutral-700: oklch(30% 0.04 250);
+  --neutral-800: oklch(20% 0.045 250);
+  --neutral-900: oklch(10% 0.05 250);
+  
+  /* Light Theme */
+  --bg: var(--neutral-50);
+  --bg-alt: var(--neutral-100);
+  --surface: oklch(100% 0 0);
+  --text: var(--neutral-900);
+  --text-alt: var(--neutral-600);
+  --text-muted: var(--neutral-500);
+  --border: var(--neutral-300);
+  --border-strong: var(--neutral-400);
+}
+
+[data-theme="dark"] {
+  --bg: var(--neutral-900);
+  --bg-alt: var(--neutral-800);
+  --surface: var(--neutral-800);
+  --text: var(--neutral-50);
+  --text-alt: var(--neutral-300);
+  --text-muted: var(--neutral-400);
+  --border: var(--neutral-700);
+  --border-strong: var(--neutral-600);
+}
+
+/* Color Harmony Systems */
+[data-harmony="triadic"] {
+  --secondary: oklch(from var(--brand-a) calc(l + 0.05) calc(c + 0.1) calc(h + 120));
+  --accent: oklch(from var(--brand-a) calc(l + 0.1) calc(c + 0.1) calc(h + 240));
+}
+
+[data-harmony="analogous"] {
+  --secondary: oklch(from var(--brand-a) calc(l + 0.08) calc(c + 0.05) calc(h - 30));
+  --accent: oklch(from var(--brand-a) calc(l + 0.05) calc(c + 0.08) calc(h + 30));
+}
+
+[data-harmony="split"] {
+  --secondary: oklch(from var(--brand-a) calc(l + 0.1) calc(c + 0.05) calc(h + 150));
+  --accent: oklch(from var(--brand-a) calc(l + 0.05) calc(c + 0.08) calc(h + 210));
+}
+
+[data-harmony="tetradic"] {
+  --secondary: oklch(from var(--brand-a) calc(l + 0.1) calc(c + 0.05) calc(h + 90));
+  --accent: oklch(from var(--brand-a) calc(l + 0.05) calc(c + 0.08) calc(h + 180));
+}

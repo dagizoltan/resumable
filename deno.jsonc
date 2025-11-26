@@ -1,9 +1,0 @@
-{
-  "tasks": {
-    "start": "deno run --allow-net --allow-read --allow-env examples/server.js"
-  },
-  "imports": {
-    "@hono/hono": "jsr:@hono/hono@^4.10.6",
-    "@hono/node-server": "npm:@hono/node-server@^1.19.6"
-  }
-}
