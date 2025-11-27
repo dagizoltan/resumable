@@ -23,7 +23,7 @@
 
 .footer__brand {
     flex: 1;
-    min-width: 12.5rem; /* 200px */
+    min-width: 200px;
 }
 
 .footer__brand h3 {
@@ -34,7 +34,7 @@
 .footer__links {
     flex: 2;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(9.375rem, 1fr)); /* 150px */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: var(--s-xl);
 }
 

@@ -1,69 +1,167 @@
 /* OKLCH Design System - Table */
+.table-container {
+    position: relative;
+    width: 100%;
+    overflow: auto;
+    /* Optional max-height for independent scrolling, but usually handled by parent layout */
+    max-height: 600px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+}
+
 .table {
-  width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0;
+    width: 100%;
+    border-collapse: separate; /* Required for sticky header borders to behave nicely */
+    border-spacing: 0;
+    font-size: var(--fs-sm);
+    letter-spacing: var(--tracking-tight);
 }
 
 .table th,
 .table td {
-  padding: var(--s-md);
-  text-align: left;
-  border-bottom: var(--bw-sm) solid var(--border);
+    padding: var(--s-sm) var(--s-md);
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    transition: background-color var(--transition-fast);
 }
 
-.table th {
-  font-weight: var(--fw-semibold);
-  color: var(--text);
+/* Sticky Header */
+.table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--surface);
+    font-weight: var(--fw-semibold);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-size: var(--fs-xs);
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border-strong);
+    white-space: nowrap;
 }
 
-.table tbody tr:nth-child(even) {
-  background: var(--surface-alt);
+/* Row Hover & Selection */
+.table tbody tr {
+    transition: background-color var(--transition-fast);
 }
 
 .table tbody tr:hover {
-  background: oklch(from var(--primary) l c h / 0.1);
+    background-color: var(--surface-alt);
 }
 
-/* Dense Table */
-.table--dense th,
-.table--dense td {
-    padding: var(--s-sm);
+.table tbody tr.row--selected {
+    background-color: oklch(from var(--primary) l c h / 0.08);
 }
 
-.table .btn--sm {
-    padding: var(--s-xs) var(--s-sm);
-    font-size: 0.875em;
+.table tbody tr:last-child td {
+    border-bottom: none;
 }
 
-/* Expandable Table */
-.table-row--expandable {
+/* Checkbox Column */
+.table__checkbox-col {
+    width: 40px;
+    text-align: center;
+}
+
+/* Custom Checkbox Style */
+.table-checkbox {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--text-muted);
+    border-radius: var(--radius-sm);
     cursor: pointer;
+    display: grid;
+    place-content: center;
+    transition: all var(--transition-fast);
 }
 
-.table-row__expand-btn {
+.table-checkbox::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    transform: scale(0);
+    transition: 0.1s transform ease-in-out;
+    box-shadow: inset 1em 1em white; /* Checkmark color (simplified) */
+    transform-origin: center;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+    background-color: var(--bg);
+}
+
+.table-checkbox:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.table-checkbox:checked::before {
+    transform: scale(1);
+}
+
+.table-checkbox:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+}
+
+
+/* Bulk Actions Floating Bar */
+.bulk-actions-bar {
+    position: fixed;
+    bottom: var(--s-md);
+    left: 50%;
+    transform: translateX(-50%) translateY(200%); /* Hidden by default */
+    background: var(--text); /* Inverse theme */
+    color: var(--bg);
+    padding: var(--s-xs) var(--s-md);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    gap: var(--s-md);
+    box-shadow: var(--shadow-3);
+    z-index: var(--z-floating);
+    transition: transform var(--transition-medium);
+    opacity: 0;
+}
+
+.bulk-actions-bar--visible {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+.bulk-actions-count {
+    font-weight: var(--fw-semibold);
+    font-size: var(--fs-sm);
+    padding-right: var(--s-md);
+    border-right: 1px solid rgba(255,255,255,0.2);
+}
+
+.bulk-actions-btn {
     background: transparent;
     border: none;
-    width: 1.5rem; /* 24px */
-    height: 1.5rem;
+    color: var(--bg);
     cursor: pointer;
-    transition: transform var(--transition-normal);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    padding: var(--s-xs) var(--s-sm);
+    border-radius: var(--radius-md);
+    transition: background-color var(--transition-fast);
 }
 
-.table-row--expanded .table-row__expand-btn {
-    transform: rotate(90deg);
+.bulk-actions-btn:hover {
+    background-color: rgba(255,255,255,0.1);
 }
 
-.table-row--expanded-content {
-    display: none;
+/* Infinite Scroll Loader */
+.table-loader {
+    padding: var(--s-md);
+    text-align: center;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: var(--fs-sm);
+    cursor: pointer;
+    transition: color var(--transition-fast);
 }
 
-.table-row--visible {
-    display: table-row;
-}
-
-.table-row--expanded-content > td {
-    padding: var(--s-lg);
-    background: var(--surface-alt);
-    border-inline-start: var(--bw-lg) solid var(--primary);
+.table-loader:hover {
+    color: var(--primary);
 }
