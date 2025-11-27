@@ -107,6 +107,61 @@ document.addEventListener('click', (e) => {
     }
 });
 
+// Tooltip Functionality
+document.addEventListener('mouseover', (e) => {
+    const trigger = e.target.closest('[data-tooltip]');
+    if (!trigger) return;
+
+    let tooltip = document.getElementById('global-tooltip');
+    if (!tooltip) {
+        tooltip = document.createElement('div');
+        tooltip.id = 'global-tooltip';
+        tooltip.className = 'tooltip';
+        document.body.appendChild(tooltip);
+    }
+
+    tooltip.textContent = trigger.dataset.tooltip;
+    tooltip.classList.add('tooltip--active');
+
+    const rect = trigger.getBoundingClientRect();
+    const tooltipRect = tooltip.getBoundingClientRect();
+
+    // Position above center by default
+    let top = rect.top - tooltipRect.height - 8;
+    let left = rect.left + (rect.width - tooltipRect.width) / 2;
+
+    // Boundary check (simple)
+    if (top < 0) top = rect.bottom + 8; // Flip to bottom
+    if (left < 0) left = 8; // Left edge
+    if (left + tooltipRect.width > window.innerWidth) left = window.innerWidth - tooltipRect.width - 8; // Right edge
+
+    tooltip.style.top = `${top + window.scrollY}px`;
+    tooltip.style.left = `${left + window.scrollX}px`;
+});
+
+document.addEventListener('mouseout', (e) => {
+    const trigger = e.target.closest('[data-tooltip]');
+    if (trigger) {
+        const tooltip = document.getElementById('global-tooltip');
+        if (tooltip) {
+            tooltip.classList.remove('tooltip--active');
+        }
+    }
+});
+
+// Dropdown/Details "Click Outside to Close"
+document.addEventListener('click', (e) => {
+    // Select all open details elements
+    const openDetails = document.querySelectorAll('details[open]');
+
+    openDetails.forEach(details => {
+        // If the click is NOT inside the details element, close it
+        if (!details.contains(e.target)) {
+            details.removeAttribute('open');
+        }
+    });
+});
+
 // Popover functionality
 document.addEventListener('click', e => {
     const popoverToggle = e.target.closest('[data-popover-open]');
