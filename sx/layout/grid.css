@@ -79,19 +79,6 @@
   }
 }
 
-.showcase > .card {
-  margin-bottom: var(--s-3xl);
-}
-
-@media (min-width: 1024px) {
-  .showcase {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--s-2xl);
-    align-items: start;
-  }
-
-  .showcase > .card {
-    margin-bottom: 0;
-  }
+section {
+  padding: var(--s-xl) 0;
 }
