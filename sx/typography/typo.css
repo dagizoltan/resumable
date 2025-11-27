@@ -11,45 +11,45 @@ body {
   line-height: var(--r);
   background: var(--bg);
   color: var(--text);
-  transition: background 0.3s, color 0.3s;
+  transition: background var(--transition-normal), color var(--transition-normal);
 }
 
 h1, .h1 {
   font-size: var(--fs-6xl);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   margin-bottom: var(--s-lg);
   letter-spacing: -0.02em;
 }
 
 h2, .h2 {
   font-size: var(--fs-5xl);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   margin-bottom: var(--s-lg);
   letter-spacing: -0.02em;
 }
 
 h3, .h3 {
   font-size: var(--fs-4xl);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   margin-bottom: var(--s-md);
   letter-spacing: -0.01em;
 }
 
 h4, .h4 {
   font-size: var(--fs-3xl);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   margin-bottom: var(--s-md);
 }
 
 h5, .h5 {
   font-size: var(--fs-2xl);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   margin-bottom: var(--s-sm);
 }
 
 h6, .h6 {
   font-size: var(--fs-xl);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   margin-bottom: var(--s-sm);
 }
 
@@ -78,8 +78,8 @@ main > header h1 {
 
 body > header {
   background: oklch(from var(--surface) l c h / 0.5);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid oklch(from var(--border) l c h / 0.2);
+  backdrop-filter: blur(var(--blur-md));
+  border-bottom: var(--bw-sm) solid oklch(from var(--border) l c h / var(--opacity-border-subtle));
   padding: var(--s-md) var(--s-xl);
   position: sticky;
   top: 0;

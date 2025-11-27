@@ -16,20 +16,17 @@
 .list--modern {
   list-style: none;
   padding: 0;
-}
-
-.list--modern {
   background: var(--surface);
-  backdrop-filter: blur(10px);
-  border-radius: calc(var(--u) * 3);
+  backdrop-filter: blur(var(--blur-md));
+  border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-1);
-  border: 1px solid oklch(from var(--border) l c h / 0.2);
+  border: var(--bw-sm) solid oklch(from var(--border) l c h / var(--opacity-border-subtle));
 }
 
 .list--modern li {
   padding: var(--s-md) var(--s-lg);
-  border-bottom: 1px solid oklch(from var(--border) l c h / 0.2);
+  border-bottom: var(--bw-sm) solid oklch(from var(--border) l c h / var(--opacity-border-subtle));
   display: flex;
   align-items: center;
   gap: var(--s-md);
@@ -44,6 +41,6 @@
   width: var(--s-sm);
   height: var(--s-sm);
   background: var(--primary);
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   flex-shrink: 0;
 }

@@ -1,42 +1,42 @@
 /* OKLCH Design System - Forms */
-.form-group {
+.form__group {
   margin-bottom: var(--s-lg);
 }
 
-.form-label {
+.form__label {
   display: block;
-  font-weight: 500;
+  font-weight: var(--fw-medium);
   margin-bottom: var(--s-sm);
   color: var(--text);
   font-size: var(--fs-sm);
 }
 
-.form-input,
-.form-select {
+.form__input,
+.form__select {
   width: 100%;
   padding: var(--s-md);
-  border: 1px solid var(--border);
-  border-radius: calc(var(--u) * 2);
+  border: var(--bw-sm) solid var(--border);
+  border-radius: var(--radius-md);
   font-size: var(--fs-md);
   background: var(--surface);
   color: var(--text);
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
-.form-input:focus,
-.form-select:focus {
+.form__input:focus,
+.form__select:focus {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 3px oklch(from var(--primary) l c h / 0.2);
 }
 
-.form-check {
+.form__check {
   display: flex;
   align-items: center;
   gap: var(--s-sm);
 }
 
-.form-check-input {
+.form__check-input {
   width: var(--s-lg);
   height: var(--s-lg);
 }
@@ -89,7 +89,7 @@ input:checked + .slider:before {
 }
 
 .slider.round {
-  border-radius: var(--s-xl);
+  border-radius: var(--radius-xl);
 }
 
 .slider.round:before {
@@ -103,23 +103,23 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 /* Slider Input */
-input[type="range"] {
+.form__range {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
   height: var(--s-sm);
   background: var(--border);
-  border-radius: var(--s-sm);
+  border-radius: var(--radius-sm);
   outline: none;
   opacity: 0.7;
   transition: opacity .2s;
 }
 
-input[type="range"]:hover {
+.form__range:hover {
   opacity: 1;
 }
 
-input[type="range"]::-webkit-slider-thumb {
+.form__range::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: var(--s-lg);
@@ -130,7 +130,7 @@ input[type="range"]::-webkit-slider-thumb {
   border: 2px solid var(--surface);
 }
 
-input[type="range"]::-moz-range-thumb {
+.form__range::-moz-range-thumb {
   width: var(--s-lg);
   height: var(--s-lg);
   background: var(--primary);
