@@ -1,0 +1,38 @@
+/* OKLCH Design System - Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--s-3xl) var(--s-lg);
+  color: var(--text-alt);
+  background: var(--surface-alt);
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--border);
+}
+
+.empty-state__icon {
+  margin-bottom: var(--s-md);
+  color: var(--neutral-400);
+  width: var(--s-4xl);
+  height: var(--s-4xl);
+}
+
+.empty-state__title {
+  margin-bottom: var(--s-xs);
+  color: var(--text);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-lg);
+}
+
+.empty-state__desc {
+  margin-bottom: var(--s-lg);
+  max-width: 40ch;
+  color: var(--text-muted);
+}
+
+.empty-state__actions {
+  display: flex;
+  gap: var(--s-sm);
+}

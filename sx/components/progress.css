@@ -1,0 +1,44 @@
+/* OKLCH Design System - Progress Bar */
+.progress {
+  width: 100%;
+  height: var(--s-sm);
+  background-color: var(--neutral-200);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  position: relative;
+}
+
+.progress__bar {
+  height: 100%;
+  background-color: var(--primary);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-medium);
+  width: 0%;
+}
+
+.progress--sm {
+  height: var(--s-xs);
+}
+
+.progress--lg {
+  height: var(--s-md);
+}
+
+.progress__bar--success { background-color: var(--success); }
+.progress__bar--warning { background-color: var(--warning); }
+.progress__bar--error { background-color: var(--error); }
+.progress__bar--info { background-color: var(--info); }
+
+/* Indeterminate State (Loading) */
+.progress--indeterminate .progress__bar {
+  width: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: progress-indeterminate 2s infinite ease-in-out;
+}
+
+@keyframes progress-indeterminate {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}

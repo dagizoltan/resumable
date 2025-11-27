@@ -1,0 +1,61 @@
+/* OKLCH Design System - Tag/Chip */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--s-xs) var(--s-sm);
+  border-radius: var(--radius-full);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  background-color: var(--neutral-100);
+  color: var(--text);
+  border: 1px solid var(--border);
+  cursor: default;
+  transition: all var(--transition-fast);
+  user-select: none;
+  gap: var(--s-xs);
+}
+
+.tag:hover {
+  background-color: var(--neutral-200);
+}
+
+.tag--interactive {
+  cursor: pointer;
+}
+
+.tag--interactive:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.tag__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--s-sm);
+  height: var(--s-sm);
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.1);
+  color: inherit;
+  cursor: pointer;
+  border: none;
+  font-size: 10px;
+  line-height: 1;
+}
+
+.tag__close:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Colors */
+.tag--primary {
+  background-color: oklch(from var(--primary) l c h / 0.1);
+  color: var(--primary);
+  border-color: oklch(from var(--primary) l c h / 0.2);
+}
+
+.tag--success {
+  background-color: oklch(from var(--success) l c h / 0.1);
+  color: var(--success);
+  border-color: oklch(from var(--success) l c h / 0.2);
+}

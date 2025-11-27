@@ -1,0 +1,65 @@
+/* OKLCH Design System - Skeleton */
+.skeleton {
+  background-color: var(--neutral-200);
+  border-radius: var(--radius-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.5) 60%,
+    rgba(255, 255, 255, 0)
+  );
+  animation: skeleton-shimmer 2s infinite;
+}
+
+[data-theme="dark"] .skeleton::after {
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.05) 20%,
+    rgba(255, 255, 255, 0.1) 60%,
+    rgba(255, 255, 255, 0)
+  );
+}
+
+@keyframes skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton--text {
+  height: var(--fs-md);
+  margin-bottom: var(--s-xs);
+  width: 100%;
+}
+
+.skeleton--title {
+  height: var(--fs-xl);
+  margin-bottom: var(--s-md);
+  width: 50%;
+}
+
+.skeleton--circle {
+  border-radius: 50%;
+  width: var(--s-3xl);
+  height: var(--s-3xl);
+}
+
+.skeleton--card {
+  height: 200px;
+  width: 100%;
+  border-radius: var(--radius-md);
+}
