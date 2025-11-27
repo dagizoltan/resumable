@@ -1,0 +1,105 @@
+/* OKLCH Design System - Toast */
+.toast-container {
+  position: fixed;
+  bottom: var(--s-lg);
+  right: var(--s-lg);
+  z-index: var(--z-modal);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-sm);
+  pointer-events: none; /* Allow clicks through container */
+}
+
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--s-md);
+  padding: var(--s-md);
+  background: var(--surface-glass);
+  backdrop-filter: blur(var(--blur-md));
+  -webkit-backdrop-filter: blur(var(--blur-md));
+  border: 1px solid oklch(from var(--border) l c h / var(--opacity-border-subtle));
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-3);
+  min-width: 300px;
+  max-width: 400px;
+  animation: toast-enter var(--transition-medium) forwards;
+  overflow: hidden;
+}
+
+.toast--hiding {
+  animation: toast-exit var(--transition-medium) forwards;
+}
+
+@keyframes toast-enter {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes toast-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+}
+
+.toast__icon {
+  flex-shrink: 0;
+  width: var(--s-lg);
+  height: var(--s-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast__content {
+  flex: 1;
+}
+
+.toast__title {
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-sm);
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.toast__message {
+  font-size: var(--fs-sm);
+  color: var(--text-alt);
+  line-height: 1.4;
+}
+
+.toast__close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: var(--s-xs);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast__close:hover {
+  background: var(--bg-alt);
+  color: var(--text);
+}
+
+/* Variants */
+.toast--success .toast__icon { color: var(--success); }
+.toast--error .toast__icon { color: var(--error); }
+.toast--warning .toast__icon { color: var(--warning); }
+.toast--info .toast__icon { color: var(--info); }

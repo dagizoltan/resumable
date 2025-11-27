@@ -1,0 +1,85 @@
+/* OKLCH Design System - Avatar */
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  overflow: hidden;
+  user-select: none;
+  width: var(--s-3xl);
+  height: var(--s-3xl);
+  border-radius: 50%;
+  background-color: var(--neutral-200);
+  color: var(--text-alt);
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-sm);
+  position: relative;
+  border: 1px solid oklch(from var(--border) l c h / 0.1);
+}
+
+.avatar__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+/* Sizes */
+.avatar--xs {
+  width: var(--s-lg);
+  height: var(--s-lg);
+  font-size: var(--fs-xs);
+}
+
+.avatar--sm {
+  width: var(--s-xl);
+  height: var(--s-xl);
+  font-size: var(--fs-xs);
+}
+
+.avatar--lg {
+  width: var(--s-4xl);
+  height: var(--s-4xl);
+  font-size: var(--fs-lg);
+}
+
+.avatar--xl {
+  width: var(--s-5xl);
+  height: var(--s-5xl);
+  font-size: var(--fs-xl);
+}
+
+/* Status Indicator */
+.avatar__status {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 25%;
+  height: 25%;
+  border-radius: 50%;
+  border: 2px solid var(--bg);
+  background-color: var(--neutral-400);
+}
+
+.avatar__status--online { background-color: var(--success); }
+.avatar__status--busy { background-color: var(--error); }
+.avatar__status--away { background-color: var(--warning); }
+
+/* Avatar Group */
+.avatar-group {
+  display: flex;
+  align-items: center;
+}
+
+.avatar-group .avatar {
+  border: 2px solid var(--bg);
+  margin-left: calc(var(--s-sm) * -1);
+}
+
+.avatar-group .avatar:first-child {
+  margin-left: 0;
+}
+
+.avatar-group .avatar:hover {
+  z-index: 2;
+}

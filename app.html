@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Dashboard - OKLCH Design System</title>
+    <link rel="stylesheet" href="sx/root.css">
+    <style>
+        /* App Layout Specifics */
+        body {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            background-color: var(--bg-alt);
+        }
+
+        .app-main {
+            flex: 1;
+            margin-left: 280px; /* Sidebar width */
+            padding: var(--s-lg);
+            overflow-y: auto;
+            transition: margin-left var(--transition-normal);
+            height: 100%;
+        }
+
+        /* Adjust main content when sidebar is collapsed */
+        body.sidebar-collapsed .app-main {
+            margin-left: 80px; /* Collapsed width */
+        }
+
+        /* Top Bar in App */
+        .app-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--s-lg);
+            padding-bottom: var(--s-md);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--s-lg);
+            margin-bottom: var(--s-xl);
+        }
+
+        .stat-card {
+            background: var(--surface);
+            padding: var(--s-lg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-1);
+            display: flex;
+            flex-direction: column;
+            gap: var(--s-xs);
+        }
+
+        .stat-card__value {
+            font-size: var(--fs-4xl);
+            font-weight: var(--fw-bold);
+            color: var(--text);
+        }
+
+        .stat-card__label {
+            color: var(--text-muted);
+            font-size: var(--fs-sm);
+            font-weight: var(--fw-medium);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-card__trend {
+            font-size: var(--fs-xs);
+            font-weight: var(--fw-medium);
+            margin-top: var(--s-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--s-xs);
+        }
+
+        .trend--up { color: var(--success); }
+        .trend--down { color: var(--error); }
+
+    </style>
+</head>
+
+<body data-theme="light">
+    <!-- Collapsible Sidebar -->
+    <aside class="sidebar sidebar--collapsible" id="app-sidebar">
+        <div class="sidebar__header">
+            <h3 class="sidebar__title">AppLogo</h3>
+            <button class="btn btn--sm btn--outline" id="sidebar-toggle" aria-label="Toggle Sidebar">
+                <!-- Menu Icon (Hamburger) -->
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <div class="sidebar__content">
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-nav__link sidebar-nav__link--active" title="Dashboard">
+                    <div class="sidebar-nav__icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    </div>
+                    <span class="sidebar-nav__text">Dashboard</span>
+                </a>
+                <a href="#" class="sidebar-nav__link" title="Projects">
+                    <div class="sidebar-nav__icon">
+                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                    </div>
+                    <span class="sidebar-nav__text">Projects</span>
+                </a>
+                <a href="#" class="sidebar-nav__link" title="Analytics">
+                    <div class="sidebar-nav__icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                    </div>
+                    <span class="sidebar-nav__text">Analytics</span>
+                </a>
+                <a href="index.html" class="sidebar-nav__link" title="Web View">
+                    <div class="sidebar-nav__icon">
+                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                    </div>
+                    <span class="sidebar-nav__text">Back to Web</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="sidebar__footer">
+            <div class="avatar-group">
+                <div class="avatar avatar--sm">JD</div>
+                <span class="sidebar__footer-text" style="margin-left: var(--s-sm); font-size: var(--fs-sm);">John Doe</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="app-main">
+        <header class="app-header">
+            <div>
+                <h1 class="h3">Dashboard</h1>
+                <p class="text-sm">Welcome back, John.</p>
+            </div>
+            <div style="display: flex; gap: var(--s-sm);">
+                <button class="btn btn--sm btn--outline">Export</button>
+                <button class="btn btn--sm btn--primary">New Project</button>
+            </div>
+        </header>
+
+        <!-- Stats Grid -->
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <span class="stat-card__label">Total Revenue</span>
+                <span class="stat-card__value">$45,231.89</span>
+                <span class="stat-card__trend trend--up">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                    +20.1% from last month
+                </span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-card__label">Active Users</span>
+                <span class="stat-card__value">2,350</span>
+                <span class="stat-card__trend trend--up">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                    +180 this week
+                </span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-card__label">Bounce Rate</span>
+                <span class="stat-card__value">42.3%</span>
+                <span class="stat-card__trend trend--down">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg>
+                    -4.5% better than avg
+                </span>
+            </div>
+        </div>
+
+        <!-- Recent Projects Table -->
+        <div class="card">
+            <div class="card__header">
+                <h3>Recent Projects</h3>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Project</th>
+                        <th>Status</th>
+                        <th>Progress</th>
+                        <th>Team</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Website Redesign</strong></td>
+                        <td><span class="tag tag--primary">In Progress</span></td>
+                        <td>
+                            <div class="progress progress--sm" style="width: 100px;">
+                                <div class="progress__bar" style="width: 60%"></div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="avatar-group">
+                                <div class="avatar avatar--xs">A</div>
+                                <div class="avatar avatar--xs">B</div>
+                            </div>
+                        </td>
+                        <td><button class="btn btn--sm btn--outline">View</button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mobile App</strong></td>
+                        <td><span class="tag tag--success">Completed</span></td>
+                        <td>
+                             <div class="progress progress--sm" style="width: 100px;">
+                                <div class="progress__bar progress__bar--success" style="width: 100%"></div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="avatar-group">
+                                <div class="avatar avatar--xs">C</div>
+                            </div>
+                        </td>
+                        <td><button class="btn btn--sm btn--outline">View</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="sx/global.js"></script>
+</body>
+</html>

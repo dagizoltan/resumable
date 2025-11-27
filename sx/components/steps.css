@@ -1,0 +1,99 @@
+/* OKLCH Design System - Steps (Stepper) */
+.steps {
+  display: flex;
+  align-items: flex-start;
+  list-style: none;
+  padding: 0;
+  margin: var(--s-lg) 0;
+  position: relative;
+  counter-reset: step;
+}
+
+.steps__item {
+  flex: 1;
+  position: relative;
+  text-align: center;
+}
+
+.steps__item::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--s-xl) / 2);
+  left: -50%;
+  width: 100%;
+  height: 2px;
+  background-color: var(--border);
+  z-index: -1;
+  transform: translateY(-50%);
+}
+
+.steps__item:first-child::before {
+  display: none;
+}
+
+.steps__marker {
+  width: var(--s-xl);
+  height: var(--s-xl);
+  border-radius: 50%;
+  background-color: var(--surface);
+  border: 2px solid var(--border);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--fw-bold);
+  color: var(--text-muted);
+  position: relative;
+  z-index: 1;
+  margin-bottom: var(--s-xs);
+  transition: all var(--transition-normal);
+}
+
+.steps__marker::after {
+  content: counter(step);
+  counter-increment: step;
+}
+
+.steps__content {
+  display: block;
+}
+
+.steps__title {
+  display: block;
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-sm);
+  color: var(--text);
+}
+
+.steps__desc {
+  display: block;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+/* Active State */
+.steps__item--active .steps__marker {
+  border-color: var(--primary);
+  background-color: var(--primary);
+  color: white; /* Always white on primary */
+}
+
+.steps__item--active .steps__title {
+  color: var(--primary);
+}
+
+/* Completed State */
+.steps__item--completed .steps__marker {
+  background-color: var(--success);
+  border-color: var(--success);
+  color: white;
+  font-size: 0; /* Hide number */
+}
+
+.steps__item--completed .steps__marker::after {
+  content: "✓"; /* Checkmark */
+  font-size: var(--fs-sm);
+}
+
+.steps__item--completed::before {
+  background-color: var(--success);
+}

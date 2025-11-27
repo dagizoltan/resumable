@@ -1,0 +1,159 @@
+/* OKLCH Design System - Sidebar (Collapsible) */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  z-index: var(--z-overlay);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-normal);
+}
+
+/* Base Sidebar Styles */
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 280px;
+  background: var(--surface-glass);
+  backdrop-filter: blur(var(--blur-xl));
+  -webkit-backdrop-filter: blur(var(--blur-xl));
+  border-right: 1px solid oklch(from var(--border) l c h / var(--opacity-border-subtle));
+  z-index: var(--z-modal);
+  transform: translateX(-100%);
+  transition: transform var(--transition-normal), width var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-4);
+}
+
+/* Sidebar Navigation Links */
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2xs); /* Tighter spacing */
+}
+
+.sidebar-nav__link {
+  display: flex;
+  align-items: center;
+  gap: var(--s-md);
+  padding: var(--s-sm) var(--s-md);
+  border-radius: var(--radius-md);
+  color: var(--text-alt);
+  text-decoration: none;
+  transition: background var(--transition-fast), color var(--transition-fast);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sidebar-nav__link:hover {
+  background: var(--bg-alt);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.sidebar-nav__link--active {
+  background: oklch(from var(--primary) l c h / 0.1);
+  color: var(--primary);
+  font-weight: var(--fw-medium);
+}
+
+.sidebar-nav__icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar__header {
+  padding: var(--s-md);
+  border-bottom: 1px solid oklch(from var(--border) l c h / 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px; /* Fixed height for consistency */
+}
+
+.sidebar__title {
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-lg);
+  margin: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.sidebar__close {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: var(--s-xs);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+}
+
+.sidebar__close:hover {
+  background: var(--bg-alt);
+  color: var(--text);
+}
+
+.sidebar__content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--s-md);
+}
+
+.sidebar__footer {
+  padding: var(--s-md);
+  border-top: 1px solid oklch(from var(--border) l c h / 0.1);
+  background: oklch(from var(--surface) l c h / 0.5);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* --- Collapsible Variants (App Style) --- */
+
+/* On Desktop: Always Visible */
+@media (min-width: 1024px) {
+  .sidebar--collapsible {
+    transform: translateX(0); /* Always visible */
+    z-index: var(--z-sticky); /* Below modals but above content */
+  }
+
+  /* Collapsed State (Desktop Only) */
+  .sidebar--collapsed {
+    width: 80px; /* Width for just icons */
+  }
+
+  .sidebar--collapsed .sidebar__title,
+  .sidebar--collapsed .sidebar-nav__text,
+  .sidebar--collapsed .sidebar__footer-text {
+    opacity: 0;
+    width: 0;
+    display: none; /* Hide text */
+  }
+
+  .sidebar--collapsed .sidebar__header {
+    justify-content: center;
+  }
+
+  .sidebar--collapsed .sidebar-nav__link {
+    justify-content: center;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* Mobile: Drawer Style (Default behavior already set above with transform -100%) */
+.sidebar--open {
+  transform: translateX(0);
+}
+
+.sidebar-overlay--open {
+  opacity: 1;
+  pointer-events: auto;
+}

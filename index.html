@@ -15,8 +15,8 @@
             <nav class="main-nav">
                 <a href="#" class="logo">DesignSystem</a>
                 <div class="nav__links">
-                    <a href="#" class="nav__link nav__link--active">Components</a>
-                    <a href="#" class="nav__link">Documentation</a>
+                    <a href="index.html" class="nav__link nav__link--active">Web</a>
+                    <a href="app.html" class="nav__link">App</a>
                     <div class="dropdown nav-dropdown-margin">
                         <button class="dropdown__toggle btn btn--sm">Pages</button>
                         <div class="dropdown__menu">
@@ -26,7 +26,6 @@
                             <a href="payment.html" class="dropdown__item">Payment</a>
                         </div>
                     </div>
-                    <a href="#" class="nav__link">About</a>
                 </div>
                 <button id="themeToggle" class="btn btn--sm btn--outline theme-toggle">Toggle Theme</button>
             </nav>
@@ -36,10 +35,141 @@
     <main class="container">
         <header>
             <h1>OKLCH Design System</h1>
-            <p>Semantic component system with OKLCH color space</p>
+            <p>Semantic component system with OKLCH color space. Clean, Minimal, Glass-like.</p>
         </header>
 
         <div class="showcase">
+            <!-- New Components Showcase -->
+            <section>
+                <h2>New Components</h2>
+                <div class="grid grid-2">
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Avatars</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="avatar-group">
+                                <div class="avatar avatar--lg">
+                                    <img src="https://i.pravatar.cc/150?img=1" alt="Avatar" class="avatar__img">
+                                    <span class="avatar__status avatar__status--online"></span>
+                                </div>
+                                <div class="avatar">
+                                    <img src="https://i.pravatar.cc/150?img=2" alt="Avatar" class="avatar__img">
+                                </div>
+                                <div class="avatar avatar--sm">JD</div>
+                                <div class="avatar avatar--xs">
+                                    <img src="https://i.pravatar.cc/150?img=3" alt="Avatar" class="avatar__img">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Tags & Chips</h3>
+                        </div>
+                        <div class="card__body">
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <span class="tag">Default</span>
+                                <span class="tag tag--primary">Primary</span>
+                                <span class="tag tag--success">Success</span>
+                                <span class="tag tag--interactive">Interactive <button class="tag__close">&times;</button></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Progress & Loading</h2>
+                <div class="grid grid-2">
+                    <div>
+                        <h3>Progress Bars</h3>
+                        <div class="progress" style="margin-bottom: 1rem;">
+                            <div class="progress__bar" style="width: 40%"></div>
+                        </div>
+                        <div class="progress progress--sm" style="margin-bottom: 1rem;">
+                            <div class="progress__bar progress__bar--success" style="width: 75%"></div>
+                        </div>
+                        <div class="progress progress--indeterminate">
+                            <div class="progress__bar"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Spinners & Skeletons</h3>
+                        <div style="margin-bottom: 1rem; display: flex; gap: 1rem; align-items: center;">
+                            <div class="spinner"></div>
+                            <div class="spinner spinner--sm"></div>
+                            <button class="btn"><div class="spinner spinner--sm"></div> Loading</button>
+                        </div>
+                        <div class="skeleton skeleton--text"></div>
+                        <div class="skeleton skeleton--text" style="width: 80%"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Steps</h2>
+                <ol class="steps">
+                    <li class="steps__item steps__item--completed">
+                        <span class="steps__marker">1</span>
+                        <div class="steps__content">
+                            <span class="steps__title">Account</span>
+                            <span class="steps__desc">Enter details</span>
+                        </div>
+                    </li>
+                    <li class="steps__item steps__item--active">
+                        <span class="steps__marker">2</span>
+                        <div class="steps__content">
+                            <span class="steps__title">Profile</span>
+                            <span class="steps__desc">Setup profile</span>
+                        </div>
+                    </li>
+                    <li class="steps__item">
+                        <span class="steps__marker">3</span>
+                        <div class="steps__content">
+                            <span class="steps__title">Preview</span>
+                            <span class="steps__desc">Check everything</span>
+                        </div>
+                    </li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Toasts</h2>
+                <div class="btn-group">
+                    <button class="btn" onclick="toast.show('Action successful!', 'success', 'Success')">Success Toast</button>
+                    <button class="btn btn--secondary" onclick="toast.show('Something went wrong.', 'error', 'Error')">Error Toast</button>
+                    <button class="btn btn--outline" onclick="toast.show('System update pending.', 'info')">Info Toast</button>
+                </div>
+            </section>
+
+            <section>
+                <h2>Empty State & Divider</h2>
+                <div class="grid grid-2">
+                    <div class="empty-state">
+                        <svg class="empty-state__icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                        </svg>
+                        <h3 class="empty-state__title">No Projects Found</h3>
+                        <p class="empty-state__desc">Get started by creating a new project.</p>
+                        <button class="btn btn--primary">Create Project</button>
+                    </div>
+                    <div>
+                        <p>Text above divider</p>
+                        <div class="divider">OR</div>
+                        <p>Text below divider</p>
+                        <br>
+                        <div class="card">
+                             <div class="card__body">
+                                 Press <kbd>⌘</kbd> + <kbd>K</kbd> to search
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Original Components Restored -->
             <section>
                 <h2>Color Palette</h2>
                 <div class="palette-grid">
@@ -56,16 +186,11 @@
                 </div>
                 <h3>Neutral Colors</h3>
                 <div class="palette-grid">
-                    <div class="palette-swatch palette-swatch--dark-text neutral-50"><span
-                            class="palette-swatch__name">50</span></div>
-                    <div class="palette-swatch palette-swatch--dark-text neutral-100"><span
-                            class="palette-swatch__name">100</span></div>
-                    <div class="palette-swatch palette-swatch--dark-text neutral-200"><span
-                            class="palette-swatch__name">200</span></div>
-                    <div class="palette-swatch palette-swatch--dark-text neutral-300"><span
-                            class="palette-swatch__name">300</span></div>
-                    <div class="palette-swatch palette-swatch--dark-text neutral-400"><span
-                            class="palette-swatch__name">400</span></div>
+                    <div class="palette-swatch palette-swatch--dark-text neutral-50"><span class="palette-swatch__name">50</span></div>
+                    <div class="palette-swatch palette-swatch--dark-text neutral-100"><span class="palette-swatch__name">100</span></div>
+                    <div class="palette-swatch palette-swatch--dark-text neutral-200"><span class="palette-swatch__name">200</span></div>
+                    <div class="palette-swatch palette-swatch--dark-text neutral-300"><span class="palette-swatch__name">300</span></div>
+                    <div class="palette-swatch palette-swatch--dark-text neutral-400"><span class="palette-swatch__name">400</span></div>
                     <div class="palette-swatch neutral-500"><span class="palette-swatch__name">500</span></div>
                     <div class="palette-swatch neutral-600"><span class="palette-swatch__name">600</span></div>
                     <div class="palette-swatch neutral-700"><span class="palette-swatch__name">700</span></div>
@@ -194,7 +319,7 @@
                 <button class="btn" onclick="document.getElementById('modal-1').showModal()">Open Modal</button>
             </section>
 
-            <section>
+             <section>
                 <h2>Data Table</h2>
                 <table class="table table--dense">
                     <thead>
@@ -253,10 +378,7 @@
                     </thead>
                     <tbody>
                         <tr class="table-row--expandable">
-                            <td><button class="table-row__expand-btn"><svg viewBox="0 0 24 24" width="16" height="16"
-                                        fill="currentColor">
-                                        <path d="M10 17l5-5-5-5v10z" />
-                                    </svg></button></td>
+                            <td><button class="table-row__expand-btn"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M10 17l5-5-5-5v10z" /></svg></button></td>
                             <td>Project Phoenix</td>
                             <td>Avengers</td>
                             <td>2025-11-26</td>
@@ -266,27 +388,7 @@
                             <td colspan="5">
                                 <div>
                                     <strong>Project Details:</strong>
-                                    <p>This is a detailed description of Project Phoenix, which is currently in
-                                        progress. More details can go here.</p>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="table-row--expandable">
-                            <td><button class="table-row__expand-btn"><svg viewBox="0 0 24 24" width="16" height="16"
-                                        fill="currentColor">
-                                        <path d="M10 17l5-5-5-5v10z" />
-                                    </svg></button></td>
-                            <td>Project Titan</td>
-                            <td>Justice League</td>
-                            <td>2025-11-25</td>
-                            <td><span class="badge badge--success">Completed</span></td>
-                        </tr>
-                        <tr class="table-row--expanded-content">
-                            <td colspan="5">
-                                <div>
-                                    <strong>Project Details:</strong>
-                                    <p>This is a detailed description of Project Titan, which has been completed. More
-                                        details can go here.</p>
+                                    <p>This is a detailed description of Project Phoenix.</p>
                                 </div>
                             </td>
                         </tr>
@@ -299,7 +401,7 @@
                 <button class="btn" data-tooltip="This is a tooltip">Hover over me</button>
             </section>
 
-            <section>
+             <section>
                 <h2>Forms</h2>
                 <form>
                     <div class="form__group">
@@ -311,19 +413,12 @@
                         <input type="email" id="email" class="form__input" placeholder="Enter your email">
                     </div>
                     <div class="form__group">
-                        <label class="form__label" for="password">Password</label>
-                        <input type="password" id="password" class="form__input" placeholder="Enter your password">
-                    </div>
-                    <div class="form__group">
-                        <label class="form__label" for="date">Appointment Date</label>
-                        <input type="date" id="date" class="form__input">
-                    </div>
-                    <div class="form__group">
-                        <label class="form__label">Options</label>
-                        <div class="form__check">
-                            <input type="checkbox" id="check1" class="form__check-input">
-                            <label for="check1" class="form-check-label">Check me out</label>
-                        </div>
+                        <label class="form__label" for="select">Select</label>
+                        <select id="select" class="form__select">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </select>
                     </div>
                     <div class="form__group">
                         <label class="form__label">Toggle</label>
@@ -333,18 +428,9 @@
                         </label>
                     </div>
                     <div class="form__group">
-                        <label class="form__label" for="select">Select</label>
-                        <select id="select" class="form__select">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                        </select>
-                    </div>
-                    <div class="form__group">
                         <label class="form__label" for="slider">Slider</label>
                         <input type="range" id="slider" class="form__range" min="0" max="100" value="50">
                     </div>
-                    <button type="submit" class="btn">Submit</button>
                 </form>
             </section>
 
@@ -375,26 +461,26 @@
                 <div class="card-grid-container">
                     <div class="card-grid">
                         <article class="card">
-                        <div class="card__header">
-                            <h3>Card with Header</h3>
-                        </div>
-                        <div class="card__body">
-                            <p>This card has a header, body, and footer.</p>
-                        </div>
-                        <div class="card__footer">
-                            <p>Footer content</p>
-                        </div>
-                    </article>
-                    <article class="card">
-                        <div class="card__body">
-                            <h3>Card with Actions</h3>
-                            <p>This card has actions instead of a footer.</p>
-                        </div>
-                        <div class="card__actions">
-                            <button class="btn btn--sm btn--outline">Info</button>
-                            <button class="btn btn--sm">Confirm</button>
-                        </div>
-                    </article>
+                            <div class="card__header">
+                                <h3>Card with Header</h3>
+                            </div>
+                            <div class="card__body">
+                                <p>This card has a header, body, and footer.</p>
+                            </div>
+                            <div class="card__footer">
+                                <p>Footer content</p>
+                            </div>
+                        </article>
+                        <article class="card">
+                            <div class="card__body">
+                                <h3>Card with Actions</h3>
+                                <p>This card has actions instead of a footer.</p>
+                            </div>
+                            <div class="card__actions">
+                                <button class="btn btn--sm btn--outline">Info</button>
+                                <button class="btn btn--sm">Confirm</button>
+                            </div>
+                        </article>
                         <article class="card">
                             <div class="card__body">
                                 <h3>Simple Card</h3>
@@ -413,11 +499,6 @@
                         <button class="btn">Middle</button>
                         <button class="btn">Right</button>
                     </div>
-                    <div class="btn-group button-group-margin">
-                        <button class="btn btn--outline btn--sm">Left</button>
-                        <button class="btn btn--outline btn--sm">Middle</button>
-                        <button class="btn btn--outline btn--sm">Right</button>
-                    </div>
                 </div>
             </section>
 
@@ -426,15 +507,9 @@
                     <h2>Carousel</h2>
                     <div class="carousel">
                         <div class="carousel__track">
-                            <div class="carousel__slide"><img
-                                    src="https://via.placeholder.com/800x400/007bff/ffffff?text=Slide+1" alt="Slide 1">
-                            </div>
-                            <div class="carousel__slide"><img
-                                    src="https://via.placeholder.com/800x400/ff9800/ffffff?text=Slide+2" alt="Slide 2">
-                            </div>
-                            <div class="carousel__slide"><img
-                                    src="https://via.placeholder.com/800x400/e91e63/ffffff?text=Slide+3" alt="Slide 3">
-                            </div>
+                            <div class="carousel__slide"><img src="https://via.placeholder.com/800x400/007bff/ffffff?text=Slide+1" alt="Slide 1"></div>
+                            <div class="carousel__slide"><img src="https://via.placeholder.com/800x400/ff9800/ffffff?text=Slide+2" alt="Slide 2"></div>
+                            <div class="carousel__slide"><img src="https://via.placeholder.com/800x400/e91e63/ffffff?text=Slide+3" alt="Slide 3"></div>
                         </div>
                         <div class="carousel__nav">
                             <button class="carousel__btn prev">&lt;</button>
@@ -475,6 +550,7 @@
                     </div>
                 </div>
             </section>
+
             <section>
                 <h2>Breadcrumbs</h2>
                 <nav class="breadcrumbs">
@@ -485,6 +561,7 @@
                     <span class="current">Data</span>
                 </nav>
             </section>
+
         </div>
     </main>
 
@@ -500,6 +577,15 @@
         </div>
     </dialog>
 
+    <div class="lightbox" id="my-lightbox">
+        <div class="lightbox__content">
+            <h3>Lightbox Title</h3>
+            <p>This is the content of the lightbox. It can be anything you want, like an image or a video.</p>
+            <img src="https://via.placeholder.com/400x200/007bff/ffffff?text=Image" alt="Placeholder" class="lightbox-image-style">
+        </div>
+        <button class="lightbox__close" data-lightbox-close>&times;</button>
+    </div>
+
     <footer class="site-footer">
         <div class="container">
             <div class="footer__content">
@@ -513,70 +599,22 @@
                         <ul>
                             <li><a href="#">Features</a></li>
                             <li><a href="#">Pricing</a></li>
-                            <li><a href="#">Integrations</a></li>
                         </ul>
                     </div>
-                    <div>
-                        <h4>Resources</h4>
-                        <ul>
-                            <li><a href="#">Docs</a></li>
-                            <li><a href="#">Blog</a></li>
-                            <li><a href="#">Community</a></li>
-                        </ul>
-                    </div>
-                    <div>
+                     <div>
                         <h4>Company</h4>
                         <ul>
                             <li><a href="#">About Us</a></li>
-                            <li><a href="#">Careers</a></li>
                             <li><a href="#">Contact</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="footer__bottom">
+             <div class="footer__bottom">
                 <p>&copy; 2025 DesignSystem. All rights reserved.</p>
-                <div class="footer__social">
-                    <a href="#">X</a>
-                    <a href="#">LinkedIn</a>
-                    <a href="#">GitHub</a>
-                </div>
             </div>
         </div>
     </footer>
-
-    <div class="lightbox" id="my-lightbox">
-        <div class="lightbox__content">
-            <h3>Lightbox Title</h3>
-            <p>This is the content of the lightbox. It can be anything you want, like an image or a video.</p>
-            <img src="https://via.placeholder.com/400x200/007bff/ffffff?text=Image" alt="Placeholder"
-                class="lightbox-image-style">
-        </div>
-        <button class="lightbox__close" data-lightbox-close>&times;</button>
-    </div>
-
-    <nav class="bottom-nav">
-        <a href="#" class="bottom-nav__link bottom-nav__link--active">
-            <svg class="bottom-nav__icon" viewBox="0 0 24 24">
-                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-            </svg>
-            <span class="bottom-nav__text">Home</span>
-        </a>
-        <a href="#" class="bottom-nav__link">
-            <svg class="bottom-nav__icon" viewBox="0 0 24 24">
-                <path
-                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
-            </svg>
-            <span class="bottom-nav__text">Docs</span>
-        </a>
-        <a href="#" class="bottom-nav__link">
-            <svg class="bottom-nav__icon" viewBox="0 0 24 24">
-                <path
-                    d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-            </svg>
-            <span class="bottom-nav__text">About</span>
-        </a>
-    </nav>
 
     <script src="sx/global.js"></script>
 </body>

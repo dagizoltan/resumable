@@ -1,0 +1,34 @@
+/* OKLCH Design System - Spinner */
+.spinner {
+  display: inline-block;
+  width: var(--s-lg);
+  height: var(--s-lg);
+  border: 2px solid oklch(from var(--border) l c h / 0.3);
+  border-radius: 50%;
+  border-top-color: var(--primary);
+  animation: spinner-rotate 0.8s linear infinite;
+}
+
+.spinner--sm {
+  width: var(--s-md);
+  height: var(--s-md);
+  border-width: 2px;
+}
+
+.spinner--lg {
+  width: var(--s-2xl);
+  height: var(--s-2xl);
+  border-width: 3px;
+}
+
+@keyframes spinner-rotate {
+  to { transform: rotate(360deg); }
+}
+
+.btn .spinner {
+  margin-right: var(--s-sm);
+  border-top-color: currentColor;
+  border-right-color: rgba(255, 255, 255, 0.2);
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+  border-left-color: rgba(255, 255, 255, 0.2);
+}
