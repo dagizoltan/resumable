@@ -6,13 +6,31 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    padding: var(--s-sm) 0;
+    padding: var(--s-xs) 0;
+}
+
+/* Override container padding for nav to be tighter */
+.site-header .container {
+    padding-block: 0; /* Remove container vertical padding */
+    padding-inline: var(--s-lg);
+    max-width: 100%;
+    height: 100%; /* Ensure full height for alignment */
+    display: flex;
+    align-items: center; /* Vertical center alignment */
+}
+
+@media (min-width: 1440px) {
+    .site-header .container {
+        max-width: 90rem;
+        padding-inline: var(--s-xl);
+    }
 }
 
 .main-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%; /* Ensure it fills the flex container */
 }
 
 .logo {

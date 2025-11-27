@@ -14,20 +14,27 @@
 .form__input,
 .form__select {
   width: 100%;
-  padding: var(--s-md);
-  border: var(--bw-sm) solid var(--border);
-  border-radius: var(--radius-md);
-  font-size: var(--fs-md);
-  background: var(--surface);
+  padding: var(--s-xs) var(--s-sm); /* More compact */
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm); /* Sharper, matching buttons */
+  font-size: var(--fs-sm); /* Smaller text */
+  background: transparent; /* Cleaner look */
   color: var(--text);
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: none; /* No inset shadow */
+}
+
+.form__input:hover,
+.form__select:hover {
+  border-color: var(--border-strong);
 }
 
 .form__input:focus,
 .form__select:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px oklch(from var(--primary) l c h / 0.2);
+  background: transparent;
+  box-shadow: 0 0 0 1px var(--primary); /* Sharp ring only */
 }
 
 .form__input:user-invalid {

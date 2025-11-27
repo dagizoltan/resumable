@@ -27,20 +27,20 @@
 
 .alert--info {
   border-inline-start-color: var(--info);
-  background: oklch(from var(--info) calc(l + 0.3) calc(c * 0.3) h);
+  background: oklch(from var(--info) l c h / 0.1);
 }
 
 .alert--success {
   border-inline-start-color: var(--success);
-  background: oklch(from var(--success) calc(l + 0.3) calc(c * 0.3) h);
+  background: oklch(from var(--success) l c h / 0.1);
 }
 
 .alert--warning {
   border-inline-start-color: var(--warning);
-  background: oklch(from var(--warning) calc(l + 0.25) calc(c * 0.3) h);
+  background: oklch(from var(--warning) l c h / 0.1);
 }
 
 .alert--error {
   border-inline-start-color: var(--error);
-  background: oklch(from var(--error) calc(l + 0.3) calc(c * 0.3) h);
+  background: oklch(from var(--error) l c h / 0.1);
 }

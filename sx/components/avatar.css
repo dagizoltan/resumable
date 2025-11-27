@@ -9,7 +9,7 @@
   width: var(--s-3xl);
   height: var(--s-3xl);
   border-radius: 50%;
-  background-color: var(--neutral-200);
+  background-color: var(--surface-alt);
   color: var(--text-alt);
   font-weight: var(--fw-medium);
   font-size: var(--fs-sm);
