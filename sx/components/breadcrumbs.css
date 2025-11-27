@@ -1,0 +1,28 @@
+/* OKLCH Design System - Breadcrumbs */
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: var(--s-sm);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.breadcrumbs a {
+  color: var(--text-alt);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.breadcrumbs a:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.breadcrumbs .separator {
+  margin: 0 var(--s-xs);
+}
+
+.breadcrumbs .current {
+  font-weight: 500;
+  color: var(--text);
+}

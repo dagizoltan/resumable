@@ -2,6 +2,7 @@
 .dropdown {
   position: relative;
   display: inline-block;
+  z-index: 1100;
 }
 
 .dropdown__toggle {
@@ -28,7 +29,7 @@
   border: 1px solid var(--border);
   border-radius: calc(var(--u) * 2);
   box-shadow: 0 4px 12px oklch(0% 0 0 / 0.15);
-  z-index: 100;
+  z-index: 1101;
   margin-top: var(--s-sm);
   display: none;
 }

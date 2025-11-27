@@ -1,0 +1,39 @@
+/* sx/pages/auth.css */
+
+/* Authentication page layout */
+.auth-body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    background: var(--bg);
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 25rem;
+}
+
+/* Utility styles for auth pages */
+.text-center {
+    text-align: center;
+}
+
+.form-margin-top {
+    margin-top: var(--s-xl);
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.small-font {
+    font-size: var(--fs-sm);
+}
+
+.full-width {
+    width: 100%;
+}
+
+.text-muted {
+    color: var(--text-muted);
+}

@@ -1,0 +1,11 @@
+/* sx/pages/payment.css */
+
+.payment-card {
+    width: 100%;
+    max-width: 35rem;
+}
+
+.form-grid-2 {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-lg);
+}

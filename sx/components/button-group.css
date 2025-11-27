@@ -1,0 +1,15 @@
+/* OKLCH Design System - Button Group */
+.btn-group {
+    display: inline-flex;
+    border-radius: calc(var(--u) * 2);
+    overflow: hidden;
+}
+
+.btn-group .btn {
+    border-radius: 0;
+    border-right: 1px solid oklch(from var(--primary) l c h / 50%);
+}
+
+.btn-group .btn:last-child {
+    border-right: none;
+}

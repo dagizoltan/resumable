@@ -17,19 +17,22 @@ body {
 h1, .h1 {
   font-size: var(--fs-6xl);
   font-weight: 700;
-  margin-bottom: var(--s-md);
+  margin-bottom: var(--s-lg);
+  letter-spacing: -0.02em;
 }
 
 h2, .h2 {
   font-size: var(--fs-5xl);
   font-weight: 700;
-  margin-bottom: var(--s-md);
+  margin-bottom: var(--s-lg);
+  letter-spacing: -0.02em;
 }
 
 h3, .h3 {
   font-size: var(--fs-4xl);
   font-weight: 700;
   margin-bottom: var(--s-md);
+  letter-spacing: -0.01em;
 }
 
 h4, .h4 {
@@ -41,19 +44,20 @@ h4, .h4 {
 h5, .h5 {
   font-size: var(--fs-2xl);
   font-weight: 700;
-  margin-bottom: var(--s-md);
+  margin-bottom: var(--s-sm);
 }
 
 h6, .h6 {
   font-size: var(--fs-xl);
   font-weight: 700;
-  margin-bottom: var(--s-md);
+  margin-bottom: var(--s-sm);
 }
 
 p, .p {
-  color: var(--text-muted);
+  color: var(--text-alt);
   font-size: var(--fs-lg);
-  margin-bottom: var(--s-md);
+  margin-bottom: var(--s-lg);
+  max-width: 75ch;
 }
 
 a {

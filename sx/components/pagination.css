@@ -1,0 +1,39 @@
+/* OKLCH Design System - Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--s-sm);
+}
+
+.pagination a,
+.pagination span {
+  display: inline-block;
+  padding: var(--s-sm) var(--s-md);
+  min-width: calc(var(--s-md) * 2 + var(--s-sm) * 2); /* Maintain size for single digits */
+  text-align: center;
+  border-radius: var(--s-sm);
+  background: var(--surface);
+  color: var(--text-alt);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.pagination a:hover {
+  background: var(--bg-alt);
+  border-color: var(--border-strong);
+}
+
+.pagination .current {
+  background: var(--primary);
+  color: var(--neutral-50);
+  border-color: var(--primary);
+  font-weight: 700;
+}
+
+.pagination .disabled {
+  color: var(--text-muted);
+  pointer-events: none;
+  opacity: 0.6;
+}

@@ -2,6 +2,7 @@
 .table {
   width: 100%;
   border-collapse: collapse;
+  border-spacing: 0;
 }
 
 .table th,
@@ -16,6 +17,53 @@
   color: var(--text);
 }
 
+.table tbody tr:nth-child(even) {
+  background: var(--surface-alt);
+}
+
 .table tbody tr:hover {
-  background: var(--bg-alt);
+  background: oklch(from var(--primary) l c h / 0.1);
+}
+
+/* Dense Table */
+.table--dense th,
+.table--dense td {
+    padding: var(--s-sm);
+}
+
+.table .button--sm {
+    padding: var(--s-xs) var(--s-sm);
+    font-size: 0.875em;
+}
+
+/* Expandable Table */
+.table-row--expandable {
+    cursor: pointer;
+}
+
+.expand-btn {
+    background: transparent;
+    border: none;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.table-row--expandable.expanded .expand-btn {
+    transform: rotate(90deg);
+}
+
+.table-row--expanded-content {
+    display: none;
+}
+
+.table-row--expanded-content.is-visible {
+    display: table-row;
+}
+
+.table-row--expanded-content > td {
+    padding: var(--s-lg);
+    background: var(--surface-alt);
+    border-left: 3px solid var(--primary);
 }

@@ -33,6 +33,10 @@
   margin-bottom: var(--s-lg);
 }
 
+.modal__header h2 {
+  margin: 0;
+}
+
 .modal__close {
   background: none;
   border: none;

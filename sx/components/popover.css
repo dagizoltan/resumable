@@ -1,0 +1,40 @@
+/* OKLCH Design System - Popover */
+.popover-container {
+  position: relative;
+  display: inline-block;
+}
+
+.popover {
+  position: absolute;
+  bottom: calc(100% + var(--s-sm));
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--s-sm);
+  padding: var(--s-md);
+  box-shadow: var(--shadow-3);
+  width: max-content;
+  max-width: 300px;
+  z-index: 1100;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+  transform: translateX(-50%) translateY(5px);
+}
+
+.popover.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.popover-title {
+  font-weight: 700;
+  margin-bottom: var(--s-sm);
+}
+
+.popover-content {
+  font-size: var(--fs-sm);
+  color: var(--text-alt);
+}

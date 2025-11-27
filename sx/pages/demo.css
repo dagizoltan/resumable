@@ -1,0 +1,39 @@
+/* sx/pages/demo.css */
+
+/* General Demo Styles */
+.nav-dropdown-margin {
+    margin-left: var(--s-lg);
+}
+
+.button-section-margin {
+    margin-top: var(--s-md);
+}
+
+.button-group-margin {
+    margin-left: var(--s-lg);
+}
+
+.lightbox-image-style {
+    max-width: 100%;
+    border-radius: var(--s-sm);
+    margin-top: var(--s-lg);
+}
+
+/* Palette-specific styles */
+.palette-swatch.primary { background: var(--primary); }
+.palette-swatch.secondary { background: var(--secondary); }
+.palette-swatch.accent { background: var(--accent); }
+.palette-swatch.info { background: var(--info); }
+.palette-swatch.success { background: var(--success); }
+.palette-swatch.warning { background: var(--warning); }
+.palette-swatch.error { background: var(--error); }
+.palette-swatch.neutral-50 { background: var(--neutral-50); }
+.palette-swatch.neutral-100 { background: var(--neutral-100); }
+.palette-swatch.neutral-200 { background: var(--neutral-200); }
+.palette-swatch.neutral-300 { background: var(--neutral-300); }
+.palette-swatch.neutral-400 { background: var(--neutral-400); }
+.palette-swatch.neutral-500 { background: var(--neutral-500); }
+.palette-swatch.neutral-600 { background: var(--neutral-600); }
+.palette-swatch.neutral-700 { background: var(--neutral-700); }
+.palette-swatch.neutral-800 { background: var(--neutral-800); }
+.palette-swatch.neutral-900 { background: var(--neutral-900); }
