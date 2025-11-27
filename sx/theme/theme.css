@@ -19,7 +19,12 @@
   --s-4xl: clamp(8rem,     7.2rem + 4vw,     12rem);    /* 128px -> 192px */
   --s-5xl: clamp(12rem,    10.8rem + 6vw,    18rem);    /* 192px -> 288px */
 
+  /* Sidebar Layout */
+  --sidebar-width: 280px;
+  --sidebar-width-collapsed: 80px;
+
   /* Font Sizes - Fluid Typography (Technical Scale) */
+  --fs-2xs: clamp(0.625rem, 0.61rem + 0.1vw, 0.7rem);     /* 10px -> 11px */
   --fs-xs:  clamp(0.7rem,   0.68rem + 0.2vw,  0.8125rem); /* 11px -> 13px */
   --fs-sm:  clamp(0.8125rem, 0.80rem + 0.15vw, 0.9375rem);/* 13px -> 15px */
   --fs-md:  clamp(0.9375rem, 0.92rem + 0.2vw,  1.0625rem);/* 15px -> 17px */
