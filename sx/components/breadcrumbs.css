@@ -10,7 +10,7 @@
 .breadcrumbs a {
   color: var(--text-alt);
   text-decoration: none;
-  transition: color 0.2s;
+  transition: color var(--transition-normal);
 }
 
 .breadcrumbs a:hover {
@@ -23,6 +23,6 @@
 }
 
 .breadcrumbs .current {
-  font-weight: 500;
+  font-weight: var(--fw-medium);
   color: var(--text);
 }

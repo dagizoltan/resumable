@@ -1,18 +1,18 @@
 /* OKLCH Design System - Accordion */
 .accordion {
-  border-radius: calc(var(--u) * 3);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-1);
-  border: 1px solid oklch(from var(--border) l c h / 0.2);
+  border: var(--bw-sm) solid oklch(from var(--border) l c h / var(--opacity-border-subtle));
 }
 
 .accordion__item {
   background: var(--surface);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(var(--blur-md));
 }
 
 .accordion__item + .accordion__item {
-  border-top: 1px solid oklch(from var(--border) l c h / 0.2);
+  border-top: var(--bw-sm) solid oklch(from var(--border) l c h / var(--opacity-border-subtle));
 }
 
 .accordion__header {
@@ -21,7 +21,7 @@
   background: transparent;
   border: none;
   text-align: left;
-  font-weight: 600;
+  font-weight: var(--fw-semibold);
   cursor: pointer;
   display: flex;
   justify-content: space-between;
@@ -32,7 +32,7 @@
 
 .accordion__header::after {
   content: "▸";
-  transition: transform 0.2s;
+  transition: transform var(--transition-normal);
 }
 
 .accordion__item--active .accordion__header::after {
@@ -43,7 +43,7 @@
   padding: 0 var(--s-md);
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s, padding 0.3s;
+  transition: max-height var(--transition-medium), padding var(--transition-medium); /* 0.3s -> medium */
 }
 
 .accordion__item--active .accordion__content {

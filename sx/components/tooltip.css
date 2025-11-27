@@ -1,27 +1,22 @@
 /* OKLCH Design System - Tooltip */
-[data-tooltip] {
-  position: relative;
-}
-
-[data-tooltip]::after {
-  content: attr(data-tooltip);
+.tooltip {
   position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  margin-bottom: var(--s-sm);
-  background: var(--neutral-800);
-  color: var(--neutral-50);
+  background: var(--surface);
+  color: var(--text);
   padding: var(--s-sm) var(--s-md);
-  border-radius: var(--s-xs);
-  font-size: var(--fs-sm);
-  white-space: nowrap;
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-xs);
+  box-shadow: var(--shadow-2);
+  pointer-events: none;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.2s, visibility 0.2s;
+  transition: opacity var(--transition-normal), visibility var(--transition-normal);
+  z-index: var(--z-tooltip);
+  border: var(--bw-sm) solid var(--border);
+  white-space: nowrap;
 }
 
-[data-tooltip]:hover::after {
+.tooltip--active {
   opacity: 1;
   visibility: visible;
 }

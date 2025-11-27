@@ -14,11 +14,11 @@
         <div class="container">
             <nav class="main-nav">
                 <a href="#" class="logo">DesignSystem</a>
-                <div class="nav-links">
+                <div class="nav__links">
                     <a href="#" class="active">Components</a>
                     <a href="#">Documentation</a>
                     <div class="dropdown nav-dropdown-margin">
-                        <button class="dropdown__toggle btn btn-sm">Pages</button>
+                        <button class="dropdown__toggle btn btn--sm">Pages</button>
                         <div class="dropdown__menu">
                             <a href="login.html" class="dropdown__item">Login</a>
                             <a href="register.html" class="dropdown__item">Register</a>
@@ -28,7 +28,7 @@
                     </div>
                     <a href="#">About</a>
                 </div>
-                <button id="themeToggle" class="btn btn-sm outline theme-toggle">Toggle Theme</button>
+                <button id="themeToggle" class="btn btn--sm btn--outline theme-toggle">Toggle Theme</button>
             </nav>
         </div>
     </header>
@@ -78,44 +78,44 @@
                 <h2>Buttons</h2>
                 <div>
                     <button class="btn">Primary</button>
-                    <button class="btn secondary">Secondary</button>
-                    <button class="btn accent">Accent</button>
-                    <button class="btn outline">Outline</button>
+                    <button class="btn btn--secondary">Secondary</button>
+                    <button class="btn btn--accent">Accent</button>
+                    <button class="btn btn--outline">Outline</button>
                 </div>
                 <div class="button-section-margin">
-                    <button class="btn btn-sm">Small</button>
-                    <button class="btn secondary btn-sm">Small</button>
-                    <button class="btn accent btn-sm">Small</button>
-                    <button class="btn outline btn-sm">Small</button>
+                    <button class="btn btn--sm">Small</button>
+                    <button class="btn btn--secondary btn--sm">Small</button>
+                    <button class="btn btn--accent btn--sm">Small</button>
+                    <button class="btn btn--outline btn--sm">Small</button>
                 </div>
             </section>
 
             <section>
                 <h2>Alerts</h2>
                 <div>
-                    <div class="alert info">
-                        <header>
+                    <div class="alert alert--info">
+                        <header class="alert__header">
                             <div>Information</div>
                         </header>
-                        <div>System update available</div>
+                        <div class="alert__content">System update available</div>
                     </div>
-                    <div class="alert success">
-                        <header>
+                    <div class="alert alert--success">
+                        <header class="alert__header">
                             <div>Success</div>
                         </header>
-                        <div>Your changes were saved</div>
+                        <div class="alert__content">Your changes were saved</div>
                     </div>
-                    <div class="alert warning">
-                        <header>
+                    <div class="alert alert--warning">
+                        <header class="alert__header">
                             <div>Warning</div>
                         </header>
-                        <div>Your session is about to expire</div>
+                        <div class="alert__content">Your session is about to expire</div>
                     </div>
-                    <div class="alert error">
-                        <header>
+                    <div class="alert alert--error">
+                        <header class="alert__header">
                             <div>Error</div>
                         </header>
-                        <div>Failed to save your changes</div>
+                        <div class="alert__content">Failed to save your changes</div>
                     </div>
                 </div>
             </section>
@@ -208,28 +208,28 @@
                             <td>CEO</td>
                             <td><span class="badge badge--success">Active</span></td>
                             <td>Admin</td>
-                            <td><button class="btn btn-sm">Edit</button></td>
+                            <td><button class="btn btn--sm">Edit</button></td>
                         </tr>
                         <tr>
                             <td>Jane Smith</td>
                             <td>CTO</td>
                             <td><span class="badge badge--success">Active</span></td>
                             <td>Owner</td>
-                            <td><button class="btn btn-sm">Edit</button></td>
+                            <td><button class="btn btn--sm">Edit</button></td>
                         </tr>
                         <tr>
                             <td>Peter Jones</td>
                             <td>Developer</td>
                             <td><span class="badge badge--warning">Inactive</span></td>
                             <td>Member</td>
-                            <td><button class="btn btn-sm">Edit</button></td>
+                            <td><button class="btn btn--sm">Edit</button></td>
                         </tr>
                         <tr>
                             <td>Alice Johnson</td>
                             <td>Designer</td>
                             <td><span class="badge badge--success">Active</span></td>
                             <td>Member</td>
-                            <td><button class="btn btn-sm">Edit</button></td>
+                            <td><button class="btn btn--sm">Edit</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -249,7 +249,7 @@
                     </thead>
                     <tbody>
                         <tr class="table-row--expandable">
-                            <td><button class="expand-btn"><svg viewBox="0 0 24 24" width="16" height="16"
+                            <td><button class="table-row__expand-btn"><svg viewBox="0 0 24 24" width="16" height="16"
                                         fill="currentColor">
                                         <path d="M10 17l5-5-5-5v10z" />
                                     </svg></button></td>
@@ -268,7 +268,7 @@
                             </td>
                         </tr>
                         <tr class="table-row--expandable">
-                            <td><button class="expand-btn"><svg viewBox="0 0 24 24" width="16" height="16"
+                            <td><button class="table-row__expand-btn"><svg viewBox="0 0 24 24" width="16" height="16"
                                         fill="currentColor">
                                         <path d="M10 17l5-5-5-5v10z" />
                                     </svg></button></td>
@@ -298,47 +298,47 @@
             <section>
                 <h2>Forms</h2>
                 <form>
-                    <div class="form-group">
-                        <label class="form-label" for="name">Name</label>
-                        <input type="text" id="name" class="form-input" placeholder="Enter your name">
+                    <div class="form__group">
+                        <label class="form__label" for="name">Name</label>
+                        <input type="text" id="name" class="form__input" placeholder="Enter your name">
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" for="email">Email</label>
-                        <input type="email" id="email" class="form-input" placeholder="Enter your email">
+                    <div class="form__group">
+                        <label class="form__label" for="email">Email</label>
+                        <input type="email" id="email" class="form__input" placeholder="Enter your email">
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" for="password">Password</label>
-                        <input type="password" id="password" class="form-input" placeholder="Enter your password">
+                    <div class="form__group">
+                        <label class="form__label" for="password">Password</label>
+                        <input type="password" id="password" class="form__input" placeholder="Enter your password">
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" for="date">Appointment Date</label>
-                        <input type="date" id="date" class="form-input">
+                    <div class="form__group">
+                        <label class="form__label" for="date">Appointment Date</label>
+                        <input type="date" id="date" class="form__input">
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Options</label>
-                        <div class="form-check">
-                            <input type="checkbox" id="check1" class="form-check-input">
+                    <div class="form__group">
+                        <label class="form__label">Options</label>
+                        <div class="form__check">
+                            <input type="checkbox" id="check1" class="form__check-input">
                             <label for="check1" class="form-check-label">Check me out</label>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Toggle</label>
+                    <div class="form__group">
+                        <label class="form__label">Toggle</label>
                         <label class="switch">
                             <input type="checkbox">
                             <span class="slider round"></span>
                         </label>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" for="select">Select</label>
-                        <select id="select" class="form-select">
+                    <div class="form__group">
+                        <label class="form__label" for="select">Select</label>
+                        <select id="select" class="form__select">
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" for="slider">Slider</label>
-                        <input type="range" id="slider" class="form-range" min="0" max="100" value="50">
+                    <div class="form__group">
+                        <label class="form__label" for="slider">Slider</label>
+                        <input type="range" id="slider" class="form__range" min="0" max="100" value="50">
                     </div>
                     <button type="submit" class="btn">Submit</button>
                 </form>
@@ -347,19 +347,19 @@
             <section>
                 <h2>Tabs</h2>
                 <div class="tabs">
-                    <div class="tab-list">
+                    <div class="tab__list">
                         <button class="tab tab--active" data-tab="tab-1">Tab 1</button>
                         <button class="tab" data-tab="tab-2">Tab 2</button>
                         <button class="tab" data-tab="tab-3">Tab 3</button>
                     </div>
-                    <div class="tab-content">
-                        <div class="tab-pane tab-pane--active" id="tab-1">
+                    <div class="tab__content">
+                        <div class="tab__pane tab__pane--active" id="tab-1">
                             <p>This is the content of Tab 1.</p>
                         </div>
-                        <div class="tab-pane" id="tab-2">
+                        <div class="tab__pane" id="tab-2">
                             <p>This is the content of Tab 2.</p>
                         </div>
-                        <div class="tab-pane" id="tab-3">
+                        <div class="tab__pane" id="tab-3">
                             <p>This is the content of Tab 3.</p>
                         </div>
                     </div>
@@ -370,28 +370,28 @@
                 <h2>Advanced Cards</h2>
                 <div class="card-grid">
                     <article class="card">
-                        <div class="card-header">
+                        <div class="card__header">
                             <h3>Card with Header</h3>
                         </div>
-                        <div class="card-body">
+                        <div class="card__body">
                             <p>This card has a header, body, and footer.</p>
                         </div>
-                        <div class="card-footer">
+                        <div class="card__footer">
                             <p>Footer content</p>
                         </div>
                     </article>
                     <article class="card">
-                        <div class="card-body">
+                        <div class="card__body">
                             <h3>Card with Actions</h3>
                             <p>This card has actions instead of a footer.</p>
                         </div>
-                        <div class="card-actions">
-                            <button class="btn btn-sm outline">Info</button>
-                            <button class="btn btn-sm">Confirm</button>
+                        <div class="card__actions">
+                            <button class="btn btn--sm btn--outline">Info</button>
+                            <button class="btn btn--sm">Confirm</button>
                         </div>
                     </article>
                     <article class="card">
-                        <div class="card-body">
+                        <div class="card__body">
                             <h3>Simple Card</h3>
                             <p>This is a plain card with just a body.</p>
                         </div>
@@ -400,7 +400,7 @@
             </section>
 
             <section>
-                <div class="card-body">
+                <div class="card__body">
                     <h2>Button Groups</h2>
                     <div class="btn-group">
                         <button class="btn">Left</button>
@@ -408,33 +408,33 @@
                         <button class="btn">Right</button>
                     </div>
                     <div class="btn-group button-group-margin">
-                        <button class="btn outline btn-sm">Left</button>
-                        <button class="btn outline btn-sm">Middle</button>
-                        <button class="btn outline btn-sm">Right</button>
+                        <button class="btn btn--outline btn--sm">Left</button>
+                        <button class="btn btn--outline btn--sm">Middle</button>
+                        <button class="btn btn--outline btn--sm">Right</button>
                     </div>
                 </div>
             </section>
 
             <section>
-                <div class="card-body">
+                <div class="card__body">
                     <h2>Carousel</h2>
                     <div class="carousel">
-                        <div class="carousel-track">
-                            <div class="carousel-slide"><img
+                        <div class="carousel__track">
+                            <div class="carousel__slide"><img
                                     src="https://via.placeholder.com/800x400/007bff/ffffff?text=Slide+1" alt="Slide 1">
                             </div>
-                            <div class="carousel-slide"><img
+                            <div class="carousel__slide"><img
                                     src="https://via.placeholder.com/800x400/ff9800/ffffff?text=Slide+2" alt="Slide 2">
                             </div>
-                            <div class="carousel-slide"><img
+                            <div class="carousel__slide"><img
                                     src="https://via.placeholder.com/800x400/e91e63/ffffff?text=Slide+3" alt="Slide 3">
                             </div>
                         </div>
-                        <div class="carousel-nav">
-                            <button class="carousel-btn prev">&lt;</button>
-                            <button class="carousel-btn next">&gt;</button>
+                        <div class="carousel__nav">
+                            <button class="carousel__btn prev">&lt;</button>
+                            <button class="carousel__btn next">&gt;</button>
                         </div>
-                        <div class="carousel-pagination"></div>
+                        <div class="carousel__pagination"></div>
                     </div>
                 </div>
             </section>
@@ -462,8 +462,8 @@
                 <div class="popover-container">
                     <button class="btn" data-popover-open="my-popover">Toggle Popover</button>
                     <div class="popover" id="my-popover">
-                        <div class="popover-title">Popover Title</div>
-                        <div class="popover-content">
+                        <div class="popover__title">Popover Title</div>
+                        <div class="popover__content">
                             And here's some amazing content. It's very engaging. Right?
                         </div>
                     </div>
@@ -496,12 +496,12 @@
 
     <footer class="site-footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
+            <div class="footer__content">
+                <div class="footer__brand">
                     <h3>DesignSystem</h3>
                     <p>A complete design system for modern web applications.</p>
                 </div>
-                <div class="footer-links">
+                <div class="footer__links">
                     <div>
                         <h4>Products</h4>
                         <ul>
@@ -528,9 +528,9 @@
                     </div>
                 </div>
             </div>
-            <div class="footer-bottom">
+            <div class="footer__bottom">
                 <p>&copy; 2025 DesignSystem. All rights reserved.</p>
-                <div class="footer-social">
+                <div class="footer__social">
                     <a href="#">X</a>
                     <a href="#">LinkedIn</a>
                     <a href="#">GitHub</a>
@@ -539,18 +539,18 @@
         </div>
     </footer>
 
-    <div class="lightbox-overlay" id="my-lightbox">
-        <div class="lightbox-content">
+    <div class="lightbox" id="my-lightbox">
+        <div class="lightbox__content">
             <h3>Lightbox Title</h3>
             <p>This is the content of the lightbox. It can be anything you want, like an image or a video.</p>
             <img src="https://via.placeholder.com/400x200/007bff/ffffff?text=Image" alt="Placeholder"
                 class="lightbox-image-style">
         </div>
-        <button class="lightbox-close" data-lightbox-close>&times;</button>
+        <button class="lightbox__close" data-lightbox-close>&times;</button>
     </div>
 
     <nav class="bottom-nav">
-        <a href="#" class="bottom-nav__link active">
+        <a href="#" class="bottom-nav__link bottom-nav__link--active">
             <svg class="bottom-nav__icon" viewBox="0 0 24 24">
                 <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
             </svg>
