@@ -1,0 +1,37 @@
+/* OKLCH Design System - Divider */
+.divider {
+  display: flex;
+  align-items: center;
+  margin: var(--s-lg) 0;
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: var(--fw-bold);
+  width: 100%;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.divider:not(:empty)::before {
+  margin-right: var(--s-md);
+}
+
+.divider:not(:empty)::after {
+  margin-left: var(--s-md);
+}
+
+.divider--vertical {
+  display: inline-flex;
+  width: 1px;
+  height: 1em; /* or specific height */
+  background: var(--border);
+  margin: 0 var(--s-sm);
+  vertical-align: middle;
+}
