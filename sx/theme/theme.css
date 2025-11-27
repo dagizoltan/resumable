@@ -10,8 +10,8 @@
   /* Formula: clamp(min, val + vw, max) */
   --s-2xs: clamp(0.125rem, 0.11rem + 0.08vw, 0.15rem);  /* ~2px */
   --s-xs:  clamp(0.375rem, 0.35rem + 0.1vw,  0.5rem);   /* 6px -> 8px */
-  --s-sm:  clamp(0.75rem,  0.7rem + 0.2vw,   1rem);     /* 12px -> 16px */
-  --s-md:  clamp(1.5rem,   1.4rem + 0.4vw,   1.75rem);  /* 24px -> 28px */
+  --s-sm:  clamp(0.625rem, 0.6rem + 0.15vw,  0.875rem); /* 10px -> 14px (Tighter) */
+  --s-md:  clamp(1rem,     0.95rem + 0.25vw, 1.25rem);  /* 16px -> 20px (Tighter) */
   --s-lg:  clamp(1.5rem,   1.35rem + 0.75vw, 2.25rem);  /* 24px -> 36px */
   --s-xl:  clamp(2.5rem,   2.3rem + 1vw,     3.5rem);   /* 40px -> 56px */
   --s-2xl: clamp(4rem,     3.6rem + 2vw,     6rem);     /* 64px -> 96px */
@@ -19,7 +19,12 @@
   --s-4xl: clamp(8rem,     7.2rem + 4vw,     12rem);    /* 128px -> 192px */
   --s-5xl: clamp(12rem,    10.8rem + 6vw,    18rem);    /* 192px -> 288px */
 
+  /* Sidebar Layout */
+  --sidebar-width: 280px;
+  --sidebar-width-collapsed: 80px;
+
   /* Font Sizes - Fluid Typography (Technical Scale) */
+  --fs-2xs: clamp(0.625rem, 0.61rem + 0.1vw, 0.7rem);     /* 10px -> 11px */
   --fs-xs:  clamp(0.7rem,   0.68rem + 0.2vw,  0.8125rem); /* 11px -> 13px */
   --fs-sm:  clamp(0.8125rem, 0.80rem + 0.15vw, 0.9375rem);/* 13px -> 15px */
   --fs-md:  clamp(0.9375rem, 0.92rem + 0.2vw,  1.0625rem);/* 15px -> 17px */
@@ -36,6 +41,12 @@
   --fw-medium: 500;
   --fw-semibold: 600;
   --fw-bold: 700;
+
+  /* Letter Spacing (Technical) */
+  --tracking-tighter: -0.025em;
+  --tracking-tight: -0.0125em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.05em; /* For all caps */
 
   /* Border Radius (Sharp / Technical) */
   --radius-xs: 2px;
@@ -75,9 +86,13 @@
   --z-base: 1;
   --z-dropdown: 100;
   --z-sticky: 500;
+  --z-floating: 800; /* Bulk Actions */
   --z-overlay: 900;
   --z-modal: 1000;
   --z-tooltip: 1100;
+
+  /* Focus Ring */
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--primary);
 
   /* Brand Colors - Keeping OKLCH */
   --brand-a: oklch(60% 0.15 250); /* Blue-ish */

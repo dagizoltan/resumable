@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Components | OKLCH Design System</title>
+    <link rel="stylesheet" href="sx/root.css">
+    <!-- Font Feature Settings for Inter/System fonts -->
+    <style>
+        /* Specific overrides for the documentation page */
+        .component-section {
+            padding: var(--s-xl) 0;
+            border-bottom: 1px solid oklch(from var(--border) l c h / 0.1);
+        }
+
+        .component-section:last-child {
+            border-bottom: none;
+        }
+
+        .component-header {
+            margin-bottom: var(--s-lg);
+        }
+
+        .component-header h2 {
+            margin-bottom: var(--s-xs);
+            font-size: var(--fs-2xl);
+        }
+
+        .component-header p {
+            color: var(--text-alt);
+            max-width: 60ch;
+        }
+
+        .demo-box {
+            background: var(--bg); /* Contrast against surface */
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: var(--s-xl);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: var(--s-lg);
+        }
+
+        .demo-box--grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: var(--s-lg);
+            align-items: center;
+        }
+
+        .demo-box--centered {
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+        }
+
+        .demo-box--dark {
+            background: var(--neutral-900);
+            color: var(--neutral-50);
+        }
+
+        /* Static container for fixed elements */
+        .static-viewport {
+            position: relative;
+            height: 400px;
+            background: var(--bg-alt);
+            border: 1px dashed var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="layout-app">
+    <!-- Sidebar -->
+    <aside class="sidebar sidebar--collapsible" id="sidebar">
+        <div class="sidebar__header">
+                <div class="sidebar__title">Design System</div>
+                <button class="sidebar__toggle" id="sidebar-toggle" aria-label="Toggle Sidebar">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <nav class="sidebar-content sidebar-nav">
+                <!-- Group: Foundation -->
+                <div class="sidebar-nav__group-title">Foundation</div>
+                <ul class="sidebar-nav__list">
+                    <li class="sidebar-nav__item">
+                        <a href="#typography" class="sidebar-nav__link">
+                            <span class="sidebar-nav__icon">T</span>
+                            <span class="sidebar-nav__text">Typography</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-nav__item">
+                        <a href="#colors" class="sidebar-nav__link">
+                            <span class="sidebar-nav__icon">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>
+                            </span>
+                            <span class="sidebar-nav__text">Colors</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-nav__item">
+                        <a href="#icons" class="sidebar-nav__link">
+                            <span class="sidebar-nav__icon">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/></svg>
+                            </span>
+                            <span class="sidebar-nav__text">Icons</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Group: Inputs -->
+                <div class="sidebar-nav__group-title">Inputs</div>
+                <ul class="sidebar-nav__list">
+                    <li class="sidebar-nav__item">
+                        <a href="#buttons" class="sidebar-nav__link">
+                            <span class="sidebar-nav__icon">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="2"/></svg>
+                            </span>
+                            <span class="sidebar-nav__text">Buttons</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-nav__item">
+                        <a href="#forms" class="sidebar-nav__link">
+                            <span class="sidebar-nav__icon">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                            </span>
+                            <span class="sidebar-nav__text">Forms</span>
+                        </a>
+                        <!-- Submenu example -->
+                        <ul class="sidebar-nav__sublist">
+                            <li><a href="#text-inputs" class="sidebar-nav__sublink">Text Inputs</a></li>
+                            <li><a href="#selects" class="sidebar-nav__sublink">Selects</a></li>
+                            <li><a href="#checks-radios" class="sidebar-nav__sublink">Checks & Radios</a></li>
+                            <li><a href="#switches" class="sidebar-nav__sublink">Switches</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <!-- Group: Data Display -->
+                <div class="sidebar-nav__group-title">Data Display</div>
+                <ul class="sidebar-nav__list">
+                    <li class="sidebar-nav__item">
+                        <a href="#cards" class="sidebar-nav__link">
+                            <span class="sidebar-nav__icon">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                            </span>
+                            <span class="sidebar-nav__text">Cards</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-nav__item">
+                        <a href="#tables" class="sidebar-nav__link">
+                            <span class="sidebar-nav__icon">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3h18v18H3zM3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+                            </span>
+                            <span class="sidebar-nav__text">Tables</span>
+                        </a>
+                    </li>
+                     <li class="sidebar-nav__item">
+                        <a href="#badges" class="sidebar-nav__link">
+                            <span class="sidebar-nav__icon">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.78 4.78 4 4 0 0 1-6.74 0 4 4 0 0 1-4.78-4.78 4 4 0 0 1 0-6.74z"/></svg>
+                            </span>
+                            <span class="sidebar-nav__text">Badges</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Group: Overlays -->
+                <div class="sidebar-nav__group-title">Overlays</div>
+                <ul class="sidebar-nav__list">
+                    <li class="sidebar-nav__item">
+                        <a href="#modals" class="sidebar-nav__link">
+                            <span class="sidebar-nav__icon">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                            </span>
+                            <span class="sidebar-nav__text">Modals</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-nav__item">
+                        <a href="#drawers" class="sidebar-nav__link">
+                            <span class="sidebar-nav__icon">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+                            </span>
+                            <span class="sidebar-nav__text">Drawers</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-nav__item">
+                        <a href="#toasts" class="sidebar-nav__link">
+                            <span class="sidebar-nav__icon">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+                            </span>
+                            <span class="sidebar-nav__text">Toasts</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+
+        <div class="sidebar__footer">
+            <div class="sidebar__footer-text">
+                v2.0 Enterprise
+            </div>
+        </div>
+    </aside>
+
+    <div class="app-wrapper">
+        <!-- Main Content -->
+        <main class="app-main">
+            <header class="app-header">
+                <div class="app-header__left">
+                    <h1 class="app-header__title">Component Library</h1>
+                </div>
+                <div class="app-header__right">
+                    <a href="index.html" class="btn btn--ghost btn--sm">Back to Home</a>
+                </div>
+            </header>
+
+            <div class="app-content">
+                <div class="container">
+
+                    <!-- Typography -->
+                    <section id="typography" class="component-section">
+                        <div class="component-header">
+                            <h2>Typography</h2>
+                            <p>Our typographic scale is designed for density and readability in technical interfaces.</p>
+                        </div>
+                        <div class="demo-box">
+                            <h1>Heading 1 (5xl)</h1>
+                            <h2>Heading 2 (4xl)</h2>
+                            <h3>Heading 3 (3xl)</h3>
+                            <h4>Heading 4 (2xl)</h4>
+                            <h5>Heading 5 (xl)</h5>
+                            <h6>Heading 6 (lg)</h6>
+                            <p class="text-lead">Lead Text: The quick brown fox jumps over the lazy dog.</p>
+                            <p>Body Text: The quick brown fox jumps over the lazy dog. Used for standard content blocks.</p>
+                            <p class="text-sm">Small Text: The quick brown fox jumps over the lazy dog. Used for hints and secondary info.</p>
+                            <p class="text-xs">Extra Small Text: The quick brown fox jumps over the lazy dog. Used for labels and metadata.</p>
+                            <p class="font-mono">Monospace Text: 1234567890 (Code)</p>
+                        </div>
+                    </section>
+
+                    <!-- Colors -->
+                    <section id="colors" class="component-section">
+                        <div class="component-header">
+                            <h2>Colors</h2>
+                            <p>Semantic colors generated using OKLCH for consistent perceptual lightness.</p>
+                        </div>
+                        <div class="demo-box demo-box--grid">
+                            <div class="card card--compact" style="background: var(--primary); color: white;">
+                                <div class="card__swatch">Primary</div>
+                            </div>
+                            <div class="card card--compact" style="background: var(--secondary); color: white;">
+                                <div class="card__swatch">Secondary</div>
+                            </div>
+                            <div class="card card--compact" style="background: var(--accent); color: white;">
+                                <div class="card__swatch">Accent</div>
+                            </div>
+                             <div class="card card--compact" style="background: var(--surface); color: var(--text);">
+                                <div class="card__swatch" style="color: var(--text)">Surface</div>
+                            </div>
+                            <div class="card card--compact" style="background: var(--bg); color: var(--text);">
+                                <div class="card__swatch" style="color: var(--text)">Background</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Buttons -->
+                    <section id="buttons" class="component-section">
+                        <div class="component-header">
+                            <h2>Buttons</h2>
+                            <p>Interactive elements for triggering actions.</p>
+                        </div>
+                        <div class="demo-box">
+                            <div style="display: flex; gap: var(--s-md); flex-wrap: wrap; align-items: center;">
+                                <button class="btn">Primary Button</button>
+                                <button class="btn btn--secondary">Secondary</button>
+                                <button class="btn btn--accent">Accent</button>
+                                <button class="btn btn--outline">Outline</button>
+                                <button class="btn btn--ghost">Ghost</button>
+                            </div>
+                            <div style="display: flex; gap: var(--s-md); flex-wrap: wrap; align-items: center;">
+                                <button class="btn btn--sm">Small</button>
+                                <button class="btn">Default</button>
+                                <button class="btn btn--lg">Large</button>
+                            </div>
+                             <div style="display: flex; gap: var(--s-md); flex-wrap: wrap; align-items: center;">
+                                <button class="btn" disabled>Disabled</button>
+                                <button class="btn btn--secondary" disabled>Disabled</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Forms -->
+                    <section id="forms" class="component-section">
+                        <div class="component-header">
+                            <h2>Forms</h2>
+                            <p>Inputs, selects, and controls for data entry.</p>
+                        </div>
+                        <div class="demo-box">
+                            <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--s-xl);">
+                                <!-- Inputs -->
+                                <div>
+                                    <h3 id="text-inputs" class="h5 mb-md">Text Inputs</h3>
+                                    <div class="form__group">
+                                        <label class="form__label">Email Address</label>
+                                        <input type="email" class="form__input" placeholder="john@example.com">
+                                    </div>
+                                    <div class="form__group">
+                                        <label class="form__label">Password</label>
+                                        <input type="password" class="form__input" value="password123">
+                                    </div>
+                                    <div class="form__group">
+                                        <label class="form__label">Invalid Input</label>
+                                        <input type="text" class="form__input" value="Invalid" required pattern="[0-9]+">
+                                    </div>
+
+                                    <h3 class="h5 mb-md mt-xl">Input Groups</h3>
+                                    <div class="form__group">
+                                        <label class="form__label">Website</label>
+                                        <div class="input-group">
+                                            <span class="input-group__text">https://</span>
+                                            <input type="text" class="form__input" placeholder="example.com">
+                                        </div>
+                                    </div>
+                                     <div class="form__group">
+                                        <label class="form__label">Search</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form__input" placeholder="Search...">
+                                            <button class="btn btn--secondary">Go</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Controls -->
+                                <div>
+                                    <h3 id="selects" class="h5 mb-md">Selects</h3>
+                                    <div class="form__group">
+                                        <label class="form__label">Role</label>
+                                        <select class="form__select">
+                                            <option>Administrator</option>
+                                            <option>Editor</option>
+                                            <option>Viewer</option>
+                                        </select>
+                                    </div>
+
+                                    <h3 id="checks-radios" class="h5 mb-md mt-xl">Checks & Radios</h3>
+                                    <div class="form__group">
+                                        <label class="form__check">
+                                            <input type="checkbox" class="form__check-input" checked>
+                                            <span>Subscribe to newsletter</span>
+                                        </label>
+                                        <label class="form__check">
+                                            <input type="checkbox" class="form__check-input">
+                                            <span>Agree to terms</span>
+                                        </label>
+                                    </div>
+
+                                    <h3 id="switches" class="h5 mb-md mt-xl">Switches</h3>
+                                    <div class="form__group">
+                                        <label class="switch">
+                                            <input type="checkbox" checked>
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+
+                                    <h3 class="h5 mb-md mt-xl">File Drop</h3>
+                                    <div class="file-drop-zone">
+                                        <div class="file-drop-zone__icon">
+                                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                                        </div>
+                                        <div class="file-drop-zone__text">Click to upload or drag and drop</div>
+                                        <div class="file-drop-zone__hint">SVG, PNG, JPG or GIF (max. 3MB)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Cards -->
+                    <section id="cards" class="component-section">
+                        <div class="component-header">
+                            <h2>Cards</h2>
+                            <p>Containers for grouping related content.</p>
+                        </div>
+                        <div class="demo-box">
+                            <div class="card">
+                                <div class="card__header">
+                                    <h3 class="h5 m-0">Card Title</h3>
+                                </div>
+                                <div class="card__body">
+                                    <p>This is a standard card with a header, body, and footer. It uses the glassmorphic surface style.</p>
+                                </div>
+                                <div class="card__footer">
+                                    Card Footer
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Badges -->
+                    <section id="badges" class="component-section">
+                        <div class="component-header">
+                            <h2>Badges</h2>
+                            <p>Small status indicators.</p>
+                        </div>
+                        <div class="demo-box">
+                            <div style="display: flex; gap: var(--s-sm);">
+                                <span class="badge badge--primary">Primary</span>
+                                <span class="badge badge--secondary">Secondary</span>
+                                <span class="badge badge--success">Success</span>
+                                <span class="badge badge--warning">Warning</span>
+                                <span class="badge badge--error">Error</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Modals (Static) -->
+                    <section id="modals" class="component-section">
+                        <div class="component-header">
+                            <h2>Modals</h2>
+                            <p>Dialogs for critical actions. Shown statically below.</p>
+                        </div>
+                        <div class="static-viewport" style="display: flex; align-items: center; justify-content: center;">
+                            <!-- Static representation of an open modal -->
+                            <div style="background: rgba(0,0,0,0.5); position: absolute; inset: 0; backdrop-filter: blur(4px);"></div>
+                            <div class="modal__content" style="z-index: 10;">
+                                <div class="modal__header">
+                                    <h2 class="h4">Delete Account</h2>
+                                    <button class="modal__close">&times;</button>
+                                </div>
+                                <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+                                <div style="display: flex; justify-content: flex-end; gap: var(--s-md); margin-top: var(--s-lg);">
+                                    <button class="btn btn--secondary">Cancel</button>
+                                    <button class="btn btn--error">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Drawers (Static) -->
+                    <section id="drawers" class="component-section">
+                        <div class="component-header">
+                            <h2>Drawers</h2>
+                            <p>Off-canvas panels for secondary actions or details.</p>
+                        </div>
+                        <div class="static-viewport">
+                            <!-- Static Drawer -->
+                            <div class="drawer drawer--static">
+                                <div class="drawer__header">
+                                    <h3 class="drawer__title">Activity Log</h3>
+                                    <button class="drawer__close">
+                                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+                                    </button>
+                                </div>
+                                <div class="drawer__content">
+                                    <p class="text-sm text-muted mb-md">Today</p>
+                                    <div class="card card--compact mb-md">
+                                        <div class="text-sm">User <strong>Alice</strong> updated the settings.</div>
+                                        <div class="text-xs text-muted">2 hours ago</div>
+                                    </div>
+                                    <div class="card card--compact mb-md">
+                                        <div class="text-sm">User <strong>Bob</strong> deployed to production.</div>
+                                        <div class="text-xs text-muted">5 hours ago</div>
+                                    </div>
+                                </div>
+                                <div class="drawer__footer">
+                                    <button class="btn btn--sm btn--secondary">Close</button>
+                                    <button class="btn btn--sm">View All</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Toasts (Static) -->
+                    <section id="toasts" class="component-section">
+                        <div class="component-header">
+                            <h2>Toasts</h2>
+                            <p>Stackable notifications.</p>
+                        </div>
+                        <div class="static-viewport" style="background: var(--bg);">
+                             <div class="toast-container" style="position: absolute; right: var(--s-lg); bottom: var(--s-lg);">
+                                <div class="toast toast--success">
+                                    <div class="toast__icon">
+                                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                                    </div>
+                                    <div class="toast__content">
+                                        <div class="toast__title">Success</div>
+                                        <div class="toast__message">Changes saved successfully.</div>
+                                    </div>
+                                    <button class="toast__close">&times;</button>
+                                </div>
+                                <div class="toast toast--info">
+                                    <div class="toast__icon">
+                                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                                    </div>
+                                    <div class="toast__content">
+                                        <div class="toast__title">Update Available</div>
+                                        <div class="toast__message">A new version is ready to install.</div>
+                                    </div>
+                                    <button class="toast__close">&times;</button>
+                                </div>
+                             </div>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="sx/global.js"></script>
+</body>
+</html>

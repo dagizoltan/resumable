@@ -317,3 +317,39 @@ document.addEventListener('click', (e) => {
         }
     }
 });
+
+// Advanced Table Selection & Bulk Actions
+document.addEventListener('change', (e) => {
+    if (e.target.classList.contains('table-checkbox')) {
+        const checkbox = e.target;
+        const row = checkbox.closest('tr');
+
+        if (row) {
+            if (checkbox.checked) {
+                row.classList.add('row--selected');
+            } else {
+                row.classList.remove('row--selected');
+            }
+        }
+
+        updateBulkActions();
+    }
+});
+
+function updateBulkActions() {
+    const table = document.querySelector('.table'); // Scoped to first table for demo
+    if (!table) return;
+
+    const checkedCount = table.querySelectorAll('.table-checkbox:checked').length;
+    const bulkBar = document.getElementById('bulk-actions');
+    const countSpan = document.getElementById('bulk-actions-count');
+
+    if (bulkBar && countSpan) {
+        if (checkedCount > 0) {
+            bulkBar.classList.add('bulk-actions-bar--visible');
+            countSpan.textContent = `${checkedCount} Selected`;
+        } else {
+            bulkBar.classList.remove('bulk-actions-bar--visible');
+        }
+    }
+}

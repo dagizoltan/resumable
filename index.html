@@ -413,12 +413,46 @@
                         <input type="email" id="email" class="form__input" placeholder="Enter your email">
                     </div>
                     <div class="form__group">
+                        <label class="form__label" for="password">Password</label>
+                        <input type="password" id="password" class="form__input" placeholder="Enter your password">
+                    </div>
+                    <div class="form__group">
                         <label class="form__label" for="select">Select</label>
                         <select id="select" class="form__select">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
+                            <option>Option 1</option>
+                            <option>Option 2</option>
+                            <option>Option 3</option>
                         </select>
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label" for="date">Date</label>
+                        <input type="date" id="date" class="form__input">
+                    </div>
+                    <div class="form__group">
+                         <label class="form__label">Input Groups</label>
+                         <div class="input-group" style="margin-bottom: 1rem;">
+                             <span class="input-group__text">@</span>
+                             <input type="text" class="form__input" placeholder="Username">
+                         </div>
+                         <div class="input-group">
+                             <input type="text" class="form__input" placeholder="Recipient's username">
+                             <button class="btn btn--secondary">Search</button>
+                         </div>
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label" for="message">Message</label>
+                        <textarea id="message" class="form__input" placeholder="Enter your message"></textarea>
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label">File Upload</label>
+                        <div class="file-drop-zone" id="drop-zone">
+                            <svg class="file-drop-zone__icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+                            <div class="file-drop-zone__text">Click or drag file to this area to upload</div>
+                            <div class="file-drop-zone__hint">Support for a single or bulk upload.</div>
+                            <input type="file" style="display: none;">
+                        </div>
                     </div>
                     <div class="form__group">
                         <label class="form__label">Toggle</label>

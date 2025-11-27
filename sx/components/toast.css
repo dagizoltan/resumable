@@ -10,22 +10,34 @@
   pointer-events: none; /* Allow clicks through container */
 }
 
+/* Stacking effect context - reverse order visuals often happen in JS,
+   but here we ensure they look like distinct stacked cards */
 .toast {
   pointer-events: auto;
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* Align to top for multi-line */
   gap: var(--s-md);
   padding: var(--s-md);
-  background: var(--surface-glass);
-  backdrop-filter: blur(var(--blur-md));
-  -webkit-backdrop-filter: blur(var(--blur-md));
+  background: var(--surface); /* Opaque for stacking */
   border: 1px solid oklch(from var(--border) l c h / var(--opacity-border-subtle));
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-md); /* Sharp/Enterprise */
   box-shadow: var(--shadow-3);
   min-width: 300px;
   max-width: 400px;
   animation: toast-enter var(--transition-medium) forwards;
+  position: relative;
   overflow: hidden;
+}
+
+/* Colored strip on the left for quick scanning */
+.toast::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 3px;
+  background: var(--border); /* Default */
 }
 
 .toast--hiding {
@@ -56,8 +68,9 @@
 
 .toast__icon {
   flex-shrink: 0;
-  width: var(--s-lg);
-  height: var(--s-lg);
+  width: 20px;
+  height: 20px;
+  margin-top: 2px; /* Visual alignment with title */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -65,17 +78,20 @@
 
 .toast__content {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .toast__title {
   font-weight: var(--fw-semibold);
   font-size: var(--fs-sm);
   color: var(--text);
-  margin-bottom: 2px;
+  line-height: 1.2;
 }
 
 .toast__message {
-  font-size: var(--fs-sm);
+  font-size: var(--fs-xs); /* Smaller details */
   color: var(--text-alt);
   line-height: 1.4;
 }
@@ -91,6 +107,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: -4px; /* Align with top right */
+  margin-right: -4px;
 }
 
 .toast__close:hover {
@@ -98,8 +116,15 @@
   color: var(--text);
 }
 
-/* Variants */
+/* Variants - Update strip and icon color */
+.toast--success::before { background: var(--success); }
 .toast--success .toast__icon { color: var(--success); }
+
+.toast--error::before { background: var(--error); }
 .toast--error .toast__icon { color: var(--error); }
+
+.toast--warning::before { background: var(--warning); }
 .toast--warning .toast__icon { color: var(--warning); }
+
+.toast--info::before { background: var(--info); }
 .toast--info .toast__icon { color: var(--info); }

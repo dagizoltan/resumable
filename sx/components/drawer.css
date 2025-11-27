@@ -1,0 +1,111 @@
+/* OKLCH Design System - Drawer (Off-canvas) */
+
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  z-index: var(--z-overlay);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-normal);
+}
+
+.drawer-overlay--open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0; /* Default to right side */
+  width: 100%;
+  max-width: 400px; /* Default width */
+  background: var(--surface);
+  backdrop-filter: blur(var(--blur-xl));
+  -webkit-backdrop-filter: blur(var(--blur-xl));
+  border-left: 1px solid oklch(from var(--border) l c h / var(--opacity-border-subtle));
+  z-index: var(--z-modal);
+  transform: translateX(100%);
+  transition: transform var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-4);
+}
+
+.drawer--left {
+  left: 0;
+  right: auto;
+  border-right: 1px solid oklch(from var(--border) l c h / var(--opacity-border-subtle));
+  border-left: none;
+  transform: translateX(-100%);
+}
+
+.drawer--open {
+  transform: translateX(0);
+}
+
+.drawer__header {
+  padding: var(--s-md);
+  border-bottom: 1px solid oklch(from var(--border) l c h / 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.drawer__title {
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-lg);
+  margin: 0;
+}
+
+.drawer__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.drawer__close:hover {
+  background-color: var(--bg-alt);
+  color: var(--text);
+}
+
+.drawer__content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--s-md);
+}
+
+.drawer__footer {
+  padding: var(--s-md);
+  border-top: 1px solid oklch(from var(--border) l c h / 0.1);
+  background: var(--surface-alt);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--s-sm);
+}
+
+/* Static Variant for Documentation */
+.drawer--static {
+  position: absolute; /* Relative to container */
+  top: 0;
+  bottom: 0;
+  right: 0;
+  height: 100%;
+  transform: translateX(0); /* Always visible */
+  z-index: 10;
+  border: none;
+  border-left: 1px solid oklch(from var(--border) l c h / var(--opacity-border-subtle));
+  box-shadow: none; /* Shadow handled by parent container in docs */
+}
