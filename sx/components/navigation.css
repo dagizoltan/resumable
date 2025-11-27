@@ -6,7 +6,7 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    padding: var(--s-sm) 0;
+    padding: var(--s-xs) 0;
 }
 
 .main-nav {

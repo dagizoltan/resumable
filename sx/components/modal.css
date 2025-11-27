@@ -14,7 +14,7 @@ dialog.modal::backdrop {
 
 .modal__content {
   background: var(--surface);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   padding: var(--s-xl);
   width: min(40rem, 90vw);
   border: var(--bw-sm) solid var(--border);

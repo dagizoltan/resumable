@@ -107,6 +107,19 @@ document.addEventListener('click', (e) => {
     }
 });
 
+// Dropdown/Details "Click Outside to Close"
+document.addEventListener('click', (e) => {
+    // Select all open details elements
+    const openDetails = document.querySelectorAll('details[open]');
+
+    openDetails.forEach(details => {
+        // If the click is NOT inside the details element, close it
+        if (!details.contains(e.target)) {
+            details.removeAttribute('open');
+        }
+    });
+});
+
 // Popover functionality
 document.addEventListener('click', e => {
     const popoverToggle = e.target.closest('[data-popover-open]');
