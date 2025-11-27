@@ -3,9 +3,9 @@
   display: inline-flex;
   align-items: center;
   padding: var(--s-xs) var(--s-md);
-  border-radius: calc(var(--u) * 4);
+  border-radius: var(--radius-xl);
   font-size: var(--fs-xs);
-  font-weight: 600;
+  font-weight: var(--fw-semibold);
 }
 
 .badge--primary {

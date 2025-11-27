@@ -1,0 +1,23 @@
+/* OKLCH Design System - Icons */
+.icon {
+  width: 1.5em; /* Scale with font size generally, or use specific variables */
+  height: 1.5em;
+  fill: currentColor;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.icon--sm {
+  width: 1em;
+  height: 1em;
+}
+
+.icon--lg {
+  width: 2em;
+  height: 2em;
+}
+
+.icon--xl {
+  width: 3em;
+  height: 3em;
+}

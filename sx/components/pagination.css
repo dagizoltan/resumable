@@ -12,12 +12,12 @@
   padding: var(--s-sm) var(--s-md);
   min-width: calc(var(--s-md) * 2 + var(--s-sm) * 2); /* Maintain size for single digits */
   text-align: center;
-  border-radius: var(--s-sm);
+  border-radius: var(--radius-sm);
   background: var(--surface);
   color: var(--text-alt);
-  border: 1px solid var(--border);
+  border: var(--bw-sm) solid var(--border);
   text-decoration: none;
-  transition: background 0.2s, color 0.2s;
+  transition: background var(--transition-normal), color var(--transition-normal);
 }
 
 .pagination a:hover {
@@ -29,11 +29,11 @@
   background: var(--primary);
   color: var(--neutral-50);
   border-color: var(--primary);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
 }
 
 .pagination .disabled {
   color: var(--text-muted);
   pointer-events: none;
-  opacity: 0.6;
+  opacity: var(--opacity-disabled);
 }

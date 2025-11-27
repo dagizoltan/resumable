@@ -1,18 +1,18 @@
 /* OKLCH Design System - Accordion */
 .accordion {
-  border-radius: calc(var(--u) * 3);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-1);
-  border: 1px solid oklch(from var(--border) l c h / 0.2);
+  border: var(--bw-sm) solid oklch(from var(--border) l c h / var(--opacity-border-subtle));
 }
 
 .accordion__item {
   background: var(--surface);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(var(--blur-md));
 }
 
 .accordion__item + .accordion__item {
-  border-top: 1px solid oklch(from var(--border) l c h / 0.2);
+  border-top: var(--bw-sm) solid oklch(from var(--border) l c h / var(--opacity-border-subtle));
 }
 
 .accordion__header {
@@ -21,32 +21,47 @@
   background: transparent;
   border: none;
   text-align: left;
-  font-weight: 600;
+  font-weight: var(--fw-semibold);
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: var(--fs-md);
   color: var(--text);
+  list-style: none; /* Remove default marker */
+}
+
+.accordion__header::-webkit-details-marker {
+  display: none;
 }
 
 .accordion__header::after {
   content: "▸";
-  transition: transform 0.2s;
+  transition: transform var(--transition-medium);
 }
 
-.accordion__item--active .accordion__header::after {
+.accordion__item[open] .accordion__header::after {
   transform: rotate(90deg);
 }
 
 .accordion__content {
-  padding: 0 var(--s-md);
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s, padding 0.3s;
+  padding: var(--s-md);
+  /* Note: Simple max-height transition doesn't work well with details/summary without JS or complex hacks.
+     For CSS-only "eliminating JS", we accept a simple show/hide or use grid animation.
+     Using grid animation for smooth open. */
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--transition-medium);
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
-.accordion__item--active .accordion__content {
-  padding: var(--s-md);
-  max-height: 20rem;
+.accordion__item[open] .accordion__content {
+    grid-template-rows: 1fr;
+    padding-top: var(--s-md);
+    padding-bottom: var(--s-md);
+}
+
+.accordion__inner {
+    overflow: hidden;
 }

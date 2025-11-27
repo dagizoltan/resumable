@@ -9,11 +9,11 @@
 .table td {
   padding: var(--s-md);
   text-align: left;
-  border-bottom: 1px solid var(--border);
+  border-bottom: var(--bw-sm) solid var(--border);
 }
 
 .table th {
-  font-weight: 600;
+  font-weight: var(--fw-semibold);
   color: var(--text);
 }
 
@@ -31,7 +31,7 @@
     padding: var(--s-sm);
 }
 
-.table .button--sm {
+.table .btn--sm {
     padding: var(--s-xs) var(--s-sm);
     font-size: 0.875em;
 }
@@ -41,16 +41,16 @@
     cursor: pointer;
 }
 
-.expand-btn {
+.table-row__expand-btn {
     background: transparent;
     border: none;
-    width: 24px;
-    height: 24px;
+    width: 1.5rem; /* 24px */
+    height: 1.5rem;
     cursor: pointer;
-    transition: transform 0.3s ease;
+    transition: transform var(--transition-normal);
 }
 
-.table-row--expandable.expanded .expand-btn {
+.table-row--expanded .table-row__expand-btn {
     transform: rotate(90deg);
 }
 
@@ -58,12 +58,12 @@
     display: none;
 }
 
-.table-row--expanded-content.is-visible {
+.table-row--visible {
     display: table-row;
 }
 
 .table-row--expanded-content > td {
     padding: var(--s-lg);
     background: var(--surface-alt);
-    border-left: 3px solid var(--primary);
+    border-inline-start: var(--bw-lg) solid var(--primary);
 }

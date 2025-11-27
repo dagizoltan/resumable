@@ -1,18 +1,18 @@
 .palette-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(6.25rem, 1fr)); /* 100px */
+    gap: var(--s-md);
 }
 
 .palette-swatch {
-    height: 100px;
-    border-radius: var(--border-radius);
+    height: 6.25rem; /* 100px */
+    border-radius: var(--radius-md);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 0.5rem;
+    padding: var(--s-sm);
     color: #fff;
-    font-size: 0.875rem;
+    font-size: var(--fs-xs);
     box-shadow: var(--shadow-1);
     position: relative;
     overflow: hidden;
@@ -21,20 +21,17 @@
 .palette-swatch::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0; /* top: 0, left: 0, right: 0, bottom: 0 */
     background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 15%);
 }
 
 .palette-swatch__name {
-    font-weight: 600;
+    font-weight: var(--fw-semibold);
     text-transform: capitalize;
 }
 
 .palette-swatch__value {
-    font-size: 0.75rem;
+    font-size: var(--fs-xs);
     opacity: 0.8;
 }
 

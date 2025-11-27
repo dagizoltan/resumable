@@ -33,13 +33,18 @@
   grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
 }
 
+/* Container Queries for Card Grid */
+.card-grid-container {
+    container-type: inline-size;
+}
+
 .card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(clamp(20rem, 100%/2, 25rem), 1fr));
     gap: var(--s-lg);
 }
 
-@media (min-width: 1200px) {
+@container (min-width: 60rem) {
     .card-grid {
         grid-template-columns: repeat(3, 1fr);
     }

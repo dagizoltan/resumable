@@ -1,54 +1,60 @@
 /* OKLCH Design System - Cards */
 .card {
   background: var(--surface);
-  backdrop-filter: blur(20px);
-  border: 1px solid oklch(from var(--border) l c h / 0.2);
-  border-radius: calc(var(--u) * 3);
+  backdrop-filter: blur(var(--blur-lg));
+  border: var(--bw-sm) solid oklch(from var(--border) l c h / var(--opacity-border-subtle));
+  border-radius: var(--radius-lg);
   padding: 0;
   box-shadow: var(--shadow-2);
   display: flex;
   flex-direction: column;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
 }
 
-.card-body {
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-3);
+}
+
+.card__body {
   padding: var(--s-lg);
 }
 
-.card-header {
+.card__header {
   padding: var(--s-lg);
-  border-bottom: 1px solid var(--border);
+  border-bottom: var(--bw-sm) solid var(--border);
 }
 
-.card-footer {
+.card__footer {
   padding: var(--s-lg);
-  border-top: 1px solid var(--border);
+  border-top: var(--bw-sm) solid var(--border);
 }
 
-.card-actions {
+.card__actions {
   display: flex;
   justify-content: flex-end;
   gap: var(--s-md);
   padding: 0 var(--s-lg) var(--s-lg);
 }
 
-.card > header + * {
+.card > .card__header + * {
   margin-top: 0;
 }
 
-.card.compact {
+.card--compact {
   padding: var(--s-md);
 }
 
-.card.spacious {
+.card--spacious {
   padding: var(--s-xl);
 }
 
-.color-swatch {
+.card__swatch {
     height: 5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: var(--s-sm);
+    border-radius: var(--radius-sm);
     color: white;
-    font-weight: bold;
+    font-weight: var(--fw-bold);
 }

@@ -2,7 +2,7 @@
 
 /* General Demo Styles */
 .nav-dropdown-margin {
-    margin-left: var(--s-lg);
+    margin-inline-start: var(--s-lg);
 }
 
 .button-section-margin {
@@ -10,12 +10,12 @@
 }
 
 .button-group-margin {
-    margin-left: var(--s-lg);
+    margin-inline-start: var(--s-lg);
 }
 
 .lightbox-image-style {
     max-width: 100%;
-    border-radius: var(--s-sm);
+    border-radius: var(--radius-sm);
     margin-top: var(--s-lg);
 }
 

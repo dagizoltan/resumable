@@ -5,22 +5,22 @@
     width: 100%;
 }
 
-.carousel-track {
+.carousel__track {
     display: flex;
-    transition: transform 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out; /* Keeping 0.5s as it's specific to carousel slide physics */
 }
 
-.carousel-slide {
+.carousel__slide {
     min-width: 100%;
     box-sizing: border-box;
 }
 
-.carousel-slide img {
+.carousel__slide img {
     width: 100%;
     display: block;
 }
 
-.carousel-nav {
+.carousel__nav {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -31,11 +31,11 @@
     pointer-events: none;
 }
 
-.carousel-btn {
+.carousel__btn {
     pointer-events: all;
     background: oklch(from var(--surface) l c h / 0.7);
     border: none;
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     width: 3rem;
     height: 3rem;
     cursor: pointer;
@@ -45,7 +45,7 @@
     color: var(--text);
 }
 
-.carousel-pagination {
+.carousel__pagination {
     position: absolute;
     bottom: var(--s-md);
     left: 50%;
@@ -54,15 +54,15 @@
     gap: var(--s-sm);
 }
 
-.carousel-dot {
+.carousel__dot {
     width: 0.75rem;
     height: 0.75rem;
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     background: oklch(from var(--surface) l c h / 0.5);
-    border: 1px solid var(--border);
+    border: var(--bw-sm) solid var(--border);
     cursor: pointer;
 }
 
-.carousel-dot.active {
+.carousel__dot--active {
     background: var(--primary);
 }
